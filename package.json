@@ -1,7 +1,7 @@
 {
-  "name": "se-mern-social-media-app",
+  "name": "taskmaster",
   "version": "1.0.0",
-  "repository": "https://github.com/KenzieAcademy/se-mern-social-media-app.git",
+  "repository": "https://github.com/KenzieAcademy-Students/mern-course-capstone-zrreid-pro.git",
   "private": true,
   "workspaces": [
     "packages/*"
