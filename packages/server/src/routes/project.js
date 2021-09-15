@@ -33,11 +33,19 @@ router.post('/', requireAuth, async (req, res, next) => {
 
 // @PUT /api/project:id - Private (update a project)
 router.put('/:id', requireAuth, async (req, res, next) => {
-    try {
-        
-    } catch (error) {
-        
-    }
-})
+  try {
+      let project = await Project.findById({_id:req.params.id})
+      if (project) {
+
+
+
+      } else {
+          res.status(404).send();
+      }
+  } catch (error) {
+    res.status(500).send('Server Error');
+    next(error);
+  }
+});
 
 module.exports = router;
