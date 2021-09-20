@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './SignUpForm.scss';
-import axios from 'axios'
-import bcrypt from 'bcrypt'
 
 
 
@@ -34,6 +32,7 @@ export default function SignUpForm(props) {
 
     return (
         <div>
+            <h1>Sign Up Here</h1>
             <input //the username input field
                 name="username"
                 placeholder="Username"

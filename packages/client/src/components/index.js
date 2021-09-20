@@ -1,4 +1,3 @@
-export { default as SignInForm } from 'components/SignInFrom';
 export { default as SignUpForm } from 'components/SignUpForm';
 export { default as ProjectCreationForm } from 'components/ProjectCreationForm';
 export { default as Heading } from 'components/Heading';
