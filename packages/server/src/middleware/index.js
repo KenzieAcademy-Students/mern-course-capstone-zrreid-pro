@@ -1,3 +1,9 @@
-export { default as errorHandler } from './errorHandler';
-export { default as requestLogger } from './logger';
-export {default as requireAuth} from './requireAuth';
+const errorHandler = require('./errorHandler');
+const requestLogger = require('./logger');
+const requireAuth = require('./requireAuth');
+
+module.exports = {
+  errorHandler,
+  requestLogger,
+  requireAuth,
+};
