@@ -4,8 +4,9 @@ import './SignUpForm.scss';
 
 
 export default function SignUpForm(props) {
-    const { handleInputChange, handleSignUp, data } = props
+    const { handleInputChange, handleSignUp, data } = props //destructuring the functions and the data values from the login page
     
+    //saving the functionality here just in case the login page is changed
     //const[data, setData] = useState(emptySignUpForm) //sets the initial state of the signup form
 
     // const handleInputChange = (event) => { //updates the data of the signup form
