@@ -1,15 +1,14 @@
 // import 'dotenv/config'
-import express from 'express';
-import path from 'path';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
-import cors from 'cors';
-import mongoose from 'mongoose';
-import morgan from 'morgan';
-import keys from './config/keys';
-import router from './routes';
-import { requestLogger, errorHandler } from './middleware';
-
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('logger');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const keys = require('./config/keys');
+const router = require('./routes/index');
+const { requestLogger, errorHandler } = require('./middleware/index');
 require('dotenv').config();
 
 const createError = require('http-errors');
@@ -32,10 +31,12 @@ mongoose.connection.on('error', (err) => {
 const app = express();
 
 // middleware
-app.use(logger('dev'));
-app.use(cors({
-  origin: process.env.CORS_ORIGIN
-}));
+// app.use(logger('dev'));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -49,9 +50,9 @@ app.use(express.static(path.join(__dirname, '../../client/build')));
 app.use(keys.app.apiEndpoint, router);
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404, 'NotFound'));
-});
+// app.use((req, res, next) => {
+//   next(createError(404, 'NotFound'));
+// });
 
 // error handler
 app.use(errorHandler);

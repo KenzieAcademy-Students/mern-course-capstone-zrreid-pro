@@ -4,16 +4,13 @@
  * Module dependencies.
  */
 
-import app from "../app.js";
+const app = require("../app.js")
 // import debug from "server";
-import http from "http";
-import chalk from "chalk"
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-// const app = require('../app')
-// const debug = require('debug')('server:server')
-// const http = require('http')
-// const chalk = require('chalk')
+const http = require("http");
+const chalk = require("chalk");
+// import "core-js/stable";
+// import "regenerator-runtime/runtime";
+const debug = require('debug')('server:server')
 
 /**
  * Get port from environment and store in Express.

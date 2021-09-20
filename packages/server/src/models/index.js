@@ -1,3 +1,9 @@
-export { default as User } from './User';
-export { default as Project } from './Project';
-export { default as Task } from './Task';
+const User = require('./User');
+const Project = require('./Project');
+const Task = require('./Task');
+
+module.exports = {
+  User,
+  Project,
+  Task,
+};
