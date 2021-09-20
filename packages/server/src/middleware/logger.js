@@ -12,4 +12,4 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
-export default requestLogger
+module.exports = requestLogger;

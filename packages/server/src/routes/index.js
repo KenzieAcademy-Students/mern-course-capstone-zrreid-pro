@@ -1,24 +1,16 @@
-import express from 'express'
-import { User } from '../models'
+const express = require('express');
+const projectRouter = require('./project');
+const taskRouter = require('./task');
+const userRouter = require('./user');
+const authRouter = require('./auth');
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/', (req, res, next) => {
-  res.status(200).send('api endpoint')
-})
 
-router.get('/sample', async (req, res, next) => {
+router.use('/project', projectRouter);
+router.use('/task', taskRouter);
+router.use('/user', userRouter);
+router.use('/auth', authRouter);
 
-  let user = await User.findOne({}).exec();
 
-  if (!user) {
-    const newUser = new User({
-      username: "Freddie",
-    })
-    user = await newUser.save()
-  }
-
-  res.status(200).send(user)
-})
-
-module.exports = router
+module.exports = router;
