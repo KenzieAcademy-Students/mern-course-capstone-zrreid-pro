@@ -53,7 +53,7 @@ export default function ProjectCreationForm(props) {
             <div 
                 id='addedUsers'
             >
-                {data.usersAdded.map((user) => {
+                {data.usersAdded.map((user) => { //creates a container to put cards for all users
                     return(
                         <div
                             className='userOnProject'
