@@ -73,11 +73,11 @@ export default function SignUpForm(props) {
             </FormControl>
 
             <FormControl id='submitButton'>
-            <Button 
-                colorScheme="teal" 
-                size="sm"
-                onClick={handleSignUp}
-            >Submit</Button>
+                <Button 
+                    colorScheme="teal" 
+                    size="sm"
+                    onClick={handleSignUp}
+                >Submit</Button>
             </FormControl>
         </div>
     )
