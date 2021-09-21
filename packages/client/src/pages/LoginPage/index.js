@@ -51,7 +51,7 @@ export default function LoginPage() {
       <div>
         <SignUpForm handleSignUp={handleSignUp} handleInputChange={handleInputChange} data={data} /* the functions get passed in as props to the components */ />
         <SignInForm handleSignIn={handleSignIn} handleInputChange={handleInputChange} data={data} />
-        <ProjectCreationForm />
+        <ProjectCreationForm /* only on this page so i can see the progress */ />
       </div>
     );
   }
