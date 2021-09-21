@@ -3,8 +3,15 @@ const { User } = require('../models/index');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-  res.status(200).send('api endpoint');
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.find({});
+
+    res.status(200).json({users});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
 });
 
 router.get('/sample', async (req, res, next) => {
