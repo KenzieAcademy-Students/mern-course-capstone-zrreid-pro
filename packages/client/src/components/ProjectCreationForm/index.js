@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import './ProjectCreationForm.scss';
 
-export default function ProjectCreationForm() {
+export default function ProjectCreationForm(props) {
     const emptyProjectForm = {
         projectName: '',
         description: '',
-        usersToAdd: [],
-        usersAdded: [],
+        usersToAdd: [], //the users to add will be a dropdown menu
+        usersAdded: [], //the users added will be an array of usernames
     }
 
     const [data, setData] = useState(emptyProjectForm)
@@ -36,10 +36,31 @@ export default function ProjectCreationForm() {
                 value={data.description}
                 onChange={handleInputChange}
             >Description</input>
+            <label
+                for='usersToAdd'
+            >Select users to add</label>
             <select
                 name='usersToAdd'
+                id='usersToAdd'
                 placeholder="Users to Add"
-            >User to Add</select>
+            >User to Add
+                {data.usersToAdd.map((user) => { //creates an option for each user on the project
+                    return(
+                        <option value={user}>{user}</option>
+                    )
+                })}
+            </select>
+            <div 
+                id='addedUsers'
+            >
+                {data.usersAdded.map((user) => {
+                    return(
+                        <div
+                            className='userOnProject'
+                        >{user}</div>
+                    )
+                })}
+            </div>
         </div>
     );
 }

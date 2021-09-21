@@ -40,16 +40,16 @@ export default function SignUpForm(props) {
                 value={data.username}
                 onChange={handleInputChange}
             />
-            <input //the password input field
-                name='password'
-                placeholder='Password'
-                value={data.password}
-                onChange={handleInputChange}
-            />
             <input //the emailAddress input field
                 name='emailAddress'
                 placeholder='Email Address'
                 value={data.emailAddress}
+                onChange={handleInputChange}
+            />
+            <input //the password input field
+                name='password'
+                placeholder='Password'
+                value={data.password}
                 onChange={handleInputChange}
             />
             <button //the submit button
