@@ -1,3 +1,4 @@
+export { default as SignInForm } from 'components/SignInForm';
 export { default as SignUpForm } from 'components/SignUpForm';
 export { default as ProjectCreationForm } from 'components/ProjectCreationForm';
 export { default as Heading } from 'components/Heading';
@@ -10,4 +11,4 @@ export { default as ListView } from 'components/ListView';
 export { default as ProgressionView } from 'components/ProgressionView';
 export { default as TaskAssignment } from 'components/TaskAssignment';
 export { default as TaskCard } from 'components/TaskCard';
-export { default as TaskDetail } from 'components/ProjectDetail';
+export { default as TaskDetail } from 'components/TaskDetail';

@@ -20,6 +20,12 @@ export default function ProjectCreationForm(props) {
         )
     }
 
+    const handleSubmit = (event) => {
+        console.log(data)
+        event.preventDefault()
+        
+    }
+
     return (
 
         <div className="ProjectCreationForm">
@@ -29,13 +35,14 @@ export default function ProjectCreationForm(props) {
                 placeholder="Project Name"
                 value={data.projectName}
                 onChange={handleInputChange}
-            >Project Name</input>
+            ></input>
             <input
                 name='description'
                 placeholder="Description"
+                id="largeTextBox"
                 value={data.description}
                 onChange={handleInputChange}
-            >Description</input>
+            ></input>
             <label
                 for='usersToAdd'
             >Select users to add</label>
@@ -43,7 +50,7 @@ export default function ProjectCreationForm(props) {
                 name='usersToAdd'
                 id='usersToAdd'
                 placeholder="Users to Add"
-            >User to Add
+            >
                 {data.usersToAdd.map((user) => { //creates an option for each user on the project
                     return(
                         <option value={user}>{user}</option>
@@ -53,6 +60,7 @@ export default function ProjectCreationForm(props) {
             <div 
                 id='addedUsers'
             >
+                Added users
                 {data.usersAdded.map((user) => { //creates a container to put cards for all users
                     return(
                         <div
@@ -61,6 +69,9 @@ export default function ProjectCreationForm(props) {
                     )
                 })}
             </div>
+            <button
+                onClick={handleSubmit}
+            >Create</button>
         </div>
     );
 }

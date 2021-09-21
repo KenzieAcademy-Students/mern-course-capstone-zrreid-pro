@@ -4,12 +4,15 @@ import { SignUpForm }  from '../../components' //wasn't working because there we
 import axios from 'axios' //axios has only been added to my branch
 import SignInForm from 'components/SignInForm';
 
+import ProjectCreationForm from 'components/ProjectCreationForm';
+
 
 export default function LoginPage() {  
     const emptyForm = { //the initial state of the signup form
       username: '',
       password: '',
       emailAddress: '',
+      avatar: [],
     }
     
     const[data, setData] = useState(emptyForm) //sets the initial state of the signup form
@@ -27,10 +30,11 @@ export default function LoginPage() {
         event.preventDefault()
         
         try {
-            await axios.post('auth/signup', { //posts the new user onto the signup endpoint
+            await axios.post('/api/auth/signup', { //posts the new user onto the signup endpoint
                 username: data.username,
-                passwordHash: data.password, //the data model for the user is passwordHash, but alex will handle the password hashing 
+                password: data.password, //the data model for the user is passwordHash, but alex will handle the password hashing 
                 email: data.emailAddress,
+                avatar: [data.avatar],
             })
             console.log('the try block of the signup request is running')
         } catch (error) { //the try block is failing, the endpoints might not be set up yet
@@ -47,6 +51,7 @@ export default function LoginPage() {
       <div>
         <SignUpForm handleSignUp={handleSignUp} handleInputChange={handleInputChange} data={data} /* the functions get passed in as props to the components */ />
         <SignInForm handleSignIn={handleSignIn} handleInputChange={handleInputChange} data={data} />
+        <ProjectCreationForm />
       </div>
     );
   }

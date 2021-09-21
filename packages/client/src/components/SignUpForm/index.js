@@ -1,3 +1,10 @@
+import { 
+    Heading, 
+    FormControl, 
+    FormLabel, 
+    Input, 
+    Button, 
+} from '@chakra-ui/react';
 import React from 'react'
 import './SignUpForm.scss';
 
@@ -33,28 +40,45 @@ export default function SignUpForm(props) {
 
     return (
         <div className='SignUpForm'>
-            <h1>Sign Up Here</h1>
-            <input //the username input field
-                name="username"
-                placeholder="Username"
-                value={data.username}
-                onChange={handleInputChange}
-            />
-            <input //the emailAddress input field
-                name='emailAddress'
-                placeholder='Email Address'
-                value={data.emailAddress}
-                onChange={handleInputChange}
-            />
-            <input //the password input field
-                name='password'
-                placeholder='Password'
-                value={data.password}
-                onChange={handleInputChange}
-            />
-            <button //the submit button
+            <Heading>Sign Up Here</Heading>
+
+            <FormControl id='username' isRequired>
+                <FormLabel>Enter your Username</FormLabel>
+                <Input //the username input field
+                    name="username"
+                    placeholder="Username"
+                    value={data.username}
+                    onChange={handleInputChange}
+                /> 
+            </FormControl>
+
+            <FormControl id='emailAddress' isRequired>
+                <FormLabel>Enter your Email Address</FormLabel>
+                <Input //the emailAddress input field
+                    name='emailAddress'
+                    placeholder='Email Address'
+                    value={data.emailAddress}
+                    onChange={handleInputChange}
+                />
+            </FormControl>
+
+            <FormControl id='password' isRequired>
+                <FormLabel>Enter your Password</FormLabel>
+                <Input //the password input field
+                    name='password'
+                    placeholder='Password'
+                    value={data.password}
+                    onChange={handleInputChange}        
+                />
+            </FormControl>
+
+            <FormControl id='submitButton'>
+            <Button 
+                colorScheme="teal" 
+                size="sm"
                 onClick={handleSignUp}
-            >Submit</button>
+            >Submit</Button>
+            </FormControl>
         </div>
     )
 }
