@@ -21,6 +21,7 @@ export default function LoginPage() {
           [event.target.name]: event.target.value, //changes the selected form field
       })
     }
+    
     const handleSignUp = async (event) => { //the function that runs when the form is submitted
         console.log(data) //proves that the form is complete when the submit button is pressed
         event.preventDefault()

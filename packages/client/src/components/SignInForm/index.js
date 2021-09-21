@@ -3,12 +3,12 @@ import './SignInForm.scss'
 
 export default function SignInForm(props) {
 
-    const{ handleInputChange, handleSignIn, data } = props
+    const{ handleInputChange, handleSignIn, data } = props //doing the same as the signup form
 
 
 
     return (
-        <div>
+        <div className='SignInForm'>
             <h1>Sign In</h1>
             <input 
                 name="emailAddress"

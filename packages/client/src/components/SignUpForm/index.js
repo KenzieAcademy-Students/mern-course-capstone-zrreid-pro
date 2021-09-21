@@ -32,7 +32,7 @@ export default function SignUpForm(props) {
     // }
 
     return (
-        <div>
+        <div className='SignUpForm'>
             <h1>Sign Up Here</h1>
             <input //the username input field
                 name="username"
