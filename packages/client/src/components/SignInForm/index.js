@@ -16,6 +16,16 @@ export default function SignInForm(props) {
         <div className='SignInForm'>
             <Heading>Sign In</Heading>
 
+            <FormControl id='username'>
+                <FormLabel>Enter your Username</FormLabel>
+                <Input 
+                    name='username'
+                    placeholder='username'
+                    value={data.username}
+                    onChange={handleInputChange}
+                />
+            </FormControl>
+
             <FormControl id='emailAddress'>
                 <FormLabel>Enter your Email Address</FormLabel>
                 <Input 
