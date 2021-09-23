@@ -50,7 +50,6 @@ router.put('/:id', requireAuth, async (req, res, next) => {
         .json({ error: 'This username has already been registered.' });
     }
 
-
     user = await User.findById(id);
 
     const passwordCorrect = await bcrypt.compare(
@@ -81,34 +80,37 @@ router.put('/:id', requireAuth, async (req, res, next) => {
       userUpdate.passwordHash = newHashedPassword;
     }
 
-    if(newUsername !== undefined) {
+    if (newUsername !== undefined) {
       userUpdate.username = newUsername;
-      console.log('username is NOT undefined')
     }
 
-    console.log(userUpdate)
-    const updatedUser = await User.findByIdAndUpdate({_id:id},userUpdate);
-    res.json({msg:"User profile has been updated.", updatedUser});
-
+    const updatedUser = await User.findByIdAndUpdate({ _id: id }, userUpdate);
+    res.json({ msg: 'User profile has been updated.', updatedUser });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');
   }
 });
 
-// DELETE /api/user:id Private - delete a single user
+// @DELETE /api/user:id Private - delete a single user
+router.delete('/:id', requireAuth, async (req, res, next) => {
+  try {
+    const { id } = req.params;
 
-// router.get('/sample', async (req, res, next) => {
-//   let user = await User.findOne({}).exec();
+    let user = await User.findOne({ _id: id });
 
-//   if (!user) {
-//     const newUser = new User({
-//       username: 'Freddie',
-//     });
-//     user = await newUser.save();
-//   }
+    if (!user) {
+      return res.status(404).json({ error: 'User does not exist' });
+    }
 
-//   res.status(200).send(user);
-// });
+    user = await User.findByIdAndDelete({ _id: id });
+
+    // res.status(200).json({msg: "User Account has been deleted"})
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

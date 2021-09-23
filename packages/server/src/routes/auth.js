@@ -41,7 +41,7 @@ router.post('/signup', async (req, res, next) => {
 
     user.save();
 
-    res.status(200).json({ error: 'User has been registered', user });
+    res.status(200).json({ msg: 'User has been registered', user });
   } catch (error) {
     console.error(error);
     res.status(500).send('Server Error');
