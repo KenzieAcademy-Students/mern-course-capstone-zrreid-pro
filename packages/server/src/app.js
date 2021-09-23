@@ -55,6 +55,6 @@ app.use(keys.app.apiEndpoint, router);
 // });
 
 // error handler
-app.use(errorHandler);
+// app.use(errorHandler);
 
 module.exports = app;
