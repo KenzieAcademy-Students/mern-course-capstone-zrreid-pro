@@ -16,6 +16,7 @@ export default function ProjectCreationForm(props) {
     const emptyProjectForm = { //the initial state of the project creation form
         projectName: '',
         description: '', //not required
+        categories: [], 
         usersToAdd: [], //the users to add will be a dropdown menu
         usersAdded: [], //the users added will be an array of usernames
     }

@@ -43,21 +43,6 @@ export default function SignInForm(props) {
                     onClick={handleSignIn}
                 >Submit</Button>
             </FormControl>
-            {/* <input 
-                name="emailAddress"
-                placeholder="Email Address" 
-                value={data.emailAddress}
-                onChange={handleInputChange}
-            /> */}
-            {/* <input
-                name="password"
-                placeholder="Password"
-                value={data.password}
-                onChange={handleInputChange}
-            /> */}
-            {/* <button
-                onClick={handleSignIn}
-            >Submit</button> */}
         </div>
     )
 }
