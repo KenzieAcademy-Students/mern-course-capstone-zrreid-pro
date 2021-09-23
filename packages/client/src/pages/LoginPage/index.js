@@ -37,12 +37,15 @@ export default function LoginPage() {
                 avatar: [data.avatar],
             })
             console.log('the try block of the signup request is running')
-        } catch (error) { //the try block is failing, the endpoints might not be set up yet
+        } catch (error) { 
             console.log(error)
         }
     }
 
     const handleSignIn = async (event) => {
+      console.log(data)
+      event.preventDefault()
+
       
     }
 
