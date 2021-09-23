@@ -5,30 +5,36 @@ const projectSchema = new mongoose.Schema({
   title: {
     type: String,
     unique: true,
-    required: true,
+    required: true
   },
   description: {
-    type: String,
+    type: String
   },
   owner: {
     type: ObjectId,
     ref: 'User',
-    required: true,
+    required: true
   },
+  categories: [
+    {
+      type: String,
+      unique: true
+    }
+  ],
   deadline: {
     type: Date,
-    required: false,
+    required: false
   },
+  tags: [
+    {
+      type: String,
+      unique: true
+    }
+  ],
   users: [
     {
       type: ObjectId,
       ref: 'User',
-    },
-  ],
-  categories: [
-    {
-      type: String,
-      unique: true,
     },
   ],
   tasks: [
@@ -36,7 +42,7 @@ const projectSchema = new mongoose.Schema({
       type: ObjectId,
       ref: 'Task',
     },
-  ],
+  ]
 });
 
 const Project = mongoose.model('Project', projectSchema);

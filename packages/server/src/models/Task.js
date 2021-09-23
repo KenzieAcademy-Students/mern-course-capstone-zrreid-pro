@@ -14,6 +14,12 @@ const taskSchema = new mongoose.Schema({
         type: Date,
         required: false
     },
+    tags: [
+        {
+            type: String,
+            unique: true
+        }
+    ],
     notes: {
         type: String,
         required: false
