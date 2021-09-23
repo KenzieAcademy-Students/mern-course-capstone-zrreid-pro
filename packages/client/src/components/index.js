@@ -12,3 +12,4 @@ export { default as ProgressionView } from 'components/ProgressionView';
 export { default as TaskAssignment } from 'components/TaskAssignment';
 export { default as TaskCard } from 'components/TaskCard';
 export { default as TaskDetail } from 'components/TaskDetail';
+export { default as Avatar } from 'components/Avatar';
