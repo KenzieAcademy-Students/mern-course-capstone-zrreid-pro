@@ -12,7 +12,7 @@ export default function LoginPage() {
       username: '',
       password: '',
       emailAddress: '',
-      avatar: [],
+      avatar: [], //right now there is no functionality for this, but it's part of the model
     }
     
     const[data, setData] = useState(emptyForm) //sets the initial state of the signup form
