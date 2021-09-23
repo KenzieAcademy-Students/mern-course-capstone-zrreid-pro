@@ -1,9 +1,9 @@
 import React from 'react';
-// import './LoginPage.scss';
+import './LoginPage.scss';
 
-export default function LoginPage() {  
-    return (
-      <>
-      </>
-    );
-  }
+export default function LoginPage() {
+  
+  return (
+    <div className='loginPage'></div>
+  );
+}
