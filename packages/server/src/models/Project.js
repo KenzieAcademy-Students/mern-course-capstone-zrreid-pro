@@ -15,14 +15,26 @@ const projectSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    deadline: {
-        type: Date,
-        required: false
-    },
     categories: [
         {
             type: String,
             unique: true
+        }
+    ],
+    deadline: {
+        type: Date,
+        required: false
+    },
+    tags: [
+        {
+            type: String,
+            unique: true
+        }
+    ],
+    users: [
+        {
+            type: ObjectId,
+            ref: 'User'
         }
     ],
     tasks: [
