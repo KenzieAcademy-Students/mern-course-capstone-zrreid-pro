@@ -45,7 +45,7 @@ export default function LoginPage() {
     //     } catch (error) { 
     //         console.log(error)
     //     }
-    // }
+    }
 
     const handleSignIn = async (event) => {
       console.log(data)
