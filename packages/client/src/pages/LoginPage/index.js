@@ -3,7 +3,9 @@ import './LoginPage.scss';
 import { SignUpForm }  from '../../components' //wasn't working because there were two exports of signupform from components index
 import axios from 'axios' //axios has only been added to my branch
 import SignInForm from 'components/SignInForm';
-import { useAuth, useProvideAuth } from '../../hooks/useAuth'
+import { useProvideAuth } from '../../hooks/useAuth'
+import useApiFetch from '../../util/api'
+
 
 import ProjectCreationForm from 'components/ProjectCreationForm';
 
@@ -16,7 +18,7 @@ export default function LoginPage() {
       avatar: [], //right now there is no functionality for this, but it's part of the model
     }
 
-    
+    const auth = useProvideAuth()
     
     const[data, setData] = useState(emptyForm) //sets the initial state of the signup form
 
@@ -32,7 +34,13 @@ export default function LoginPage() {
         console.log(data) //proves that the form is complete when the submit button is pressed
         event.preventDefault()
 
-        useProvideAuth().signup(data.username, data.password, data.emailAddress, data.avatar)
+        try {
+          await auth.signup(data.username, data.password, data.emailAddress, data.avatar)
+        } catch (error) {
+          console.log(error)
+        }
+
+        
         
     //     try {
     //         await axios.post('/api/auth/signup', { //posts the new user onto the signup endpoint

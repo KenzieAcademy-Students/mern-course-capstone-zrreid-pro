@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect, useContext, createContext } from 'react';
 import useRouter from 'hooks/useRouter';
-import axios from 'utils/axiosConfig.js';
+import axios from '../utils/axiosConfig.js';
 
 const initialState = {
     // isAuthenticated: null,
@@ -54,8 +54,8 @@ export const useAuth = () => {
 }
 
 export function useProvideAuth() {
-    const { state, dispatch } = useAuth();
-    const router = useRouter();
+  const { state, dispatch } = useAuth();
+  const router = useRouter();
 
 
   const signin = async (email, password) => {
