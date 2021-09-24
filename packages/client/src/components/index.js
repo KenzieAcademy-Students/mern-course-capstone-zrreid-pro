@@ -1,10 +1,8 @@
 export { default as SignInForm } from 'components/SignInForm';
 export { default as SignUpForm } from 'components/SignUpForm';
 export { default as ProjectCreationForm } from 'components/ProjectCreationForm';
-export { default as Heading } from 'components/Heading';
+export { default as Header } from 'components/Header';
 export { default as Sidebar } from 'components/Sidebar';
-export { default as PageNav } from 'components/PageNav';
-export { default as ProjectList } from 'components/ProjectList';
 export { default as ContentView } from 'components/ContentView';
 export { default as ProjectDetail } from 'components/ProjectDetail';
 export { default as ListView } from 'components/ListView';
