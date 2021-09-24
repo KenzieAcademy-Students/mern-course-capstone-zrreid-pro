@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect, useContext, createContext } from 'react';
 import useRouter from 'hooks/useRouter';
-import axios from 'utils/axiosConfig.js';
+import axios from '../utils/axiosConfig.js';
 
 const initialState = {
     // isAuthenticated: null,
@@ -54,14 +54,30 @@ export const useAuth = () => {
 }
 
 export function useProvideAuth() {
-    const { state, dispatch } = useAuth();
-    const router = useRouter();
-}
+  const { state, dispatch } = useAuth();
+  const router = useRouter();
 
-const signin = async (email, password) => {
 
-}
+  const signin = async (email, password) => {
+      
+  }
 
-const signup = async (username, password, email, avatar) => {
-    
+  const signup = async (username, password, email, avatar) => {
+      try {
+        await axios.post('/api/auth/signup', { //posts the new user onto the signup endpoint
+          username: username,
+          password: password, //the data model for the user is passwordHash, but alex will handle the password hashing 
+          email: email,
+          avatar: avatar,
+      })
+      alert('Account Created Successfully')
+      } catch (error) {
+        console.log(error);
+        alert('Account Creation Failed')
+      }
+  }
+  return {
+    signup,
+    signin,
+  }
 }

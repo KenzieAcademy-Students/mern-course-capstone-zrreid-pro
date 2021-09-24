@@ -23,6 +23,7 @@ export default function ProjectCreationForm(props) {
 
     const [data, setData] = useState(emptyProjectForm) //sets the initial state of the project form
     
+    //the functions associated with the component are here until we have a home for them
     const handleInputChange = (event) => { //updates the data of the project form
         setData({
             ...data, //keeps previous data
