@@ -47,7 +47,7 @@ export default function SignUpForm({
                 /> 
             </FormControl>
 
-            <FormControl id='emailAddress' isRequired>
+            <FormControl id='email' isRequired>
                 <FormLabel>Enter your Email</FormLabel>
                 <Input //the email input field
                     name='email'

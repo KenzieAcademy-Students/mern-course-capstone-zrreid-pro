@@ -126,8 +126,8 @@ export default function LoginPage() {
     return (
       <div>
         <SignUpForm handleSignUp={handleSignUp} handleInputChange={handleInputChange} data={data} /* the functions get passed in as props to the components */ />
-        <SignInForm handleSignIn={handleSignIn} handleInputChange={handleInputChange} data={data} />
-        <ProjectCreationForm /* only on this page so i can see the progress */ />
+        {/* <SignInForm handleSignIn={handleSignIn} handleInputChange={handleInputChange} data={data} /> */}
+        {/* <ProjectCreationForm  /> */}
       </div>
     );
   }

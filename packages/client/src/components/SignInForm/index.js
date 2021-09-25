@@ -10,18 +10,8 @@ export default function SignInForm({
     return (
         <div className='SignInForm'>
             <Heading>Sign In</Heading>
-
-            {/* <FormControl id='username' isRequired>
-                <FormLabel>Enter your Username</FormLabel>
-                <Input 
-                    name='username'
-                    placeholder='Username'
-                    value={data.username}
-                    onChange={handleInputChange}
-                />
-            </FormControl> */}
-
-            <FormControl id='email'>
+            
+            <FormControl id='email' isRequired>
                 <FormLabel>Enter your Email Address</FormLabel>
                 <Input 
                     name='email'
