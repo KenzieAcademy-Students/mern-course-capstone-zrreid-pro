@@ -26,8 +26,17 @@ router.post('/signup', async (req, res, next) => {
 
     if (user) {
       return res
-        .status(401)
+        .status(400)
         .json({ error: 'This email has already been registered.' });
+    }
+
+    //valudation - unique username
+    let isUniqueUsername = await User.findOne({username});
+
+    if (!isUniqueUsername) {
+      return res
+        .status(400)
+        .json({ error: 'This username has already been taken.' });
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
@@ -49,8 +58,8 @@ router.post('/signup', async (req, res, next) => {
 });
 
 // @POST api/auth/signin - public - Signin
-// TODO 
-  // 1. create a query with project list (title, _id)
+// TODO
+// 1. create a query with project list (title, _id)
 router.post('/signin', async (req, res, next) => {
   try {
     const { username, password } = req.body;
