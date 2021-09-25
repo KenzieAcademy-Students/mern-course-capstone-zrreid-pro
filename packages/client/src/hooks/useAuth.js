@@ -1,9 +1,9 @@
 import React, { useReducer, useEffect, useContext, createContext } from 'react';
 import useRouter from 'hooks/useRouter';
-import axios from '../utils/axiosConfig.js';
+import axios from '../utils/axiosConfig';
 
 const initialState = {
-    // isAuthenticated: null,
+    isAuthenticated: null,
     user: null,
 }
 
@@ -12,14 +12,14 @@ const reducer = (state, action) => {
       case 'LOGIN':
         return {
           ...state,
-        //   isAuthenticated: true,
+          isAuthenticated: true,
           user: action.payload,
         }
       case 'LOGOUT':
         localStorage.clear()
         return {
           ...state,
-        //   isAuthenticated: false,
+          isAuthenticated: false,
           user: null,
         }
       case 'UPDATE':
@@ -59,25 +59,82 @@ export function useProvideAuth() {
 
 
   const signin = async (email, password) => {
-      
+      try {
+        const response = await axios.post('auth/signin', {
+          email: email,
+          password: password,
+        });
+
+        localStorage.setItem('MernAppUser', JSON.stringify(response.data));
+
+        dispatch({
+          type: 'LOGIN',
+          payload: response.data
+        });
+
+        return response;
+      } catch (error) {
+        console.log(error.message);
+        
+        if(error.response) {
+          throw new Error(error.response.data.error);
+        } else {
+          throw error;
+        }
+      }
   }
 
   const signup = async (username, password, email, avatar) => { //currently, the try block isn't running
       try {
-        await axios.post('/api/auth/signup', { //posts the new user onto the signup endpoint
+        await axios.post('auth/signup', {
           username: username,
-          password: password, //the data model for the user is passwordHash, but alex will handle the password hashing 
+          password: password,
           email: email,
-          avatar: avatar,
-      })
-      alert('Account Created Successfully')
+          avatar: avatar
+        });
+
+        return await signin(email, password);
       } catch (error) {
         console.log(error);
-        alert('Account Creation Failed')
+        if(error.response) {
+          throw new Error(error.response.data.error);
+        } else {
+          throw error;
+        }
       }
   }
+
+  const signout = () => {
+    dispatch({
+      type: 'LOGOUT'
+    });
+    router.push('/');
+  }
+
+  const getCurrentUser = () => {
+    return JSON.parse(localStorage.getItem('MernAppUser'));
+  }
+
+  useEffect(() => {
+    const savedUser = JSON.parse(localStorage.getItem('MernAppUser')) || false;
+
+    if(savedUser) {
+      dispatch({
+        type: 'LOGIN',
+        payload: savedUser
+      });
+    } else {
+      dispatch({
+        type: 'LOGOUT'
+      });
+    }
+  }, [dispatch]);
+
   return {
+    state,
     signup,
     signin,
-  }
+    signout,
+    getCurrentUser
+  };
 }

@@ -1,6 +1,6 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Modal, useDisclosure } from '@chakra-ui/react';
-import { Header, Sidebar, TaskCard, TaskDetail } from '../../components';
+import { Header, Sidebar, ProjectView, ProfileView } from '../../components';
 import { useProvideAuth } from 'hooks/useAuth';
 import './Dashboard.scss';
 
@@ -70,11 +70,15 @@ const reducer = (state, action) => {
 
 export default function Dashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { state: { user } } = useProvideAuth();
   const [ state, dispatch ] = useReducer(reducer, initialState);
   const [ project, setProject ] = useState(dummyProject);
-  // const { state } = useProvideAuth();
-  const [ deadline, setDeadline ] = useState();
-  // const [ pageView, setPageView ] = useState(0);
+  // const [ deadline, setDeadline ] = useState();
+
+  const fetchProject = (pid) => {
+    //For when projects are being fetched from DB
+    // setProject();
+  }
 
   const handleNavigate = (page) => {
     if(!page) {
@@ -95,15 +99,35 @@ export default function Dashboard() {
       payload: pid
     });
 
-
-    //This makes the axios call to retrieve the project with this ID
+    fetchProject(pid);
   }
+
+  useEffect(() => {
+    //For when users can be created
+    // fetchProject(user.project_list[0]._id);
+  }, []);
+
+  // IMPORTANT:
+  //////// MAKE SURE TO ASK WHETHER CONDITIONALLY RENDERING THE DIFFERENT VIEWS IS BETTER THAN ROUTING THEM
 
   return (
     <div className='dashboard'>
-      <Sidebar projectList={dummyUser.project_list} loadProject={handleLoadProject} navigate={handleNavigate} />
+      <Sidebar
+        projectList={dummyUser.project_list}
+        loadProject={handleLoadProject}
+        navigate={handleNavigate}
+      />
+      
       <div className='main'>
         <Header user={dummyUser} projectTitle={project.title} pageView={state.pageView} />
+        {
+          !state.pageView ? (
+            <ProjectView />
+          ) : (
+            <ProfileView />
+          )
+        }
+        
       </div>
     </div>
   );

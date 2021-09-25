@@ -1,17 +1,12 @@
-import { 
-    Heading, 
-    FormControl, 
-    FormLabel, 
-    Input, 
-    Button, 
-} from '@chakra-ui/react';
-import React from 'react'
+import React from 'react';
+import { Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import './SignUpForm.scss';
 
-
-
-export default function SignUpForm(props) {
-    const { handleInputChange, handleSignUp, data } = props //destructuring the functions and the data values from the login page
+export default function SignUpForm({
+    data,
+    handleInputChange,
+    handleSignUp
+}) {
     
     //saving the functionality here just in case the login page is changed
     //const[data, setData] = useState(emptySignUpForm) //sets the initial state of the signup form
@@ -45,19 +40,19 @@ export default function SignUpForm(props) {
             <FormControl id='username' isRequired>
                 <FormLabel>Enter your Username</FormLabel>
                 <Input //the username input field
-                    name="username"
-                    placeholder="Username"
+                    name='username'
+                    placeholder='Username'
                     value={data.username}
                     onChange={handleInputChange}
                 /> 
             </FormControl>
 
             <FormControl id='emailAddress' isRequired>
-                <FormLabel>Enter your Email Address</FormLabel>
-                <Input //the emailAddress input field
-                    name='emailAddress'
-                    placeholder='Email Address'
-                    value={data.emailAddress}
+                <FormLabel>Enter your Email</FormLabel>
+                <Input //the email input field
+                    name='email'
+                    placeholder='Email'
+                    value={data.email}
                     onChange={handleInputChange}
                 />
             </FormControl>
@@ -74,8 +69,8 @@ export default function SignUpForm(props) {
 
             <FormControl id='submitButton'>
                 <Button 
-                    colorScheme="teal" 
-                    size="sm"
+                    colorScheme='teal' 
+                    size='sm'
                     onClick={handleSignUp}
                 >Submit</Button>
             </FormControl>

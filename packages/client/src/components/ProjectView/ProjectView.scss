@@ -1,0 +1,29 @@
+#projectView {
+    display: flex;
+    flex-direction: column;
+    // background-color: grey;
+}
+
+.viewTabGroup {
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+.viewTab {
+    flex-grow: 1;
+    text-align: center;
+    cursor: pointer;
+}
+
+.viewTab:not(:last-child) {
+    border-right: 1px solid black;
+}
+
+.viewTab.active {
+    background-color: black;
+    color: white;
+}
+
+.view {
+    flex-grow: 1;
+}

@@ -3,7 +3,7 @@ import {
   useParams,
   useLocation,
   useHistory,
-  useRouteMatch,
+  useRouteMatch
 } from 'react-router-dom';
 import queryString from 'query-string';
 

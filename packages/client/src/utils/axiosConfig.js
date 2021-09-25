@@ -1,55 +1,57 @@
-import axios from 'axios'
+import axios from 'axios';
 // import { toast } from 'react-toastify'
-import { API_URL } from 'util/api'
+// import { API_URL } from 'util/api'
+const API_URL = 'api';
 
 const getUserToken = () => {
-  const savedUser = JSON.parse(localStorage.getItem('MernAppUser'))
-  return savedUser ? savedUser.token : ''
+  const savedUser = JSON.parse(localStorage.getItem('MernAppUser'));
+  return savedUser ? savedUser.token : '';
 }
 
 // configure axios instance
 const instance = axios.create({
-  baseURL: `http://localhost:3000/${API_URL}/`,
-})
+  baseURL: `http://localhost:3000/${API_URL}/`
+});
 
-instance.defaults.headers.post['Content-Type'] = 'application/json'
-instance.defaults.headers.common['Authorization'] = getUserToken()
+instance.defaults.headers.post['Content-Type'] = 'application/json';
+instance.defaults.headers.common['Authorization'] = getUserToken();
 
 instance.interceptors.request.use(
   function (config) {
-    const token = getUserToken()
+    const token = getUserToken();
     if (token) {
-      config.headers['Authorization'] = 'Bearer ' + token
+      config.headers['Authorization'] = 'Bearer ' + token;
     }
-    return config
+    return config;
   },
   function (error) {
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
+
 export const setAuthToken = (token) => {
   if (token) {
     //applying token
-    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   } else {
     //deleting the token from header
-    delete instance.defaults.headers.common['Authorization']
+    delete instance.defaults.headers.common['Authorization'];
   }
 }
 
 instance.interceptors.response.use(
   function (response) {
-    return response
+    return response;
   },
   function (error) {
     if (error.response.status === 401) {
-      alert(error.response + 'Unauthorized')
+      alert(error.response + 'Unauthorized');
     }
     if (error.response.status === 500) {
-      alert(error.response + '500 Server Error')
+      alert(error.response + '500 Server Error');
     }
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
 
-export default instance
+export default instance;
