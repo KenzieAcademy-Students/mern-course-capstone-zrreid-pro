@@ -1,44 +1,100 @@
 import React, { useState } from 'react';
+import { SignUpForm, SignInForm }  from '../../components';
+import { useProvideAuth } from '../../hooks/useAuth';
+import useRouter from '../../hooks/useRouter';
+import setAuthToken from '../../utils/axiosConfig';
 import './LoginPage.scss';
-import { SignUpForm }  from '../../components' //wasn't working because there were two exports of signupform from components index
-import axios from 'axios' //axios has only been added to my branch
-import SignInForm from 'components/SignInForm';
-import { useProvideAuth } from '../../hooks/useAuth'
-import useApiFetch from '../../util/api'
-
 
 import ProjectCreationForm from 'components/ProjectCreationForm';
 
+const initialState = {
+  username: '',
+  password: '',
+  email: '',
+  avatar: [], //right now there is no functionality for this, but it's part of the model
+  isSubmitting: false,
+  errorMessage: null
+}
 
-export default function LoginPage() {  
-    const emptyForm = { //the initial state of the signup form
-      username: '',
-      password: '',
-      emailAddress: '',
-      avatar: [], //right now there is no functionality for this, but it's part of the model
+
+export default function LoginPage() {
+  const auth = useProvideAuth();
+  const router = useRouter();
+  const [data, setData] = useState(initialState); //sets the initial state of the signup form
+
+  const handleInputChange = (event) => { //updates the data of the signup form
+    setData({
+      ...data, //keeps the previous values of the form
+      [event.target.name]: event.target.value //changes the selected form field
+    });
+  }
+
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setData({
+      ...data,
+      isSubmitting: true,
+      errorMessage: null
+    });
+
+    const form = event.currentTarget;
+
+    if(form.checkValidity() === false) {
+      //do something
     }
 
-    const auth = useProvideAuth()
-    
-    const[data, setData] = useState(emptyForm) //sets the initial state of the signup form
 
-    
-    const handleInputChange = (event) => { //updates the data of the signup form
+    try{
+      const response = await auth.signup(data.username, data.password, data.email, data.avatar);
+      setAuthToken(response.token);
+      router.push('/');
+    } catch (error) {
       setData({
-          ...data, //keeps the previous values of the form
-          [event.target.name]: event.target.value, //changes the selected form field
-      })
+        ...data,
+        isSubmitting: false,
+        errorMessage: error ? error.message || error.statusText : null
+      });
     }
-    
-    const handleSignUp = async (event) => { //the function that runs when the form is submitted
-        console.log(data) //proves that the form is complete when the submit button is pressed
-        event.preventDefault()
+  }
 
-        try {
-          await auth.signup(data.username, data.password, data.emailAddress, data.avatar)
-        } catch (error) {
-          console.log(error)
-        }
+  const handleSignIn = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setData({
+      ...data,
+      isSubmitting: true,
+      errorMessage: null
+    });
+
+    const form = event.currentTarget;
+
+    if(form.checkValidity() === false) {
+      //do something
+    }
+
+    try {
+      const response = await auth.signin(data.email, data.password);
+      setAuthToken(response.token);
+      router.push('/');
+    } catch (error) {
+      setData({
+        ...data,
+        isSubmitting: false,
+        errorMessage: error ? error.message || error.statusText : null
+      });
+    }
+  }
+    
+    // const handleSignUp = async (event) => { //the function that runs when the form is submitted
+    //     console.log(data) //proves that the form is complete when the submit button is pressed
+    //     event.preventDefault()
+
+    //     try {
+    //       await auth.signup(data.username, data.password, data.emailAddress, data.avatar)
+    //     } catch (error) {
+    //       console.log(error)
+    //     }
 
         
         
@@ -53,18 +109,18 @@ export default function LoginPage() {
     //     } catch (error) { 
     //         console.log(error)
     //     }
-    }
+    // }
 
-    const handleSignIn = async (event) => {
-      console.log(data)
-      event.preventDefault()
+    // const handleSignIn = async (event) => {
+    //   console.log(data)
+    //   event.preventDefault()
 
-      try {
+    //   try {
         
-      } catch (error) {
-        console.log(error)
-      }
-    }
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // }
 
 
     return (
