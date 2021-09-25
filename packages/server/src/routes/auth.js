@@ -31,9 +31,9 @@ router.post('/signup', async (req, res, next) => {
     }
 
     //valudation - unique username
-    let isUniqueUsername = await User.findOne({ username });
+    let usernameAlreadyExists = await User.findOne({ username });
 
-    if (!isUniqueUsername) {
+    if (usernameAlreadyExists) {
       return res
         .status(400)
         .json({ error: 'This username has already been taken.' });
@@ -62,7 +62,7 @@ router.post('/signup', async (req, res, next) => {
 // 1. create a query with project list (title, _id)
 router.post('/signin', async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
 
     // validating user input
     if ((!username && !email) || !password) {
@@ -71,11 +71,7 @@ router.post('/signin', async (req, res, next) => {
         .json({ error: 'Missing username, email or password.' });
     }
 
-    let user = await User.findOne({ username });
-
-    if (!user) {
-      user = await User.findOne({ email });
-    }
+    let user = await User.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ error: 'Invalid username or password.' });
