@@ -62,7 +62,7 @@ export function useProvideAuth() {
       
   }
 
-  const signup = async (username, password, email, avatar) => {
+  const signup = async (username, password, email, avatar) => { //currently, the try block isn't running
       try {
         await axios.post('/api/auth/signup', { //posts the new user onto the signup endpoint
           username: username,

@@ -34,7 +34,7 @@ export default function LoginPage() {
         console.log(data) //proves that the form is complete when the submit button is pressed
         event.preventDefault()
 
-        try {
+        try { //this try block is working
           await auth.signup(data.username, data.password, data.emailAddress, data.avatar)
         } catch (error) {
           console.log(error)
