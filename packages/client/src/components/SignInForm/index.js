@@ -1,17 +1,12 @@
-// import { Button } from '@chakra-ui/button';
-// import { FormControl, FormLabel } from '@chakra-ui/form-control';
-// import { Input } from '@chakra-ui/input';
-// import { Heading } from '@chakra-ui/layout';
+import React from 'react'
 import { Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
-import React, { useState } from 'react'
 import './SignInForm.scss'
 
-export default function SignInForm(props) {
-
-    const{ handleInputChange, handleSignIn, data } = props //doing the same as the signup form
-
-
-
+export default function SignInForm({
+    data,
+    handleInputChange,
+    handleSignIn
+}) {
     return (
         <div className='SignInForm'>
             <Heading>Sign In</Heading>
@@ -26,12 +21,12 @@ export default function SignInForm(props) {
                 />
             </FormControl>
 
-            <FormControl id='emailAddress'>
+            <FormControl id='email'>
                 <FormLabel>Enter your Email Address</FormLabel>
                 <Input 
-                    name="emailAddress"
-                    placeholder="Email Address" 
-                    value={data.emailAddress}
+                    name='email'
+                    placeholder='Email'
+                    value={data.email}
                     onChange={handleInputChange}
                 />
             </FormControl>
@@ -39,8 +34,8 @@ export default function SignInForm(props) {
             <FormControl id='password' isRequired>
                 <FormLabel>Enter your Password</FormLabel>
                 <Input 
-                    name="password"
-                    placeholder="Password"
+                    name='password'
+                    placeholder='Password'
                     value={data.password}
                     onChange={handleInputChange}
                 />
@@ -48,8 +43,8 @@ export default function SignInForm(props) {
 
             <FormControl id='submitButton'>
                 <Button
-                    colorScheme="teal" 
-                    size="sm"
+                    colorScheme='teal' 
+                    size='sm'
                     onClick={handleSignIn}
                 >Submit</Button>
             </FormControl>
