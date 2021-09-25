@@ -26,8 +26,17 @@ router.post('/signup', async (req, res, next) => {
 
     if (user) {
       return res
-        .status(401)
+        .status(400)
         .json({ error: 'This email has already been registered.' });
+    }
+
+    //valudation - unique username
+    let usernameAlreadyExists = await User.findOne({ username });
+
+    if (usernameAlreadyExists) {
+      return res
+        .status(400)
+        .json({ error: 'This username has already been taken.' });
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
@@ -49,16 +58,24 @@ router.post('/signup', async (req, res, next) => {
 });
 
 // @POST api/auth/signin - public - Signin
+// TODO
+// 1. create a query with project list (title, _id)
 router.post('/signin', async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     // validating user input
-    if (!username || !password) {
-      return res.status(422).json({ error: 'Missing username or password.' });
+    if ((!username && !email) || !password) {
+      return res
+        .status(422)
+        .json({ error: 'Missing username, email or password.' });
     }
 
-    const user = await User.findOne({ username });
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Invalid username or password.' });
+    }
 
     // verify that user exists and the pw matches the user records
     const passwordCorrect =
@@ -68,7 +85,7 @@ router.post('/signin', async (req, res, next) => {
     if (!user && passwordCorrect) {
       return res.status(401).json({ error: 'Invalid username or password.' });
     }
-
+    console.log('USER', user);
     const userForToken = {
       username: user.username,
       id: user._id,
@@ -76,9 +93,13 @@ router.post('/signin', async (req, res, next) => {
 
     const token = jwt.sign(userForToken, keys.jwt.secret);
 
-    res
-      .status(200)
-      .send({ token, username, uid: user._id, avatar: user.avatar });
+    res.status(200).json({
+      token,
+      username: user.username,
+      email: user.email,
+      uid: user._id,
+      avatar: user.avatar,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send('Server Error');
