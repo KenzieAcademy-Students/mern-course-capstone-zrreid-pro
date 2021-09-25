@@ -31,7 +31,7 @@ router.post('/signup', async (req, res, next) => {
     }
 
     //valudation - unique username
-    let isUniqueUsername = await User.findOne({username});
+    let isUniqueUsername = await User.findOne({ username });
 
     if (!isUniqueUsername) {
       return res
@@ -62,14 +62,24 @@ router.post('/signup', async (req, res, next) => {
 // 1. create a query with project list (title, _id)
 router.post('/signin', async (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
 
     // validating user input
-    if (!username || !password) {
-      return res.status(422).json({ error: 'Missing username or password.' });
+    if ((!username && !email) || !password) {
+      return res
+        .status(422)
+        .json({ error: 'Missing username, email or password.' });
     }
 
-    const user = await User.findOne({ username });
+    let user = await User.findOne({ username });
+
+    if (!user) {
+      user = await User.findOne({ email });
+    }
+
+    if (!user) {
+      return res.status(404).json({ error: 'Invalid username or password.' });
+    }
 
     // verify that user exists and the pw matches the user records
     const passwordCorrect =
@@ -79,7 +89,7 @@ router.post('/signin', async (req, res, next) => {
     if (!user && passwordCorrect) {
       return res.status(401).json({ error: 'Invalid username or password.' });
     }
-
+    console.log('USER', user);
     const userForToken = {
       username: user.username,
       id: user._id,
@@ -87,9 +97,13 @@ router.post('/signin', async (req, res, next) => {
 
     const token = jwt.sign(userForToken, keys.jwt.secret);
 
-    res
-      .status(200)
-      .send({ token, username, uid: user._id, avatar: user.avatar });
+    res.status(200).json({
+      token,
+      username: user.username,
+      email: user.email,
+      uid: user._id,
+      avatar: user.avatar,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send('Server Error');
