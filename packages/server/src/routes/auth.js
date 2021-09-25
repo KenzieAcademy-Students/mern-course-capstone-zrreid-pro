@@ -49,6 +49,8 @@ router.post('/signup', async (req, res, next) => {
 });
 
 // @POST api/auth/signin - public - Signin
+// TODO 
+  // 1. create a query with project list (title, _id)
 router.post('/signin', async (req, res, next) => {
   try {
     const { username, password } = req.body;
