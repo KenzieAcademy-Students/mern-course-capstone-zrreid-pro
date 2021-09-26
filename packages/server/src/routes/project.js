@@ -72,6 +72,7 @@ router.get('/:pid', requireAuth, async (req, res) => {
 //TODO
 // 1. add validation: if project exists > return 400
 // 2. validate tags (unique = true) on the backend
+// 3. put back deadline, tags, categories and tasks
 
 router.post('/', requireAuth, async (req, res, next) => {
   try {
@@ -80,9 +81,9 @@ router.post('/', requireAuth, async (req, res, next) => {
 
     let user = await User.findOne({ _id: uid });
 
-    const owner = toId(uid);
+    const owner = req.user._id;
 
-    const { title, description, deadline, categories, tags, users, tasks } =
+    const { title, description, users } =
       req.body;
 
     if (title.length === 0) {
@@ -113,12 +114,8 @@ router.post('/', requireAuth, async (req, res, next) => {
     const project = new Project({
       title,
       description,
-      categories,
-      deadline,
       owner,
-      tags,
       users,
-      tasks,
     });
 
     if (!project.users.includes(owner)) {
@@ -259,7 +256,7 @@ router.delete('/:pid', requireAuth, async (req, res) => {
       user.project_list.indexOf(pid),
       1
     );
-    user.save();
+    await user.save();
     // delete task list assosiated with the project, if any
     if (project.tasks.length > 0) {
       project.tasks.forEach(async (task) => {
