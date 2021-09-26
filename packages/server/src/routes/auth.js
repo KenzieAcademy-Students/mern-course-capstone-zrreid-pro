@@ -1,5 +1,5 @@
 const express = require('express');
-const { User } = require('../models/index');
+const { User} = require('../models/index');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../config/keys');
@@ -65,13 +65,16 @@ router.post('/signin', async (req, res, next) => {
     const { email, password } = req.body;
 
     // validating user input
-    if ((!username && !email) || !password) {
-      return res
-        .status(422)
-        .json({ error: 'Missing username, email or password.' });
+    if (!email || !password) {
+      return res.status(422).json({ error: 'Missing email or password.' });
     }
 
-    let user = await User.findOne({ email });
+    const populateQuery = [{ path: 'project_list', select: ['_id', 'title'] }];
+    // populate query with user's project ids and their corresponding titles;
+    let user = await User.findOne({ email })
+      .populate(populateQuery)
+      .sort({ created: -1 })
+      .exec();
 
     if (!user) {
       return res.status(404).json({ error: 'Invalid username or password.' });
@@ -99,6 +102,7 @@ router.post('/signin', async (req, res, next) => {
       email: user.email,
       uid: user._id,
       avatar: user.avatar,
+      project_list: user.project_list
     });
   } catch (error) {
     console.error(error);
