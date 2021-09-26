@@ -83,7 +83,7 @@ router.post('/:pid', requireAuth, async (req, res, next) => {
     const savedTask = await task.save();
 
     // update parent project
-    project.tasks = project.tasks.concat(toId(savedTask._id));
+    project.tasks = project.tasks.concat(savedTask._id);
     await project.save();
 
     res.status(200).json({ msg: 'Task successfully created.', savedTask });
@@ -153,7 +153,7 @@ router.post('/:tid/subtask', requireAuth, async (req, res, next) => {
     const savedSubTask = await subTask.save();
 
     // update parent task
-    parentTask.subtasks = parentTask.subtasks.concat(toId(savedSubTask._id));
+    parentTask.subtasks = parentTask.subtasks.concat(savedSubTask._id);
     await parentTask.save();
 
     res
@@ -319,10 +319,15 @@ router.delete('/:tid', requireAuth, async (req, res, next) => {
         })
     }
 
-    // find the parent project and remove the reference id to the taskDeleted
-    project.tasks = project.tasks.splice(project.tasks.indexOf((tid)), 1);
+    // find the parent project and remove the reference id of the taskDeleted
+    project.tasks = project.tasks.splice(project.tasks.indexOf(tid), 1);
     await project.save();
-    console.log(chalk.red('PROJECT',project))
+    
+    // temp fix of a bug
+    if(project.tasks.includes(tid) && project.tasks.length === 1) {
+        project.tasks = [];
+        await project.save();
+    }
 
     const taskDeleted = await Task.findOneAndDelete(tid);
 
