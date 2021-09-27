@@ -4,7 +4,6 @@ const { ObjectId } = mongoose.Schema.Types;
 const projectSchema = new mongoose.Schema({
     title: {
         type: String,
-        unique: true,
         required: true
     },
     description: {
@@ -17,8 +16,7 @@ const projectSchema = new mongoose.Schema({
     },
     categories: [
         {
-            type: String,
-            unique: true
+            type: String
         }
     ],
     deadline: {
@@ -27,8 +25,7 @@ const projectSchema = new mongoose.Schema({
     },
     tags: [
         {
-            type: String,
-            unique: true
+            type: String
         }
     ],
     users: [

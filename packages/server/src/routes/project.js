@@ -44,27 +44,43 @@ router.get('/', requireAuth, async (req, res, next) => {
 
 // @GET /api/project:pid - Private (retrieve a specific project)
 router.get('/:pid', requireAuth, async (req, res) => {
-  try {
-    const { pid } = req.params;
-    const uid = req.user._id;
+  const populateQuery = [
+    { path: 'users', select: ['username', '_id'] },
+    { path: 'tasks', select: ['objective', 'status', 'tags', 'users', '_id'] }
+  ];
 
-    const project = await Project.findOne({ _id: pid });
+  const project = await Project.findById(req.params.pid)
+    .populate(populateQuery).exec();
 
-    // validation: if there is no project, return 404
-    if (!project) {
-      return res.status(404).json({ error: 'Project does not exist.' });
-    }
-
-    //validation: only users from project's users list can have access to the project
-    if (!JSON.stringify(project.users).includes(JSON.stringify(uid))) {
-      return res.status(401).json({ error: 'You do not have access.' });
-    }
-
+  if(project) {
     return res.status(200).json(project);
-  } catch (error) {
-    res.status(500).send('Server Error.');
-    console.error(error.message);
+  } else {
+    return res.status(404).json({ error: 'Project does not exist' });
   }
+
+
+
+  // try {
+  //   const { pid } = req.params;
+  //   const uid = req.user._id;
+
+  //   const project = await Project.findOne({ _id: pid });
+
+  //   // validation: if there is no project, return 404
+  //   if (!project) {
+  //     return res.status(404).json({ error: 'Project does not exist.' });
+  //   }
+
+  //   //validation: only users from project's users list can have access to the project
+  //   if (!JSON.stringify(project.users).includes(JSON.stringify(uid))) {
+  //     return res.status(401).json({ error: 'You do not have access.' });
+  //   }
+
+  //   return res.status(200).json(project);
+  // } catch (error) {
+  //   res.status(500).send('Server Error.');
+  //   console.error(error.message);
+  // }
 });
 
 // @POST /api/project - Private (create a new project)
@@ -73,17 +89,15 @@ router.get('/:pid', requireAuth, async (req, res) => {
 // 1. add validation: if project exists > return 400
 // 2. validate tags (unique = true) on the backend
 
-router.post('/', requireAuth, async (req, res, next) => {
+router.post('/', requireAuth, async (req, res) => {
   try {
     // user id
-    const uid = req.user._id;
+    // const uid = req.user._id;
+    const { title, description, owner, categories, tags, users, tasks } = req.body;
 
-    let user = await User.findOne({ _id: uid });
+    const user = await User.findOne({ _id: owner });
 
-    const owner = toId(uid);
-
-    const { title, description, deadline, categories, tags, users, tasks } =
-      req.body;
+    // const owner = toId(uid);
 
     if (title.length === 0) {
       return res.status(400).json({ error: 'Please enter a project title.' });
@@ -114,11 +128,10 @@ router.post('/', requireAuth, async (req, res, next) => {
       title,
       description,
       categories,
-      deadline,
       owner,
       tags,
       users,
-      tasks,
+      tasks
     });
 
     if (!project.users.includes(owner)) {

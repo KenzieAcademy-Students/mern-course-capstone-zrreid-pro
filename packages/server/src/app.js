@@ -10,6 +10,7 @@ const keys = require('./config/keys');
 const router = require('./routes/index');
 const { requestLogger, errorHandler } = require('./middleware/index');
 require('dotenv').config();
+const seedDatabase = require('./seedDatabase');
 
 const createError = require('http-errors');
 
@@ -22,6 +23,7 @@ mongoose.connect(keys.database.url, {
 
 mongoose.connection.on('connected', () => {
   console.log('connected to mongoDB');
+  seedDatabase();
 });
 
 mongoose.connection.on('error', (err) => {

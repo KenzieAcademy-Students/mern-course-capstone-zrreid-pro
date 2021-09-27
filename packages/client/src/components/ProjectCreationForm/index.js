@@ -14,7 +14,7 @@ import './ProjectCreationForm.scss';
 
 export default function ProjectCreationForm(props) {
     const emptyProjectForm = { //the initial state of the project creation form
-        projectName: '',
+        projectTitle: '',
         description: '', //not required
         categories: [], 
         usersToAdd: [], //the users to add will be a dropdown menu

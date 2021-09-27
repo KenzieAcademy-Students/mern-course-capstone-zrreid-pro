@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import TaskCard from '../TaskCard';
-import TaskDetail from '../TaskDetail';
+import { useProvideProject } from '../../hooks/useProject';
+// import TaskCard from '../TaskCard';
+// import TaskDetail from '../TaskDetail';
 import ProjectDetail from '../ProjectDetail';
 import ListView from '../ListView';
 import ProgressionView from '../ProgressionView';
@@ -9,6 +10,7 @@ import './ProjectView.scss';
 
 export default function ProjectView() {
     const [ activeTab, setActiveTab ] = useState(0);
+    const { project } = useProvideProject();
 
     return (
         <div id='projectView' className='main-content'>
@@ -30,9 +32,10 @@ export default function ProjectView() {
                     onClick={() => setActiveTab(3)}
                 >Timeline View</div>
             </div>
+            
             {
                 activeTab === 0 ? (
-                    <ProjectDetail />
+                    <ProjectDetail project={project} />
                 ) : activeTab === 1 ? (
                     <ListView />
                 ) : activeTab === 2 ? (

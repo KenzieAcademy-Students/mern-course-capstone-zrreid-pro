@@ -1,45 +1,23 @@
 import React from 'react';
-import { Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
+import { Heading, FormControl,
+    // FormLabel,
+    Input, Button, Box } from '@chakra-ui/react';
 import './SignUpForm.scss';
 
 export default function SignUpForm({
     data,
     handleInputChange,
-    handleSignUp
+    handleSignUp,
+    handleFlip
 }) {
-    
-    //saving the functionality here just in case the login page is changed
-    //const[data, setData] = useState(emptySignUpForm) //sets the initial state of the signup form
-
-    // const handleInputChange = (event) => { //updates the data of the signup form
-    //     console.log(event.target.value)
-    //     setData({
-    //         ...data, //keeps the previous values of the form
-    //         [event.target.name]: event.target.value, //changes the selected form field
-    //     })
-    // }
-    // const handleSignUp = async (event) => { //the function that runs when the form is submitted
-    //     console.log(data)
-    //     event.preventDefault()
-        
-    //     try {
-    //         await axios.post('auth/signup', {
-    //             username: data.username,
-    //             passwordHash: data.password,
-    //             email: data.emailAddress,
-    //         })
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
     return (
-        <div className='SignUpForm'>
-            <Heading>Sign Up Here</Heading>
+        <div id='SignUpForm' className='form front'>
+            <Heading>BECOME A MEMBER</Heading>
 
-            <FormControl id='username' isRequired>
-                <FormLabel>Enter your Username</FormLabel>
-                <Input //the username input field
+            <FormControl isRequired>
+                {/* <FormLabel>Enter your Username</FormLabel> */}
+                <Input
+                    type='text'
                     name='username'
                     placeholder='Username'
                     value={data.username}
@@ -47,9 +25,10 @@ export default function SignUpForm({
                 /> 
             </FormControl>
 
-            <FormControl id='email' isRequired>
-                <FormLabel>Enter your Email</FormLabel>
-                <Input //the email input field
+            <FormControl isRequired>
+                {/* <FormLabel>Enter your Email</FormLabel> */}
+                <Input
+                    type='email'
                     name='email'
                     placeholder='Email'
                     value={data.email}
@@ -57,9 +36,10 @@ export default function SignUpForm({
                 />
             </FormControl>
 
-            <FormControl id='password' isRequired>
-                <FormLabel>Enter your Password</FormLabel>
+            <FormControl isRequired>
+                {/* <FormLabel>Enter your Password</FormLabel> */}
                 <Input //the password input field
+                    type='password'
                     name='password'
                     placeholder='Password'
                     value={data.password}
@@ -67,13 +47,15 @@ export default function SignUpForm({
                 />
             </FormControl>
 
-            <FormControl id='submitButton'>
+            <FormControl>
                 <Button 
                     colorScheme='teal' 
                     size='sm'
                     onClick={handleSignUp}
                 >Submit</Button>
             </FormControl>
+
+            <Box className='flipPrompt'>Already have an account? Click <span onClick={handleFlip}>here</span></Box>
         </div>
-    )
+    );
 }

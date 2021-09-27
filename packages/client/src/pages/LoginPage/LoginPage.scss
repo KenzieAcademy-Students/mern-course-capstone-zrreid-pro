@@ -1,0 +1,67 @@
+.page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formCard {
+    width: 50%;
+    height: 75%;
+    perspective: 1000px;
+    position: relative;
+}
+
+.inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: all 1s;
+    transform-style: preserve-3d;
+}
+
+.inner.flipped {
+    transform: rotateY(180deg);
+}
+
+.form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0px 3px 18px 3px rgba(0, 0, 0, 0.2);
+    padding: 20px 20px;
+    border: 1px solid black;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.back {
+    transform: rotateY(180deg);
+}
+
+.chakra-form-control.css-1kxonj9, .css-0 {
+    width: 75%;
+    margin-top: 1.5rem;
+}
+
+.chakra-form-control .chakra-input.css-1c6j008 {
+    text-align: center;
+    border-radius: 35px;
+    
+}
+
+.flipPrompt span {
+    color: blue;
+    cursor: pointer;
+}
+.flipPrompt span:hover {
+    text-decoration: underline;
+}
