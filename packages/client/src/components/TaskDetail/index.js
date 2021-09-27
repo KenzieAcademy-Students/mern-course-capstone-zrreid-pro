@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton,
     Heading,
     Textarea,
-    Tag, TagLabel, TagRightIcon,
+    Tag, TagLabel,
+    // TagRightIcon,
     Menu, MenuButton, MenuList, MenuOptionGroup, MenuItemOption,
-    Button
+    // Button
 } from '@chakra-ui/react';
-import { CloseIcon } from '@chakra-ui/icons';
-import DatePicker from 'react-datepicker';
+// import { CloseIcon } from '@chakra-ui/icons';
+// import DatePicker from 'react-datepicker';
 // import 'react-datepicker/dist/react-datepicker.css';
 import './TaskDetail.scss';
 

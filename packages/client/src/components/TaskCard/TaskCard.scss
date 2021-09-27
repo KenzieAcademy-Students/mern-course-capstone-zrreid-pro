@@ -1,21 +1,28 @@
 .taskCard {
     border: 1px solid black;
     border-radius: 16px;
-    width: fit-content;
+    width: 100%;
     padding: 10px;
     display: flex;
-    align-items: center;
+    // align-items: space-between;
+    justify-content: space-between;
+    // margin-right: -50px !important;
+    margin: auto !important;
+    margin-top: 5px !important;
 }
 
 .title {
-    margin-right: 10px;
+    // margin-right: 10px;
+    // flex-grow: 1;
 }
 
 .avatars {
-    margin-right: 10px;
+    // margin-right: 10px;
 }
-
+.status {
+    // flex-grow: 1;
+}
 .chakra-button.addButton {
     border-radius: 50%;
-    margin-right: 10px;
+    // margin-right: 10px;
 }
