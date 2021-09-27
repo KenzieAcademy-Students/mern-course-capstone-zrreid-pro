@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 import { ProvideAuth } from 'hooks/useAuth';
+import { ProvideProject } from 'hooks/useProject';
 import App from 'App';
 // import HomePage from 'pages/HomePage';
 import './index.scss';
@@ -11,7 +12,9 @@ ReactDOM.render(
   <ChakraProvider>
     <ProvideAuth>
       <BrowserRouter>
-        <App />
+        <ProvideProject>
+          <App />
+        </ProvideProject>
       </BrowserRouter>
     </ProvideAuth>
   </ChakraProvider>,

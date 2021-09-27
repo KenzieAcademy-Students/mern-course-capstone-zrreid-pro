@@ -35,7 +35,7 @@ const reducer = (state, action) => {
 const authContext = createContext();
 
 export function ProvideAuth({ children }) {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [ state, dispatch ] = useReducer(reducer, initialState);
     return (
         <authContext.Provider
             value={{
@@ -65,6 +65,8 @@ export function useProvideAuth() {
           password: password,
         });
 
+        // console.log('Response', response);
+
         localStorage.setItem('MernAppUser', JSON.stringify(response.data));
 
         dispatch({
@@ -74,6 +76,7 @@ export function useProvideAuth() {
 
         return response;
       } catch (error) {
+        // console.log('HERE');
         console.log(error.message);
         
         if(error.response) {

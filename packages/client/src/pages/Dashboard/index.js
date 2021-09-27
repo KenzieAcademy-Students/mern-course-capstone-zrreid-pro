@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useReducer } from 'react';
-import { Modal, useDisclosure } from '@chakra-ui/react';
+import React, {
+  // useState,
+  useEffect, useReducer } from 'react';
+// import { Modal, useDisclosure } from '@chakra-ui/react';
 import { Header, Sidebar, ProjectView, ProfileView } from '../../components';
 import { useProvideAuth } from 'hooks/useAuth';
+import useProvideProject from 'hooks/useProject';
 import './Dashboard.scss';
 
 // import DatePicker from 'react-datepicker';
 // import 'react-datepicker/dist/react-datepicker.css';
 
-import CustomDatePicker from '../../components/CustomDatePicker';
+// import CustomDatePicker from '../../components/CustomDatePicker';
 
 //DUMMY DATA/////////////////
 const dummyTask = {
@@ -24,7 +27,7 @@ const dummyTask = {
 
 const dummyProject = {
   title: 'TaskMaster',
-  description: '',
+  description: 'lorem ipsum and all that',
   owner: 'I',
   deadline: new Date('9/27/21'),
   tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
@@ -56,35 +59,40 @@ const reducer = (state, action) => {
       return {
         ...state,
         pageView: action.payload
-      }
+      };
     case 'PROJECT_NAV':
       return {
         ...state,
         pageView: 0,
         currentProject: action.payload
-      }
+      };
+    case 'RELOAD':
+      return {
+        ...action.payload
+      };
     default:
       return state;
   }
 }
 
 export default function Dashboard() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
   const { state: { user } } = useProvideAuth();
+  const { project, fetchProject } = useProvideProject();
   const [ state, dispatch ] = useReducer(reducer, initialState);
-  const [ project, setProject ] = useState(dummyProject);
+  // const [ project, setProject ] = useState(dummyProject);
   // const [ deadline, setDeadline ] = useState();
 
-  const fetchProject = (pid) => {
-    //For when projects are being fetched from DB
-    // setProject();
-  }
+  // const fetchProject = (pid) => {
+  //   //For when projects are being fetched from DB
+  //   // setProject();
+  // }
 
   const handleNavigate = (page) => {
     if(!page) {
-      console.log('Navigating to the Project Dashboard');
+      // console.log('Navigating to the Project Dashboard');
     } else {
-      console.log('Navigating to the User Dashboard');
+      // console.log('Navigating to the User Dashboard');
     }
     dispatch({
       type: 'PAGE_NAV',
@@ -92,12 +100,23 @@ export default function Dashboard() {
     });
   }
 
-  const handleLoadProject = (pid) => {
-    console.log('Loading Project of ID:', pid);
+  const handleLoadProject = (pid, index) => {
+    // if(!state.currentProject === index) {
+    //   dispatch({
+    //     type: 'PROJECT_NAV',
+    //     payload: index
+    //   });
+
+    //   localStorage.setItem('MERNAppDashboard', JSON.stringify({...state, currentProject: index}));
+  
+    //   fetchProject(pid);
+    // }
     dispatch({
       type: 'PROJECT_NAV',
-      payload: pid
+      payload: index
     });
+
+    localStorage.setItem('MERNAppDashboard', JSON.stringify({...state, currentProject: index}));
 
     fetchProject(pid);
   }
@@ -105,6 +124,18 @@ export default function Dashboard() {
   useEffect(() => {
     //For when users can be created
     // fetchProject(user.project_list[0]._id);
+    // console.log('Current User:', user);
+    // console.log(user);
+    // fetchProject(user)
+    const savedState = JSON.parse(localStorage.getItem('MERNAppDashboard')) || false;
+    if(savedState) {
+      dispatch({
+        type: 'RELOAD',
+        payload: savedState
+      });
+    } else {
+      localStorage.setItem('MERNAppDashboard', JSON.stringify(initialState));
+    }
   }, []);
 
   // IMPORTANT:
@@ -113,13 +144,13 @@ export default function Dashboard() {
   return (
     <div className='dashboard'>
       <Sidebar
-        projectList={dummyUser.project_list}
+        projectList={user.project_list}
         loadProject={handleLoadProject}
         navigate={handleNavigate}
       />
       
       <div className='main'>
-        <Header user={dummyUser} projectTitle={project.title} pageView={state.pageView} />
+        <Header user={user} projectTitle={project.title} pageView={state.pageView} />
         {
           !state.pageView ? (
             <ProjectView />
@@ -127,7 +158,6 @@ export default function Dashboard() {
             <ProfileView />
           )
         }
-        
       </div>
     </div>
   );

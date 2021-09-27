@@ -5,7 +5,7 @@ import useRouter from '../../hooks/useRouter';
 import setAuthToken from '../../utils/axiosConfig';
 import './LoginPage.scss';
 
-import ProjectCreationForm from 'components/ProjectCreationForm';
+// import ProjectCreationForm from 'components/ProjectCreationForm';
 
 const initialState = {
   username: '',
@@ -20,7 +20,8 @@ const initialState = {
 export default function LoginPage() {
   const auth = useProvideAuth();
   const router = useRouter();
-  const [data, setData] = useState(initialState); //sets the initial state of the signup form
+  const [ data, setData ] = useState(initialState); //sets the initial state of the signup form
+  const [ isFlipped, setIsFlipped ] = useState(false);
 
   const handleInputChange = (event) => { //updates the data of the signup form
     setData({
@@ -85,48 +86,30 @@ export default function LoginPage() {
       });
     }
   }
-    
-    // const handleSignUp = async (event) => { //the function that runs when the form is submitted
-    //     console.log(data) //proves that the form is complete when the submit button is pressed
-    //     event.preventDefault()
 
-    //     try {
-    //       await auth.signup(data.username, data.password, data.emailAddress, data.avatar)
-    //     } catch (error) {
-    //       console.log(error)
-    //     }
-
-        
-        
-    //     try {
-    //         await axios.post('/api/auth/signup', { //posts the new user onto the signup endpoint
-    //             username: data.username,
-    //             password: data.password, //the data model for the user is passwordHash, but alex will handle the password hashing 
-    //             email: data.emailAddress,
-    //             avatar: [data.avatar],
-    //         })
-    //         console.log('the try block of the signup request is running')
-    //     } catch (error) { 
-    //         console.log(error)
-    //     }
-    // }
-
-    // const handleSignIn = async (event) => {
-    //   console.log(data)
-    //   event.preventDefault()
-
-    //   try {
-        
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
-
+  const formFlip = (event) => {
+    setIsFlipped(!isFlipped);
+  }
 
     return (
-      <div>
-        <SignUpForm handleSignUp={handleSignUp} handleInputChange={handleInputChange} data={data} /* the functions get passed in as props to the components */ />
-        {/* <SignInForm handleSignIn={handleSignIn} handleInputChange={handleInputChange} data={data} /> */}
+      <div className='page'>
+        <div className='formCard'>
+          <div className={`inner ${isFlipped ? 'flipped' : ''}`}>
+            <SignUpForm
+              handleSignUp={handleSignUp}
+              handleInputChange={handleInputChange}
+              handleFlip={formFlip}
+              data={data}
+            />
+
+            <SignInForm
+              handleSignIn={handleSignIn}
+              handleInputChange={handleInputChange}
+              handleFlip={formFlip}
+              data={data}
+            />
+          </div>
+        </div>
         {/* <ProjectCreationForm  /> */}
       </div>
     );
