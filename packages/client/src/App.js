@@ -19,13 +19,12 @@ export default function App() {
             {
                 user ? (
                     <Switch>
-                        <Route exact path='/' component={Dashboard} />
+                        <Route path='/' component={Dashboard} />
                     </Switch>
                     
                 ) : (
                     <Switch>
-                        <Route exact path='/' component={LoginPage} />
-                        <Route exact path='/dashboard' component={Dashboard} />
+                        <Route path='/' component={LoginPage} />
                     </Switch>
                 )
             }
