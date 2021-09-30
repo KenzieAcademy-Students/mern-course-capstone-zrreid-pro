@@ -60,7 +60,9 @@ export function useProvideProject() {
                 type: 'LOAD',
                 payload: response.data
             });
-            localStorage.setItem('MernAppProject', JSON.stringify(response.data));
+
+            // localStorage.setItem('MernAppProject', JSON.stringify(response.data));
+            localStorage.setItem('MernAppProject', response.data._id);
         } catch (error) {
             console.log('Fetch Project Error');
         }
@@ -73,13 +75,14 @@ export function useProvideProject() {
                 title,
                 description,
                 owner: user.uid,
-                categories: [],
+                status_categories: [],
                 tags: [],
                 users,
                 tasks: []
             });
 
-            localStorage.setItem('MernAppProject', JSON.stringify(response.data));
+            // localStorage.setItem('MernAppProject', JSON.stringify(response.data));
+            localStorage.setItem('MernAppProject', response.data._id);
 
             dispatch({
                 type: 'LOAD',
@@ -91,15 +94,15 @@ export function useProvideProject() {
 
     }
 
-    const updateProjectCategories = async (categories) => {
+    const updateProjectCategories = async (status_categories) => {
         try {
             const response = await axios.put(`${state._id}/category`, {
-                categories
+                status_categories
             });
 
             dispatch({
                 type: 'UPDATE',
-                payload: ['categories', categories]
+                payload: ['status_categories', status_categories]
             });
         } catch (error) {
             console.log('Update Categories Error');
@@ -136,18 +139,24 @@ export function useProvideProject() {
         }
     }
 
-    useEffect(() => {
-        const savedProject = JSON.parse(localStorage.getItem('MernAppProject')) || false;
-        if(savedProject) {
-            dispatch({
-                type: 'LOAD',
-                payload: savedProject
-            });
-        } else {
-            fetchProject(user.project_list[0]._id);
-        }
+    // useEffect(() => {
+    //     // console.log('USE_EFFECT');
+    //     // const savedProject = JSON.parse(localStorage.getItem('MernAppProject')) || false;
+    //     // const savedProject = localStorage.getItem('MernAppProject') || false;
+    //     // if(savedProject) {
+    //     //     // dispatch({
+    //     //     //     type: 'LOAD',
+    //     //     //     payload: savedProject
+    //     //     // });
+    //     //     fetchProject(savedProject);
+    //     // } else {
+    //     //     if(user.project_list.length !== 0) {
+    //     //         fetchProject(user.project_list[0]._id);
+    //     //     }
+    //     // }
 
-    }, [dispatch]);
+
+    // }, [dispatch]);
 
     return {
         project: state,

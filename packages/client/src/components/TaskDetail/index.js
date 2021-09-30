@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton,
     Heading,
@@ -17,11 +17,12 @@ const testTags = ['tag1', 'tag2', 'tag3'];
 const totalTags = ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'];
 
 export default function TaskDetail({
-    task: { objective, status, deadline, tags, notes, comments, users, subtasks },
-    projectTitle,
-    projectCategories,
-    projectDeadline,
-    projectTags
+    // task: { objective, status, deadline, tags, notes, comments, users, subtasks },
+    // projectTitle,
+    // projectCategories,
+    // projectDeadline,
+    // projectTags
+    tid
 }) {
 
     const handleUpdateTags = () => {
@@ -34,40 +35,32 @@ export default function TaskDetail({
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
-                    <span className='modalTitle'>{projectTitle}</span>
+                    <span className='modalTitle'>{'projectTitle'}</span>
                     <ModalCloseButton size='sm'/>
                 </ModalHeader>
                 {/* <ModalCloseButton /> */}
                 <ModalBody>
                     <div className='subheader'>
-                        <Heading size='lg'>{objective}</Heading>
+                        <Heading size='lg'>{'objective'}</Heading>
                         {/* <div className='taskCharacteristic'>[Deadline]</div> */}
                         {/* <DatePicker
                             selected={Date.now()}
                             isClearable
                         /> */}
-                        <div className='taskCharacteristic'>{status}</div>
+                        <div className='taskCharacteristic'>{'status'}</div>
                         {/* <div className='taskCharacteristic'>[Time Estimate]</div> */}
                     </div>
                     <div className='taskContent'>
                         <div className='taskData'>
                             <div className='tags'>
-                                {tags.map((tag, index) => (
-                                    <Tag key={index} size='md' className='tag'>
-                                        <TagLabel>{tag}</TagLabel>
-                                        <i className='bx bx-x'></i>
-                                        {/* <TagRightIcon as={CloseIcon} size='sm'/> */}
-                                    </Tag>
-                                    ))}
+                                
                                 <Menu closeOnSelect={false} onClose={handleUpdateTags}>
                                     <MenuButton
                                         as={Tag}
                                     >Add Tags</MenuButton>
                                     <MenuList>
                                         <MenuOptionGroup type='checkbox'>
-                                            {projectTags.filter((tag) => !tags.includes(tag)).map((tag, index) => (
-                                                <MenuItemOption key={index} value={tag}>{tag}</MenuItemOption>
-                                            ))}
+                                            
                                         </MenuOptionGroup>
                                     </MenuList>
                                 </Menu>
@@ -82,4 +75,58 @@ export default function TaskDetail({
             </ModalContent>
         </>
     );
+
+    // return (
+    //     <>
+    //         <ModalOverlay />
+    //         <ModalContent>
+    //             <ModalHeader>
+    //                 <span className='modalTitle'>{projectTitle}</span>
+    //                 <ModalCloseButton size='sm'/>
+    //             </ModalHeader>
+    //             {/* <ModalCloseButton /> */}
+    //             <ModalBody>
+    //                 <div className='subheader'>
+    //                     <Heading size='lg'>{objective}</Heading>
+    //                     {/* <div className='taskCharacteristic'>[Deadline]</div> */}
+    //                     {/* <DatePicker
+    //                         selected={Date.now()}
+    //                         isClearable
+    //                     /> */}
+    //                     <div className='taskCharacteristic'>{status}</div>
+    //                     {/* <div className='taskCharacteristic'>[Time Estimate]</div> */}
+    //                 </div>
+    //                 <div className='taskContent'>
+    //                     <div className='taskData'>
+    //                         <div className='tags'>
+    //                             {tags?.map((tag, index) => (
+    //                                 <Tag key={index} size='md' className='tag'>
+    //                                     <TagLabel>{tag}</TagLabel>
+    //                                     <i className='bx bx-x'></i>
+    //                                     {/* <TagRightIcon as={CloseIcon} size='sm'/> */}
+    //                                 </Tag>
+    //                                 ))}
+    //                             <Menu closeOnSelect={false} onClose={handleUpdateTags}>
+    //                                 <MenuButton
+    //                                     as={Tag}
+    //                                 >Add Tags</MenuButton>
+    //                                 <MenuList>
+    //                                     <MenuOptionGroup type='checkbox'>
+    //                                         {projectTags?.filter((tag) => !tags.includes(tag)).map((tag, index) => (
+    //                                             <MenuItemOption key={index} value={tag}>{tag}</MenuItemOption>
+    //                                         ))}
+    //                                     </MenuOptionGroup>
+    //                                 </MenuList>
+    //                             </Menu>
+    //                         </div>
+    //                         <Textarea placeholder='Add Task Notes' resize='vertical'/>
+    //                         <Heading size='md'>Subtasks</Heading>
+    //                     </div>
+    //                     <div className='userData'></div>
+    //                 </div>
+    //             </ModalBody>
+
+    //         </ModalContent>
+    //     </>
+    // );
 }
