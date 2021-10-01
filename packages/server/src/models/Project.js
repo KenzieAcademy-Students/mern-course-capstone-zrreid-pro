@@ -14,7 +14,7 @@ const projectSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    categories: [
+    status_categories: [
         {
             type: String
         }

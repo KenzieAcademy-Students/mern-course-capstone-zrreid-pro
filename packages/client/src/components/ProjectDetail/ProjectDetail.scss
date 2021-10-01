@@ -1,25 +1,30 @@
-#projectDetail {
-    display: flex;
-    flex-direction: column;
-    padding: 30px;
+// #projectDetail {
+//     display: flex;
+//     flex-direction: column;
+//     padding: 30px;
     
-}
+// }
 
 .project-description {
     border: 1px solid black;
     height: 30%;
+    min-height: 30%;
     margin-bottom: 10px;
 }
 
 .taskAssignment {
     display: flex;
     width: 100%;
+    height: 70%;
 }
 
-.task-list {
+#projectDetail .taskList {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    overflow-y: auto;
 }
 
 .unassigned, .assigned {
@@ -30,6 +35,6 @@
     width: 50%;
 }
 
-.list-title {
+#projectDetail .list-title {
     text-align: center;
 }

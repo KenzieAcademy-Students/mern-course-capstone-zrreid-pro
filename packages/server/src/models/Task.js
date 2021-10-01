@@ -40,18 +40,20 @@ const taskSchema = new mongoose.Schema({
            }
         }
     ],
-    users: [
-        {
+    assigned_user: {
             type: ObjectId,
             ref: 'User'
-        }
-    ],
+    },
     subtasks: [
         {
             type: ObjectId,
             ref: 'Task'
         }
-    ]
+    ],
+    project: {
+        type: ObjectId,
+        ref: 'Project'
+    }
     },
     { timestamps: true }
 );

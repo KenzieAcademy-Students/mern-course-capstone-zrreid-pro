@@ -1,8 +1,7 @@
-import React, {
-  // useState,
-  useEffect, useReducer } from 'react';
-// import { Modal, useDisclosure } from '@chakra-ui/react';
-import { Header, Sidebar, ProjectView, ProfileView } from '../../components';
+import React, { useState, useEffect, useReducer } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { Modal, useDisclosure } from '@chakra-ui/react';
+import { Header, Sidebar, TaskDetail, ProjectView, ProfileView } from '../../components';
 import { useProvideAuth } from 'hooks/useAuth';
 import useProvideProject from 'hooks/useProject';
 import './Dashboard.scss';
@@ -49,9 +48,24 @@ const dummyUser = {
 
 const initialState = {
   pageView: 0, //pageView 0 is the project dashboard
-  currentProject: 0,
+  // currentProject: 0,
   projectView: 0
 }
+
+const initialTask = {
+  _id: '',
+  objective: '',
+  status: '',
+  deadline: '',
+  tags: [],
+  notes: '',
+  comments: [],
+  users: [],
+  subtasks: [],
+  timestamps: ''
+}
+
+
 
 const reducer = (state, action) => {
   switch(action.type) {
@@ -63,8 +77,8 @@ const reducer = (state, action) => {
     case 'PROJECT_NAV':
       return {
         ...state,
-        pageView: 0,
-        currentProject: action.payload
+        pageView: 0
+        // currentProject: action.payload
       };
     case 'RELOAD':
       return {
@@ -76,28 +90,24 @@ const reducer = (state, action) => {
 }
 
 export default function Dashboard() {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { state: { user } } = useProvideAuth();
   const { project, fetchProject } = useProvideProject();
   const [ state, dispatch ] = useReducer(reducer, initialState);
   // const [ project, setProject ] = useState(dummyProject);
-  // const [ deadline, setDeadline ] = useState();
-
-  // const fetchProject = (pid) => {
-  //   //For when projects are being fetched from DB
-  //   // setProject();
-  // }
+  const [ task, setTask ] = useState();
 
   const handleNavigate = (page) => {
-    if(!page) {
-      // console.log('Navigating to the Project Dashboard');
-    } else {
-      // console.log('Navigating to the User Dashboard');
-    }
+    // if(!page) {
+    //   // console.log('Navigating to the Project Dashboard');
+    // } else {
+    //   // console.log('Navigating to the User Dashboard');
+    // }
     dispatch({
       type: 'PAGE_NAV',
       payload: page
     });
+    sessionStorage.setItem('MERNAppDashboard', JSON.stringify({...state, pageView: 1}));
   }
 
   const handleLoadProject = (pid, index) => {
@@ -116,9 +126,17 @@ export default function Dashboard() {
       payload: index
     });
 
-    localStorage.setItem('MERNAppDashboard', JSON.stringify({...state, currentProject: index}));
+    sessionStorage.setItem('MERNAppDashboard', JSON.stringify({...state, pageView: 0}));
 
     fetchProject(pid);
+  }
+
+  const fetchTask = async (tid) => {
+
+  }
+
+  const handleOnOpen = (tid) => {
+    console.log('open modal')
   }
 
   useEffect(() => {
@@ -127,15 +145,31 @@ export default function Dashboard() {
     // console.log('Current User:', user);
     // console.log(user);
     // fetchProject(user)
-    const savedState = JSON.parse(localStorage.getItem('MERNAppDashboard')) || false;
+    const savedProject = localStorage.getItem('MernAppProject') || false;
+    if(savedProject) {
+      // dispatch({
+      //     type: 'LOAD',
+      //     payload: savedProject
+      // });
+      fetchProject(savedProject);
+    } else {
+        if(user.project_list.length !== 0) {
+          fetchProject(user.project_list[0]._id);
+        }
+    }
+
+
+    const savedState = JSON.parse(sessionStorage.getItem('MERNAppDashboard')) || false;
     if(savedState) {
       dispatch({
         type: 'RELOAD',
         payload: savedState
       });
     } else {
-      localStorage.setItem('MERNAppDashboard', JSON.stringify(initialState));
+      sessionStorage.setItem('MERNAppDashboard', JSON.stringify(initialState));
     }
+
+    // console.log('PROJECT:', project);
   }, []);
 
   // IMPORTANT:
@@ -153,14 +187,40 @@ export default function Dashboard() {
         <Header user={user} projectTitle={project.title} pageView={state.pageView} />
         {
           !state.pageView ? (
-            <ProjectView />
+            <ProjectView project={project} session={state} openTaskDetails={handleOnOpen}/>
           ) : (
             <ProfileView />
           )
         }
+        {/* <Switch>
+          <Route exact path='/' render={() => <ProjectView session={state} openTaskDetails={handleOnOpen} />} />
+          <Route exact path='/profile' render={() => <ProfileView />} />
+          
+        </Switch> */}
       </div>
     </div>
   );
+
+  // return (
+  //   <div className='dashboard'>
+  //     <Sidebar
+  //       projectList={user.project_list}
+  //       loadProject={handleLoadProject}
+  //       navigate={handleNavigate}
+  //     />
+      
+  //     <div className='main'>
+  //       <Header user={user} projectTitle={project.title} pageView={state.pageView} />
+  //       {
+  //         !state.pageView ? (
+  //           <ProjectView session={state} openTaskDetails={handleOnOpen}/>
+  //         ) : (
+  //           <ProfileView />
+  //         )
+  //       }
+  //     </div>
+  //   </div>
+  // );
 
   // return (
   //   <div className='projectDash'>
