@@ -77,7 +77,6 @@ export default function ProjectDetail({
                                     <TaskCard
                                         key={task._id}
                                         task={task}
-                                        username={temporaryFix(task.assigned_user)}
                                         projectTitle={title}
                                         mode={0}
                                         handleEvent={handleEvent}
@@ -91,7 +90,7 @@ export default function ProjectDetail({
             </div>
 
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                <TaskDetail tid={tid}/>
+                <TaskDetail tid={tid} projectTitle={title} />
             </Modal>
         </div>
     );

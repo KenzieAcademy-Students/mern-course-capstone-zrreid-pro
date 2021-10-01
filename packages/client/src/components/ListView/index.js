@@ -40,7 +40,6 @@ export default function ListView({
                         key={task._id}
                         task={task}
                         projectTitle={title}
-                        username={temporaryFix(task.assigned_user)}
                         mode={0}
                         handleEvent={handleEvent}
                     />

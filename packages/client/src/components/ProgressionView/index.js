@@ -1,19 +1,25 @@
 import React, { useState, useEffect }  from 'react';
 import { Modal, useDisclosure } from '@chakra-ui/react';
+// import { useProvideProject } from '../../hooks/useProject';
 import TaskCard from '../TaskCard';
 import TaskDetail from '../TaskDetail';
 import './ProgressionView.scss';
+
+const sortTasks = (tasks) => {
+    return tasks.reduce((obj, task) => (
+        {...obj, [task.status]: [...(obj[task.status] || []), task]}
+    ), {})
+}
 
 export default function ProgressionView({
     project: { title, status_categories, tasks, users }
     // project
 }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [ tasks2, setTasks ] = useState((tasks || []));
-    const [ sortedTasks, setSortedTasks ] = useState(tasks2.reduce((obj, task) => (
-        {...obj, [task.status]: [...(obj[task.status] || []), task]}
-    ), {}));
-    const [ block, setBlock ] = useState(true);
+    // const { project: { title, status_categories, tasks, users } } = useProvideProject();
+    // const [ tasks2, setTasks ] = useState((tasks || []));
+    const [ sortedTasks, setSortedTasks ] = useState({});
+    const [ isLoading, setIsLoading ] = useState(true);
     // const { status_categories, tasks, users } = project;
     const [ tid, setTID ] = useState();
     
@@ -26,6 +32,8 @@ export default function ProgressionView({
             }
         }
     }
+    
+    
 
     const handleEvent = (event, tid) => {
         // console.log('fire')
@@ -52,28 +60,24 @@ export default function ProgressionView({
     // }, [block]);
 
     useEffect(() => {
-        // setStatusCategories(['Not Started', ...categories, 'Completed']);
-        // console.log('Proj:', project);
-        // console.log()
-        // setTimeout(() => {
-        //     let t = tasks.reduce((obj, task) => (
-        //         {...obj, [task.status]: [...(obj[task.status] || []), task]}
-        //     ), {});
-        //     setSortedTasks(t);
-        // }, 1000);
-        let t = tasks2.reduce((obj, task) => (
-            {...obj, [task.status]: [...(obj[task.status] || []), task]}
-        ), {});
-        // console.log('This:', t);
-        setSortedTasks(t);
-        setBlock(false);
+        // let t = tasks?.reduce((obj, task) => (
+        //     {...obj, [task.status]: [...(obj[task.status] || []), task]}
+        // ), {});
+        // // console.log('This:', t);
+        // setSortedTasks(t);
+        // setBlock(false);
+        // console.log('sssssss:', status_categories)
         // console.log('removing block');
 
         // setSortedTasks(project.tasks.reduce((obj, task) => (
         //     {...obj, [task.status]: [...(obj[task.status] || []), task]}
         // ), {}));
+        if(status_categories && tasks) {
+            setSortedTasks(sortTasks(tasks));
+            setIsLoading(false);
+        }
 
-    }, []);
+    }, [status_categories, tasks]);
 
     // return (
     //     <div id='progressionView' className='view'>
@@ -130,7 +134,7 @@ export default function ProgressionView({
     return (
         <div id='progressionView' className='view'>
             {
-                block ? (<></>) : (status_categories?.map((status, index) => (
+                !isLoading && (status_categories?.map((status, index) => (
                     <div className='wrapper' key={index}>
                         <h2 className='list-title'>{status}</h2>
                         <div className='statusList'>
@@ -140,8 +144,6 @@ export default function ProgressionView({
                                         key={task._id}
                                         task={task}
                                         projectTitle={title}
-                                        // projectTitle={project.title}
-                                        username={temporaryFix(task.assigned_user)}
                                         mode={0}
                                         handleEvent={handleEvent}
                                     />
@@ -153,7 +155,7 @@ export default function ProgressionView({
             }
 
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                <TaskDetail tid={tid}/>
+                <TaskDetail tid={tid} projectTitle={title} />
             </Modal>
         </div>
     );

@@ -6,7 +6,6 @@ export default function TaskCard({
     task: { _id, objective, assigned_user, status },
     // task,
     projectTitle = '',
-    username = '',
     mode,
     handleEvent
 }) {
@@ -23,27 +22,27 @@ export default function TaskCard({
             </div>
             {
                 assigned_user ? (
-                    <Tooltip label={username} placement='auto'>
-                        <Avatar size='sm' name={username} />
+                    <Tooltip label={assigned_user.username} placement='auto'>
+                        <Avatar size='sm' name={assigned_user.username} />
                     </Tooltip>) :
                     (<div className='addButton'><i className='bx bxs-user-plus'></i></div>)
             }
         </div>
     );
 
-    return (
-        <div className='taskCard' onClick={(event) => handleEvent(event, _id)}>
-            <div className='card-content'>
-                <div className='projectName'>{projectTitle}</div>
-                <div className='objective'>{objective}</div>
-            </div>
-            {
-                assigned_user ? (
-                    <Tooltip label={username} placement='auto'>
-                        <Avatar size='sm' name={username} />
-                    </Tooltip>) :
-                    (<IconButton className='addButton' icon={<i className='bx bxs-user-plus'></i>} />)
-            }
-        </div>
-    );
+    // return (
+    //     <div className='taskCard' onClick={(event) => handleEvent(event, _id)}>
+    //         <div className='card-content'>
+    //             <div className='projectName'>{projectTitle}</div>
+    //             <div className='objective'>{objective}</div>
+    //         </div>
+    //         {
+    //             assigned_user ? (
+    //                 <Tooltip label={username} placement='auto'>
+    //                     <Avatar size='sm' name={username} />
+    //                 </Tooltip>) :
+    //                 (<IconButton className='addButton' icon={<i className='bx bxs-user-plus'></i>} />)
+    //         }
+    //     </div>
+    // );
 }

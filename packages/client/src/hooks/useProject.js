@@ -64,7 +64,7 @@ export function useProvideProject() {
             // localStorage.setItem('MernAppProject', JSON.stringify(response.data));
             localStorage.setItem('MernAppProject', response.data._id);
         } catch (error) {
-            console.log('Fetch Project Error');
+            console.log('Fetch Project Error:', error);
         }
     }
 
@@ -142,18 +142,18 @@ export function useProvideProject() {
     // useEffect(() => {
     //     // console.log('USE_EFFECT');
     //     // const savedProject = JSON.parse(localStorage.getItem('MernAppProject')) || false;
-    //     // const savedProject = localStorage.getItem('MernAppProject') || false;
-    //     // if(savedProject) {
-    //     //     // dispatch({
-    //     //     //     type: 'LOAD',
-    //     //     //     payload: savedProject
-    //     //     // });
-    //     //     fetchProject(savedProject);
-    //     // } else {
-    //     //     if(user.project_list.length !== 0) {
-    //     //         fetchProject(user.project_list[0]._id);
-    //     //     }
-    //     // }
+    //     const savedProject = localStorage.getItem('MernAppProject') || false;
+    //     if(savedProject) {
+    //         // dispatch({
+    //         //     type: 'LOAD',
+    //         //     payload: savedProject
+    //         // });
+    //         fetchProject(savedProject);
+    //     } else {
+    //         if(user.project_list.length !== 0) {
+    //             fetchProject(user.project_list[0]._id);
+    //         }
+    //     }
 
 
     // }, [dispatch]);

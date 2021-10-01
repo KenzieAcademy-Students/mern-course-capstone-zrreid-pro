@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton,
     Heading,
@@ -8,6 +8,7 @@ import {
     Menu, MenuButton, MenuList, MenuOptionGroup, MenuItemOption,
     // Button
 } from '@chakra-ui/react';
+import axios from '../../utils/axiosConfig';
 // import { CloseIcon } from '@chakra-ui/icons';
 // import DatePicker from 'react-datepicker';
 // import 'react-datepicker/dist/react-datepicker.css';
@@ -22,32 +23,46 @@ export default function TaskDetail({
     // projectCategories,
     // projectDeadline,
     // projectTags
-    tid
+    tid,
+    projectTitle
 }) {
+    const [ isLoading, setIsLoading ] = useState(true);
+    const [ task, setTask ] = useState();
 
     const handleUpdateTags = () => {
         //this is just to remind myself that the onClose needs to update the tags
         console.log('update tags');
     }
 
+    useEffect(async () => {
+        try {
+            const response = await axios.get(`task/${tid}`);
+            console.log(response.data);
+            setTask(response.data);
+            setIsLoading(false);
+        } catch (error) {
+            console.log('Task Fetch Error:', error);
+        }
+    }, []);
+
     return (
         <>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
-                    <span className='modalTitle'>{'projectTitle'}</span>
+                    <span className='modalTitle'>{projectTitle}</span>
                     <ModalCloseButton size='sm'/>
                 </ModalHeader>
                 {/* <ModalCloseButton /> */}
                 <ModalBody>
                     <div className='subheader'>
-                        <Heading size='lg'>{'objective'}</Heading>
+                        <Heading size='lg'>{task?.objective}</Heading>
                         {/* <div className='taskCharacteristic'>[Deadline]</div> */}
                         {/* <DatePicker
                             selected={Date.now()}
                             isClearable
                         /> */}
-                        <div className='taskCharacteristic'>{'status'}</div>
+                        <div className='taskCharacteristic'>{task?.status}</div>
                         {/* <div className='taskCharacteristic'>[Time Estimate]</div> */}
                     </div>
                     <div className='taskContent'>
@@ -67,6 +82,8 @@ export default function TaskDetail({
                             </div>
                             <Textarea placeholder='Add Task Notes' resize='vertical'/>
                             <Heading size='md'>Subtasks</Heading>
+                            <div className='subtaskList'></div>
+
                         </div>
                         <div className='userData'></div>
                     </div>
@@ -75,6 +92,54 @@ export default function TaskDetail({
             </ModalContent>
         </>
     );
+
+    // return (
+    //     <>
+    //         <ModalOverlay />
+    //         <ModalContent>
+    //             <ModalHeader>
+    //                 <span className='modalTitle'>{projectTitle}</span>
+    //                 <ModalCloseButton size='sm'/>
+    //             </ModalHeader>
+    //             {/* <ModalCloseButton /> */}
+    //             <ModalBody>
+    //                 <div className='subheader'>
+    //                     <Heading size='lg'>{task?.objective}</Heading>
+    //                     {/* <div className='taskCharacteristic'>[Deadline]</div> */}
+    //                     {/* <DatePicker
+    //                         selected={Date.now()}
+    //                         isClearable
+    //                     /> */}
+    //                     <div className='taskCharacteristic'>{task?.status}</div>
+    //                     {/* <div className='taskCharacteristic'>[Time Estimate]</div> */}
+    //                 </div>
+    //                 <div className='taskContent'>
+    //                     <div className='taskData'>
+    //                         <div className='tags'>
+                                
+    //                             <Menu closeOnSelect={false} onClose={handleUpdateTags}>
+    //                                 <MenuButton
+    //                                     as={Tag}
+    //                                 >Add Tags</MenuButton>
+    //                                 <MenuList>
+    //                                     <MenuOptionGroup type='checkbox'>
+                                            
+    //                                     </MenuOptionGroup>
+    //                                 </MenuList>
+    //                             </Menu>
+    //                         </div>
+    //                         <Textarea placeholder='Add Task Notes' resize='vertical'/>
+    //                         <Heading size='md'>Subtasks</Heading>
+    //                         <div className='subtaskList'></div>
+
+    //                     </div>
+    //                     <div className='userData'></div>
+    //                 </div>
+    //             </ModalBody>
+
+    //         </ModalContent>
+    //     </>
+    // );
 
     // return (
     //     <>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Modal, useDisclosure } from '@chakra-ui/react';
 import { Header, Sidebar, TaskDetail, ProjectView, ProfileView } from '../../components';
 import { useProvideAuth } from 'hooks/useAuth';
@@ -186,21 +187,40 @@ export default function Dashboard() {
         <Header user={user} projectTitle={project.title} pageView={state.pageView} />
         {
           !state.pageView ? (
-            <ProjectView session={state} openTaskDetails={handleOnOpen}/>
+            <ProjectView project={project} session={state} openTaskDetails={handleOnOpen}/>
           ) : (
             <ProfileView />
           )
         }
+        {/* <Switch>
+          <Route exact path='/' render={() => <ProjectView session={state} openTaskDetails={handleOnOpen} />} />
+          <Route exact path='/profile' render={() => <ProfileView />} />
+          
+        </Switch> */}
       </div>
-      {/* <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <TaskDetail
-
-        />
-      </Modal> */}
-
-
     </div>
   );
+
+  // return (
+  //   <div className='dashboard'>
+  //     <Sidebar
+  //       projectList={user.project_list}
+  //       loadProject={handleLoadProject}
+  //       navigate={handleNavigate}
+  //     />
+      
+  //     <div className='main'>
+  //       <Header user={user} projectTitle={project.title} pageView={state.pageView} />
+  //       {
+  //         !state.pageView ? (
+  //           <ProjectView session={state} openTaskDetails={handleOnOpen}/>
+  //         ) : (
+  //           <ProfileView />
+  //         )
+  //       }
+  //     </div>
+  //   </div>
+  // );
 
   // return (
   //   <div className='projectDash'>

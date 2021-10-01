@@ -9,23 +9,25 @@ import TimelineView from '../TimelineView';
 import './ProjectView.scss';
 
 export default function ProjectView({
+    project,
     session,
     openTaskDetails
 }) {
     const [ activeTab, setActiveTab ] = useState(0);
-    const { project } = useProvideProject();
+    // const [ project, setProject ] = useState(currentProject);
+    // const { project } = useProvideProject();
 
-    const handleEvent = (event, tid) => {
-        // console.log('fire');
-        // console.log(event.target.div);
-        if(event.target.className.includes('group') || !event.target.className.includes('avatar')) {
-            openTaskDetails(tid);
-            // console.log(tid);
+    // const handleEvent = (event, tid) => {
+    //     // console.log('fire');
+    //     // console.log(event.target.div);
+    //     if(event.target.className.includes('group') || !event.target.className.includes('avatar')) {
+    //         openTaskDetails(tid);
+    //         // console.log(tid);
             
-        } else {
-            console.log(event.target.className);
-        }
-    }
+    //     } else {
+    //         console.log(event.target.className);
+    //     }
+    // }
 
     const changeView = (view) => {
         setActiveTab(view);
@@ -38,6 +40,7 @@ export default function ProjectView({
         if(savedTab) {
             setActiveTab(savedTab.projectView);
         }
+        // console.log('PV:', project)
     }, []);
 
     // useEffect(() => {
@@ -68,7 +71,7 @@ export default function ProjectView({
             
             {
                 activeTab === 0 ? (
-                    <ProjectDetail project={project} handleEvent={handleEvent} />
+                    <ProjectDetail project={project} />
                 ) : activeTab === 1 ? (
                     <ListView project={project} />
                 ) : activeTab === 2 ? (
