@@ -1,17 +1,18 @@
 import React from 'react';
+import Avatar from '../Avatar';
 import './Header.scss';
 
 export default function Header({
-    user: { username, avatar },
+    user,
     projectTitle,
     pageView
 }) {
     return (
         <div className='header'>
             <div className='dashboard-identifier'>
-                {pageView ? username : projectTitle}
+                {pageView ? user.username : projectTitle}
             </div>
-            <div className='header-avatar'>[User Avatar]</div>
+            <Avatar user={user} />
         </div>
     );
 }

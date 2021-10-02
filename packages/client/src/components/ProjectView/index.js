@@ -6,6 +6,7 @@ import ProjectDetail from '../ProjectDetail';
 import ListView from '../ListView';
 import ProgressionView from '../ProgressionView';
 import TimelineView from '../TimelineView';
+// import { ProjectDetail, ListView, ProgressionView, TimelineView } from '../Views';
 import './ProjectView.scss';
 
 export default function ProjectView({
@@ -71,11 +72,11 @@ export default function ProjectView({
             
             {
                 activeTab === 0 ? (
-                    <ProjectDetail project={project} />
+                    <ProjectDetail project={project} openTaskDetails={openTaskDetails} />
                 ) : activeTab === 1 ? (
-                    <ListView project={project} />
+                    <ListView project={project} openTaskDetails={openTaskDetails} />
                 ) : activeTab === 2 ? (
-                    <ProgressionView project={project} />
+                    <ProgressionView project={project} openTaskDetails={openTaskDetails} />
                 ) : (
                     <TimelineView />
                 )

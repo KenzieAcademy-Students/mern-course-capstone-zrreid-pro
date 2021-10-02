@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { Modal, useDisclosure } from '@chakra-ui/react';
-import { Header, Sidebar, TaskDetail, ProjectView, ProfileView } from '../../components';
+// import { Modal, useDisclosure } from '@chakra-ui/react';
+import { Header, Sidebar, TaskDetailsModal, TaskDetail, ProjectView, ProfileView } from '../../components';
 import { useProvideAuth } from 'hooks/useAuth';
 import useProvideProject from 'hooks/useProject';
+import axios from '../../utils/axiosConfig';
 import './Dashboard.scss';
 
 // import DatePicker from 'react-datepicker';
@@ -90,12 +91,15 @@ const reducer = (state, action) => {
 }
 
 export default function Dashboard() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
   const { state: { user } } = useProvideAuth();
   const { project, fetchProject } = useProvideProject();
   const [ state, dispatch ] = useReducer(reducer, initialState);
   // const [ project, setProject ] = useState(dummyProject);
+  const [ tids, setTIDs ] = useState([]);
   const [ task, setTask ] = useState();
+  const [ isLoaded, setIsLoaded ] = useState(false);
+  const [ showTaskModal, setShowTaskModal ] = useState(false);
 
   const handleNavigate = (page) => {
     // if(!page) {
@@ -131,8 +135,40 @@ export default function Dashboard() {
     fetchProject(pid);
   }
 
-  const fetchTask = async (tid) => {
+  const getTask = async (tid) => {
+    try {
+      console.log(tid)
+      const response = await axios.get(`task/${tid}`);
+      console.log(response.data);
+      setTask(response.data);
+      setIsLoaded(true);
+    } catch (error) {
+      console.log('Task Fetch Error:', error);
+    }
+  }
 
+  const handleToggleTaskModal = (action, tid = '') => {
+    let newTIDs = [...tids];
+    if(action) {
+      console.log('Opening Task Details for:', tid);
+      newTIDs.push(tid);
+      setTIDs(newTIDs);
+      getTask(tid);
+      setShowTaskModal(true);
+    } else {
+      if(tids.length === 1) {
+        setTIDs([]);
+        setTask({});
+        setShowTaskModal(false);
+        setIsLoaded(false);
+      } else {
+        console.log('Opening Task Details for:', newTIDs[-1]);
+        newTIDs.pop();
+        setTIDs(newTIDs);
+        getTask(newTIDs[-1]);
+      }
+    }
+    
   }
 
   const handleOnOpen = (tid) => {
@@ -187,11 +223,19 @@ export default function Dashboard() {
         <Header user={user} projectTitle={project.title} pageView={state.pageView} />
         {
           !state.pageView ? (
-            <ProjectView project={project} session={state} openTaskDetails={handleOnOpen}/>
+            <ProjectView project={project} session={state} openTaskDetails={handleToggleTaskModal}/>
           ) : (
             <ProfileView />
           )
         }
+        { (showTaskModal && isLoaded) && (
+            <TaskDetailsModal
+              toggleModal={handleToggleTaskModal}
+              // component={0}
+              task={task}
+              projectTitle={project.title}
+            />
+            ) }
         {/* <Switch>
           <Route exact path='/' render={() => <ProjectView session={state} openTaskDetails={handleOnOpen} />} />
           <Route exact path='/profile' render={() => <ProfileView />} />

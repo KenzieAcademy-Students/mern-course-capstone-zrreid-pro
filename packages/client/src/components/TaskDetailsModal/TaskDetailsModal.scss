@@ -1,0 +1,90 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-wrapper {
+    position: relative;
+    min-width: 50%;
+    width: 95%;
+    min-height: 50%;
+    height: 90%;
+    background: white;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 10px;
+}
+
+.modal-header {
+    display: flex;
+    border: 1px solid black;
+}
+
+.modal-header-title {
+    flex-grow: 1;
+}
+
+.modal-body {
+    border: 1px solid black;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-body-header {
+    display: flex;
+    height: 10%;
+}
+
+.modal-body-content {
+    border: 1px solid black;
+    display: flex;
+    flex-grow: 1;
+}
+
+.task-content {
+    border: 1px solid blue;
+    width: 60%;
+}
+
+.user-content {
+    border: 1px solid red;
+    width: 40%;
+}
+
+.task-notes {
+    height: 30%;
+}
+
+.modal-subsection {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.task-content .modal-subsection {
+    height: 70%;
+}
+
+.user-content .modal-subsection {
+    height: 50%;
+}
+
+.modal-task-list {
+    flex-grow: 1;
+}
+
+.modal-comment-list {
+    flex-grow: 1;
+}

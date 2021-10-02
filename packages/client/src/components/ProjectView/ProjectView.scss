@@ -6,13 +6,14 @@
 
 .viewTabGroup {
     display: flex;
-    border-bottom: 1px solid black;
+    
 }
 
 .viewTab {
     flex-grow: 1;
     text-align: center;
     cursor: pointer;
+    border-bottom: 1px solid black;
 }
 
 .viewTab:not(:last-child) {
