@@ -47,15 +47,25 @@
     transform: rotateY(180deg);
 }
 
-.chakra-form-control.css-1kxonj9, .css-0 {
-    width: 75%;
-    margin-top: 1.5rem;
-}
-
-.chakra-form-control .chakra-input.css-1c6j008 {
+.form-input {
     text-align: center;
     border-radius: 35px;
+    width: 75%;
+    margin-top: 1.5rem;
+    padding: 0.5rem;
     
+}
+
+.submit-button {
+    text-align: center;
+    border-radius: 35px;
+    margin-top: 1.5rem;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.flipPrompt {
+    margin-top: 1.5rem;
 }
 
 .flipPrompt span {

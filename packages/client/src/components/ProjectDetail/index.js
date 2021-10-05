@@ -1,41 +1,52 @@
 import React, { useState } from 'react';
-import { Modal, useDisclosure } from '@chakra-ui/react';
-import axios from '../../utils/axiosConfig';
+// import { Modal, useDisclosure } from '@chakra-ui/react';
+// import axios from '../../../utils/axiosConfig';
 import TaskCard from '../TaskCard';
-import TaskDetail from '../TaskDetail';
+// import TaskDetail from '../TaskDetail';
+// import Modal from '../TaskDetailsModal';
+// import { TaskCard } from '../../Display';
 import './ProjectDetail.scss';
 
 export default function ProjectDetail({
     project: { title, description, tasks, users },
+    openTaskDetails
     // handleEvent
 }) {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    // const { isOpen, onOpen, onClose } = useDisclosure();
+    // const [ detailsOpen, setDetailsOpen ] = useState(false);
     const [ tid, setTID ] = useState();
 
-    const temporaryFix = (uid) => {
-        for(let i = 0; i < users.length; i++) {
-            if(users[i]._id === uid) {
-                return users[i].username;
-            }
-        }
-    }
+    // const temporaryFix = (uid) => {
+    //     for(let i = 0; i < users.length; i++) {
+    //         if(users[i]._id === uid) {
+    //             return users[i].username;
+    //         }
+    //     }
+    // }
 
-    const fetchTask = async (tid) => {
-        try {
-            const response = await axios.get(`task/${tid}`);
+    // const fetchTask = async (tid) => {
+    //     try {
+    //         const response = await axios.get(`task/${tid}`);
             
-        } catch (error) {
-            console.log('Fetch Task Error');
-        }
-    }
+    //     } catch (error) {
+    //         console.log('Fetch Task Error');
+    //     }
+    // }
+
+    // const handleToggleModal = () => {
+    //     setDetailsOpen(!detailsOpen);
+    // }
+
 
     const handleEvent = (event, tid) => {
         // console.log('fire')
         // onOpen(event);
         if(!event.target.className.includes('avatar')) {
-            
-            setTID(tid);
-            onOpen(event);
+            // console.log(tid)
+            openTaskDetails(1, tid);
+            // setTID(tid);
+            // handleToggleModal();
+            // onOpen(event);
             // console.log(tid);
         } else {
             console.log(event.target.className);
@@ -46,7 +57,7 @@ export default function ProjectDetail({
 
     return (
         <div id='projectDetail' className='view'>
-            <p className='project-description'>{description}</p>
+            <div className='project-description'>{description}</div>
 
             <div className='taskAssignment'>
                 <div className='unassigned'>
@@ -89,9 +100,10 @@ export default function ProjectDetail({
                 </div>
             </div>
 
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+            {/* <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <TaskDetail tid={tid} projectTitle={title} />
-            </Modal>
+            </Modal> */}
+            {/* { detailsOpen && <Modal toggleModal={handleToggleModal} /> } */}
         </div>
     );
 

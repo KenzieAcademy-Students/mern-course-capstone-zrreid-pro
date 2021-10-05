@@ -16,6 +16,24 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/minimum', async (req, res) => {
+  try {
+    const users = await User.find({});
+    // console.log(users)
+    const reduced = users.map((user) => {
+      return {
+        _id: user._id,
+        username: user.username,
+        avatar: user.avatar
+      }
+    })
+    res.status(200).json({ users: reduced });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server Error');
+  }
+});
+
 // GET /api/user:id Public - retrieve a single user
 router.get('/:id', async (req, res, next) => {
   try {

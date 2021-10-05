@@ -1,30 +1,33 @@
 import React, { useState } from 'react';
-import { Modal, useDisclosure } from '@chakra-ui/react';
+// import { Modal, useDisclosure } from '@chakra-ui/react';
 import TaskCard from '../TaskCard';
-import TaskDetail from '../TaskDetail';
+// import { TaskCard } from '../../Display';
+// import TaskDetail from '../TaskDetail';
 import './ListView.scss';
 
 export default function ListView({
-    project: { title, tasks, users }
+    project: { title, tasks, users },
+    openTaskDetails
 }) {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const [ tid, setTID ] = useState();
+    // const { isOpen, onOpen, onClose } = useDisclosure();
+    // const [ tid, setTID ] = useState();
 
-    const temporaryFix = (uid) => {
-        for(let i = 0; i < users.length; i++) {
-            if(users[i]._id === uid) {
-                return users[i].username;
-            }
-        }
-    }
+    // const temporaryFix = (uid) => {
+    //     for(let i = 0; i < users.length; i++) {
+    //         if(users[i]._id === uid) {
+    //             return users[i].username;
+    //         }
+    //     }
+    // }
 
     const handleEvent = (event, tid) => {
         // console.log('fire')
         console.log(event.target);
         // onOpen(event);
         if(!event.target.className.includes('avatar')) {
-            setTID(tid);
-            onOpen(event);
+            // setTID(tid);
+            // onOpen(event);
+            openTaskDetails(1, tid);
             // console.log(tid);
         } else {
             console.log(event.target.className);
@@ -46,9 +49,9 @@ export default function ListView({
                 ))}
             </div>
 
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+            {/* <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <TaskDetail tid={tid}/>
-            </Modal>
+            </Modal> */}
         </div>
     );
 }

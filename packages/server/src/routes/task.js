@@ -21,7 +21,7 @@ router.get('/:tid', requireAuth, async (req, res) => {
         }
     ];
 
-    const task = await Task.findById(req.params.tid)
+    const task = await Task.findById(toId(req.params.tid))
         .populate(populateQuery).exec();
     
     if(task) {
