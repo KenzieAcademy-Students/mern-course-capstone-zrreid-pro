@@ -1,6 +1,5 @@
 export { default as SignInForm } from 'components/SignInForm';
 export { default as SignUpForm } from 'components/SignUpForm';
-export { default as ProjectCreationForm } from 'components/ProjectCreationForm';
 // export { SignInForm, SignUpForm, ProjectCreationForm } from 'components/Forms';
 // export { ProjectDetail, ListView, ProgressionView, TimelineView } from 'components/Views';
 // export { Avatar, Header, Sidebar, CustomDatePicker, TaskCard, TaskDetail } from 'components/Display';
@@ -19,6 +18,8 @@ export { default as ProgressionView } from 'components/ProgressionView';
 // export { default as TaskDetail } from 'components/TaskDetail';
 // export { default as Avatar } from 'components/Avatar';
 export { default as TaskDetailsModal } from 'components/TaskDetailsModal';
+export { default as ProjectCreationModal } from 'components/ProjectCreationModal';
+export { default as TaskCreationModal } from 'components/TaskCreationModal';
 export { default as Avatar } from 'components/Avatar';
 export { default as CustomDatePicker } from 'components/CustomDatePicker';
 export { default as Header } from 'components/Header';

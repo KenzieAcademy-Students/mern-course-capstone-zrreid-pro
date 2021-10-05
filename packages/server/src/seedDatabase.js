@@ -9,6 +9,8 @@ import bcrypt from 'bcryptjs';
 
 const toId = mongoose.Types.ObjectId;
 
+const colors = ['#FF0000', '#FF7000', '#18DA00', '#008DDA', '#000000', '#99CBDA', '#FCFF00'];
+
 async function seedDatabase() {
     try {
         await mongoose.connect(keys.database.url, {
@@ -37,7 +39,7 @@ async function seedDatabase() {
                     username: userData[i].username,
                     passwordHash: passwordHash,
                     email: userData[i].email,
-                    avatar: [],
+                    avatar: userData[i].avatar,
                     project_list: []
                 });
 
@@ -80,7 +82,7 @@ async function seedDatabase() {
                     description: projectData[k].description,
                     owner: uids[3],
                     status_categories: projectData[k].status_categories,
-                    tags: [],
+                    tags: projectData[k].tags,
                     users: uids,
                     tasks: tids.slice((3*k), (3*(1+k)))
                 });

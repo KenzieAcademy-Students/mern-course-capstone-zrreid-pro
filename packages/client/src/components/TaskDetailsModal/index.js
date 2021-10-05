@@ -28,7 +28,7 @@ export default function TaskDetailsModal({
 
     return (
         <div className='modal-overlay' ref={modalRef} onClick={closeModal}>
-            <div className='modal-wrapper'>
+            <div className='modal-wrapper task-details'>
                 {/* <TaskDetail tid={tid} projectTitle={projectTitle} toggleModal={toggleModal} /> */}
                 <div className='modal-header'>
                     <h2 className='modal-header-title'>{projectTitle}</h2>

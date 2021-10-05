@@ -11,7 +11,7 @@
     align-items: center;
 }
 
-.modal-wrapper {
+.modal-wrapper.task-details {
     position: relative;
     min-width: 50%;
     width: 95%;
@@ -26,65 +26,65 @@
     padding: 10px;
 }
 
-.modal-header {
+.task-details .modal-header {
     display: flex;
     border: 1px solid black;
 }
 
-.modal-header-title {
+.task-details .modal-header-title {
     flex-grow: 1;
 }
 
-.modal-body {
+.task-details .modal-body {
     border: 1px solid black;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
-.modal-body-header {
+.task-details .modal-body-header {
     display: flex;
     height: 10%;
 }
 
-.modal-body-content {
+.task-details .modal-body-content {
     border: 1px solid black;
     display: flex;
     flex-grow: 1;
 }
 
-.task-content {
+.task-details .task-content {
     border: 1px solid blue;
     width: 60%;
 }
 
-.user-content {
+.task-details .user-content {
     border: 1px solid red;
     width: 40%;
 }
 
-.task-notes {
+.task-details .task-notes {
     height: 30%;
 }
 
-.modal-subsection {
+.task-details .modal-subsection {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
 }
 
-.task-content .modal-subsection {
+.task-details .task-content .modal-subsection {
     height: 70%;
 }
 
-.user-content .modal-subsection {
+.task-details .user-content .modal-subsection {
     height: 50%;
 }
 
-.modal-task-list {
+.task-details .modal-task-list {
     flex-grow: 1;
 }
 
-.modal-comment-list {
+.task-details .modal-comment-list {
     flex-grow: 1;
 }

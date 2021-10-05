@@ -16,7 +16,12 @@ const projectSchema = new mongoose.Schema({
     },
     status_categories: [
         {
-            type: String
+            label: {
+                type: String
+            },
+            color: {
+                type: String
+            }
         }
     ],
     deadline: {
@@ -25,7 +30,12 @@ const projectSchema = new mongoose.Schema({
     },
     tags: [
         {
-            type: String
+            label: {
+                type: String
+            },
+            color: {
+                type: String
+            }
         }
     ],
     users: [

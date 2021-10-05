@@ -16,7 +16,12 @@ const taskSchema = new mongoose.Schema({
     },
     tags: [
         {
-            type: String
+            tag: {
+                type: String
+            },
+            color: {
+                type: String
+            }
         }
     ],
     notes: {

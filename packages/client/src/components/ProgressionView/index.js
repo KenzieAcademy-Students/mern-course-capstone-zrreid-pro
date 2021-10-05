@@ -139,10 +139,10 @@ export default function ProgressionView({
             {
                 !isLoading && (status_categories?.map((status, index) => (
                     <div className='wrapper' key={index}>
-                        <h2 className='list-title'>{status}</h2>
+                        <h2 className='list-title'>{status.label}</h2>
                         <div className='statusList'>
                             {
-                                sortedTasks[status]?.map((task) => (
+                                sortedTasks[status.label]?.map((task) => (
                                     <TaskCard
                                         key={task._id}
                                         task={task}

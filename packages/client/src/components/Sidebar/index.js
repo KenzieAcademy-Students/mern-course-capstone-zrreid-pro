@@ -4,7 +4,9 @@ import './Sidebar.scss';
 export default function Sidebar({
     projectList,
     loadProject,
-    navigate
+    navigate,
+    toggleProjectCreationModal,
+    openTaskCreate
 }) {
     return (
         <div className='sidebar'>
@@ -20,7 +22,8 @@ export default function Sidebar({
                         <div key={index} onClick={() => loadProject(project._id, index)} className='projectButton'>{project.title}</div>
                     ))}
 
-                    <button className='projectCreateButton'>+ New Project</button>
+                    <button className='projectCreateButton' onClick={toggleProjectCreationModal}>+ New Project</button>
+                    <button className='TaskCreateButton' onClick={openTaskCreate}>+ New Task</button>
                 </div>
             </div>
         </div>
