@@ -1,10 +1,10 @@
-import React, {
-  // useState,
-  useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 // import { Modal, useDisclosure } from '@chakra-ui/react';
-import { Header, Sidebar, ProjectView, ProfileView } from '../../components';
+import { Header, Sidebar, TaskDetailsModal, ProjectCreationModal, TaskCreationModal, TaskDetail, ProjectView, ProfileView } from '../../components';
 import { useProvideAuth } from 'hooks/useAuth';
 import useProvideProject from 'hooks/useProject';
+import axios from '../../utils/axiosConfig';
 import './Dashboard.scss';
 
 // import DatePicker from 'react-datepicker';
@@ -49,9 +49,28 @@ const dummyUser = {
 
 const initialState = {
   pageView: 0, //pageView 0 is the project dashboard
-  currentProject: 0,
+  // currentProject: 0,
   projectView: 0
 }
+
+const initialTask = {
+  objective: '',
+  // deadline: '',
+  // tags: [],
+  notes: '',
+  // comments: [],
+  // users: [],
+  // subtasks: [],
+  // timestamps: ''
+}
+
+const initialProject = {
+  title: '',
+  description: '',
+  users: []
+};
+
+
 
 const reducer = (state, action) => {
   switch(action.type) {
@@ -63,8 +82,8 @@ const reducer = (state, action) => {
     case 'PROJECT_NAV':
       return {
         ...state,
-        pageView: 0,
-        currentProject: action.payload
+        pageView: 0
+        // currentProject: action.payload
       };
     case 'RELOAD':
       return {
@@ -78,26 +97,32 @@ const reducer = (state, action) => {
 export default function Dashboard() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const { state: { user } } = useProvideAuth();
-  const { project, fetchProject } = useProvideProject();
+  const { project, fetchProject, createProject } = useProvideProject();
   const [ state, dispatch ] = useReducer(reducer, initialState);
   // const [ project, setProject ] = useState(dummyProject);
-  // const [ deadline, setDeadline ] = useState();
+  const [ tids, setTIDs ] = useState([]);
+  const [ task, setTask ] = useState();
+  const [ isLoaded, setIsLoaded ] = useState(false);
+  const [ showTaskModal, setShowTaskModal ] = useState(false);
+  const [ totalUsers, setTotalUsers ] = useState([]);
 
-  // const fetchProject = (pid) => {
-  //   //For when projects are being fetched from DB
-  //   // setProject();
-  // }
+  const [ newProjectData, setNewProjectData ] = useState(initialProject);
+  const [ showProjectCreationModal, setShowProjectCreationModal ] = useState(false);
+
+  const [ newTaskData, setNewTaskData ] = useState(initialTask);
+  const [ showTaskCreationModal, setShowTaskCreationModal ] = useState(false);
 
   const handleNavigate = (page) => {
-    if(!page) {
-      // console.log('Navigating to the Project Dashboard');
-    } else {
-      // console.log('Navigating to the User Dashboard');
-    }
+    // if(!page) {
+    //   // console.log('Navigating to the Project Dashboard');
+    // } else {
+    //   // console.log('Navigating to the User Dashboard');
+    // }
     dispatch({
       type: 'PAGE_NAV',
       payload: page
     });
+    sessionStorage.setItem('MERNAppDashboard', JSON.stringify({...state, pageView: 1}));
   }
 
   const handleLoadProject = (pid, index) => {
@@ -116,9 +141,97 @@ export default function Dashboard() {
       payload: index
     });
 
-    localStorage.setItem('MERNAppDashboard', JSON.stringify({...state, currentProject: index}));
+    sessionStorage.setItem('MERNAppDashboard', JSON.stringify({...state, pageView: 0}));
 
     fetchProject(pid);
+  }
+
+  const getTotalUsers = async () => {
+    try {
+      const response = await axios.get('user/minimum');
+      setTotalUsers(response.data.users);
+      // console.log(response.data)
+    } catch(error) {
+      console.log('Fetching Total Users Error:', error);
+    }
+  }
+
+  const getTask = async (tid) => {
+    try {
+      console.log(tid)
+      const response = await axios.get(`task/${tid}`);
+      console.log(response.data);
+      setTask(response.data);
+      setIsLoaded(true);
+    } catch (error) {
+      console.log('Task Fetch Error:', error);
+    }
+  }
+
+  const handleToggleTaskModal = (action, tid = '') => {
+    let newTIDs = [...tids];
+    if(action) {
+      console.log('Opening Task Details for:', tid);
+      newTIDs.push(tid);
+      setTIDs(newTIDs);
+      getTask(tid);
+      setShowTaskModal(true);
+    } else {
+      if(tids.length === 1) {
+        setTIDs([]);
+        setTask({});
+        setShowTaskModal(false);
+        setIsLoaded(false);
+      } else {
+        console.log('Opening Task Details for:', newTIDs[-1]);
+        newTIDs.pop();
+        setTIDs(newTIDs);
+        getTask(newTIDs[-1]);
+      }
+    }
+    
+  }
+
+  const handleProjectInputChange = (event) => {
+    setNewProjectData({
+      ...newProjectData,
+      [event.target.name]: event.target.value
+    });
+  }
+
+  const handleProjectUsersChange = (userList) => {
+    setNewProjectData({
+      ...newProjectData,
+      users: userList
+    });
+  }
+
+  const handleToggleProjectCreationModal = () => {
+    setShowProjectCreationModal(!showProjectCreationModal);
+  }
+
+  const handleCreateProject = () => {
+    console.log('Create Project:', newProjectData);
+    // createProject(newProjectData);
+    setShowProjectCreationModal(false);
+    setNewProjectData(initialProject);
+  }
+
+  const handleTaskInputChange = (event) => {
+    setNewTaskData({
+      ...newTaskData,
+      [event.target.name]: event.target.value
+    });
+  }
+
+  const handleToggleTaskCreationModal = () => {
+    setShowTaskCreationModal(!showTaskCreationModal);
+  }
+
+  const handlecreateTask = () => {
+    console.log('Create Task:', newTaskData);
+    setShowTaskCreationModal(false);
+    setNewTaskData(initialTask);
   }
 
   useEffect(() => {
@@ -127,16 +240,37 @@ export default function Dashboard() {
     // console.log('Current User:', user);
     // console.log(user);
     // fetchProject(user)
-    const savedState = JSON.parse(localStorage.getItem('MERNAppDashboard')) || false;
+    getTotalUsers();
+    const savedProject = localStorage.getItem('MernAppProject') || false;
+    if(savedProject) {
+      // dispatch({
+      //     type: 'LOAD',
+      //     payload: savedProject
+      // });
+      fetchProject(savedProject);
+    } else {
+        if(user.project_list.length !== 0) {
+          fetchProject(user.project_list[0]._id);
+        }
+    }
+
+
+    const savedState = JSON.parse(sessionStorage.getItem('MERNAppDashboard')) || false;
     if(savedState) {
       dispatch({
         type: 'RELOAD',
         payload: savedState
       });
     } else {
-      localStorage.setItem('MERNAppDashboard', JSON.stringify(initialState));
+      sessionStorage.setItem('MERNAppDashboard', JSON.stringify(initialState));
     }
+
+    // console.log('PROJECT:', project);
   }, []);
+
+  // useEffect(() => {
+  //   console.log('New Project Data:', newProjectData)
+  // }, [newProjectData])
 
   // IMPORTANT:
   //////// MAKE SURE TO ASK WHETHER CONDITIONALLY RENDERING THE DIFFERENT VIEWS IS BETTER THAN ROUTING THEM
@@ -147,20 +281,76 @@ export default function Dashboard() {
         projectList={user.project_list}
         loadProject={handleLoadProject}
         navigate={handleNavigate}
+        toggleProjectCreationModal={handleToggleProjectCreationModal}
+        openTaskCreate={handleToggleTaskCreationModal}
       />
       
       <div className='main'>
         <Header user={user} projectTitle={project.title} pageView={state.pageView} />
         {
           !state.pageView ? (
-            <ProjectView />
+            <ProjectView project={project} session={state} openTaskDetails={handleToggleTaskModal} />
           ) : (
             <ProfileView />
           )
         }
+        { (showTaskModal && isLoaded) && (
+            <TaskDetailsModal
+              toggleModal={handleToggleTaskModal}
+              // component={0}
+              task={task}
+              projectTitle={project.title}
+            />
+            ) }
+          
+          { showProjectCreationModal && (
+              <ProjectCreationModal
+                data={newProjectData}
+                totalUsers={totalUsers}
+                handleInputChange={handleProjectInputChange}
+                updateUserList={handleProjectUsersChange}
+                createProject={handleCreateProject}
+                toggleModal={handleToggleProjectCreationModal}
+              />
+          )}
+
+          { showTaskCreationModal && (
+            <TaskCreationModal
+              data={newTaskData}
+              handleInputChange={handleTaskInputChange}
+              createTask={handlecreateTask}
+              toggleModal={handleToggleTaskCreationModal}
+            />
+          )}
+        {/* <Switch>
+          <Route exact path='/' render={() => <ProjectView session={state} openTaskDetails={handleOnOpen} />} />
+          <Route exact path='/profile' render={() => <ProfileView />} />
+          
+        </Switch> */}
       </div>
     </div>
   );
+
+  // return (
+  //   <div className='dashboard'>
+  //     <Sidebar
+  //       projectList={user.project_list}
+  //       loadProject={handleLoadProject}
+  //       navigate={handleNavigate}
+  //     />
+      
+  //     <div className='main'>
+  //       <Header user={user} projectTitle={project.title} pageView={state.pageView} />
+  //       {
+  //         !state.pageView ? (
+  //           <ProjectView session={state} openTaskDetails={handleOnOpen}/>
+  //         ) : (
+  //           <ProfileView />
+  //         )
+  //       }
+  //     </div>
+  //   </div>
+  // );
 
   // return (
   //   <div className='projectDash'>

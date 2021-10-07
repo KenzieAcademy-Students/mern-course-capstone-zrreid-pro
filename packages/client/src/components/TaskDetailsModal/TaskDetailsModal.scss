@@ -1,0 +1,90 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-wrapper.task-details {
+    position: relative;
+    min-width: 50%;
+    width: 95%;
+    min-height: 50%;
+    height: 90%;
+    background: white;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 10px;
+}
+
+.task-details .modal-header {
+    display: flex;
+    border: 1px solid black;
+}
+
+.task-details .modal-header-title {
+    flex-grow: 1;
+}
+
+.task-details .modal-body {
+    border: 1px solid black;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-details .modal-body-header {
+    display: flex;
+    height: 10%;
+}
+
+.task-details .modal-body-content {
+    border: 1px solid black;
+    display: flex;
+    flex-grow: 1;
+}
+
+.task-details .task-content {
+    border: 1px solid blue;
+    width: 60%;
+}
+
+.task-details .user-content {
+    border: 1px solid red;
+    width: 40%;
+}
+
+.task-details .task-notes {
+    height: 30%;
+}
+
+.task-details .modal-subsection {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.task-details .task-content .modal-subsection {
+    height: 70%;
+}
+
+.task-details .user-content .modal-subsection {
+    height: 50%;
+}
+
+.task-details .modal-task-list {
+    flex-grow: 1;
+}
+
+.task-details .modal-comment-list {
+    flex-grow: 1;
+}

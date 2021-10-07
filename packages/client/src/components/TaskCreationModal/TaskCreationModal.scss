@@ -1,0 +1,36 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-wrapper.task-form {
+    position: relative;
+    min-width: 50%;
+    // width: 95%;
+    min-height: 50%;
+    // height: 90%;
+    background: white;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 10px;
+}
+
+.task-form-close {
+    position: absolute;
+    right: 10px;
+}
+
+.task-form-title {
+    text-align: center;
+}

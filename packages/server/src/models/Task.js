@@ -16,7 +16,12 @@ const taskSchema = new mongoose.Schema({
     },
     tags: [
         {
-            type: String
+            tag: {
+                type: String
+            },
+            color: {
+                type: String
+            }
         }
     ],
     notes: {
@@ -40,18 +45,20 @@ const taskSchema = new mongoose.Schema({
            }
         }
     ],
-    users: [
-        {
+    assigned_user: {
             type: ObjectId,
             ref: 'User'
-        }
-    ],
+    },
     subtasks: [
         {
             type: ObjectId,
             ref: 'Task'
         }
-    ]
+    ],
+    project: {
+        type: ObjectId,
+        ref: 'Project'
+    }
     },
     { timestamps: true }
 );

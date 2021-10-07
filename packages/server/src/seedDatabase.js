@@ -1,4 +1,4 @@
-import { connect, disconnect } from 'mongoose';
+import mongoose, { connect, disconnect } from 'mongoose';
 import chalk from 'chalk';
 import { User, Project, Task } from './models';
 import { users as userData } from './db/users';
@@ -7,9 +7,13 @@ import { tasks as taskData } from './db/tasks';
 import keys from './config/keys';
 import bcrypt from 'bcryptjs';
 
+const toId = mongoose.Types.ObjectId;
+
+const colors = ['#FF0000', '#FF7000', '#18DA00', '#008DDA', '#000000', '#99CBDA', '#FCFF00'];
+
 async function seedDatabase() {
     try {
-        await connect(keys.database.url, {
+        await mongoose.connect(keys.database.url, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true
@@ -35,7 +39,7 @@ async function seedDatabase() {
                     username: userData[i].username,
                     passwordHash: passwordHash,
                     email: userData[i].email,
-                    avatar: [],
+                    avatar: userData[i].avatar,
                     project_list: []
                 });
 
@@ -57,7 +61,9 @@ async function seedDatabase() {
                     tags: [],
                     notes: taskData[j].notes,
                     comments: [],
-                    users: [uids[uid]]
+                    assigned_user: uids[uid],
+                    subtasks: [],
+                    project: toId(1)
                 });
 
                 await task.save()
@@ -75,11 +81,10 @@ async function seedDatabase() {
                     title: projectData[k].title,
                     description: projectData[k].description,
                     owner: uids[3],
-                    categories: projectData[k].categories,
-                    tags: [],
+                    status_categories: projectData[k].status_categories,
+                    tags: projectData[k].tags,
                     users: uids,
                     tasks: tids.slice((3*k), (3*(1+k)))
-
                 });
 
                 await project.save()
@@ -100,7 +105,29 @@ async function seedDatabase() {
                 );
             }
 
+            for(let a = 0; a < 3; a++) {
+                await Task.findByIdAndUpdate(
+                    { _id: tids[a] },
+                    { project: pids[0] },
+                    { new: true }
+                );
+            }
 
+            for(let b = 3; b < 6; b++) {
+                await Task.findByIdAndUpdate(
+                    { _id: tids[b] },
+                    { project: pids[1] },
+                    { new: true }
+                );
+            }
+
+            for(let c = 3; c < 6; c++) {
+                await Task.findByIdAndUpdate(
+                    { _id: tids[c] },
+                    { project: pids[2] },
+                    { new: true }
+                );
+            }
 
         } else {
             console.log(

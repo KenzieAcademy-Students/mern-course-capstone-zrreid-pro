@@ -15,7 +15,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    avatar: [ Number ],
+    avatar: {
+        pattern: {
+            type: Number
+        },
+        color: {
+            type: String
+        }
+    },
     project_list: [
         {
             type: ObjectId,
