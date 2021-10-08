@@ -16,7 +16,8 @@ const reducer = (state, action) => {
           user: action.payload,
         }
       case 'LOGOUT':
-        localStorage.clear()
+        localStorage.removeItem('MernAppUser');
+        sessionStorage.clear();
         return {
           ...state,
           isAuthenticated: false,
@@ -118,6 +119,15 @@ export function useProvideAuth() {
     return JSON.parse(localStorage.getItem('MernAppUser'));
   }
 
+  const updateUser = async () => {
+    const userResponse = await axios.get(`user/${state.user.uid}`);
+    dispatch({
+      type: 'UPDATE',
+      payload: userResponse.data
+    });
+    localStorage.setItem('MernAppUser', JSON.stringify({...state, user: userResponse.data}));
+  }
+
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem('MernAppUser')) || false;
 
@@ -138,6 +148,7 @@ export function useProvideAuth() {
     signup,
     signin,
     signout,
-    getCurrentUser
+    getCurrentUser,
+    updateUser
   };
 }

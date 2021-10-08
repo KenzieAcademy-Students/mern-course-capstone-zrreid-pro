@@ -144,7 +144,7 @@ router.post('/signin', async (req, res) => {
       uid: user._id,
       avatar: user.avatar,
       project_list: user.project_list
-    })
+    });
 
 
 

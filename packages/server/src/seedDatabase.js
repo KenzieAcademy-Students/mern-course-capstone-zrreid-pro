@@ -10,6 +10,7 @@ import bcrypt from 'bcryptjs';
 const toId = mongoose.Types.ObjectId;
 
 const colors = ['#FF0000', '#FF7000', '#18DA00', '#008DDA', '#000000', '#99CBDA', '#FCFF00'];
+// const colors = [ Red,    Orange,     Green,   Sky Blue,    Black,   Pale Blue,   Yellow]
 
 async function seedDatabase() {
     try {

@@ -8,9 +8,18 @@ export default function TaskDetailsModal({
     toggleModal,
     component = 0,
     task = {},
-    projectTitle
+    projectTitle,
+    taskUpdate
 }) {
     const modalRef = useRef();
+    const objectiveRef = useRef();
+    const notesRef = useRef();
+    
+
+    const [ editingObjective, setEditingObjective ] = useState(false);
+    const [ editingStatus, setEditingStatus ] = useState(false);
+    const [ editingNotes, setEditingNotes ] = useState(false);
+    const [ editingAssignedUser, setEditingAssignedUser ] = useState(false);
 
     // useEffect(() => {
     //     try {

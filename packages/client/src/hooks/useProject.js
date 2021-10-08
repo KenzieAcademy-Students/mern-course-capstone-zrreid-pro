@@ -50,7 +50,7 @@ export const useProject = () => {
 
 // Need to change the code so that it only saves the project id in local storage and then refetches it on reload
 export function useProvideProject() {
-    const { state: { user } } = useProvideAuth();
+    const { state: { user }, updateUser } = useProvideAuth();
     const { state, dispatch } = useProject();
 
     const fetchProject = async (pid) => {
@@ -71,27 +71,47 @@ export function useProvideProject() {
     const createProject = async (data) => {
         const { title, description, users } = data;
         try {
-            const response = await axios.post('/', {
-                title,
-                description,
+            const response = await axios.post('project/', {
+                title: title,
+                description: description,
                 owner: user.uid,
-                status_categories: [],
+                status_categories: [
+                    { label: 'Not Started', color: '#FF0000' },
+                    { label: 'Completed', color: '#18DA00' }
+                ],
                 tags: [],
-                users,
+                users: [user.uid, ...users],
                 tasks: []
             });
 
             // localStorage.setItem('MernAppProject', JSON.stringify(response.data));
             localStorage.setItem('MernAppProject', response.data._id);
 
+            updateUser();
+
             dispatch({
                 type: 'LOAD',
                 payload: response.data
             });
         } catch (error) {
-            console.log('Create Project Error');
+            console.log('Create Project Error:', error);
         }
 
+    }
+
+    const updateProject = async (description) => {
+        try {
+            await axios.put(`project/${state._id}/description`, {
+                description: description
+            });
+
+            dispatch({
+                type: 'UPDATE',
+                payload: ['description', description]
+            });
+        } catch (error) {
+            console.log('Description Update Error:', error);
+        }
     }
 
     const updateProjectCategories = async (status_categories) => {
@@ -139,32 +159,62 @@ export function useProvideProject() {
         }
     }
 
+    const createTask = async (data) => {
+        try {
+            const response = await axios.post(`task/${state._id}`, {
+                objective: data.objective,
+                status: data.status,
+                notes: data.notes
+            });
+
+            const updatedProject = {
+                ...state,
+                tasks: [...state.tasks, response.data]
+            };
+
+            dispatch({
+                type: 'LOAD',
+                payload: updatedProject
+            });
+        } catch (error) {
+            console.log('Task Creation Error');
+        }
+    }
+
+    const updateTask = async () => {
+        //put axios call to update task
+        //call fetch project to get new version of project
+    }
+
     // useEffect(() => {
     //     // console.log('USE_EFFECT');
     //     // const savedProject = JSON.parse(localStorage.getItem('MernAppProject')) || false;
-    //     const savedProject = localStorage.getItem('MernAppProject') || false;
-    //     if(savedProject) {
-    //         // dispatch({
-    //         //     type: 'LOAD',
-    //         //     payload: savedProject
-    //         // });
-    //         fetchProject(savedProject);
-    //     } else {
-    //         if(user.project_list.length !== 0) {
-    //             fetchProject(user.project_list[0]._id);
-    //         }
-    //     }
+    //     // const savedProject = localStorage.getItem('MernAppProject') || false;
+    //     // if(savedProject) {
+    //     //     // dispatch({
+    //     //     //     type: 'LOAD',
+    //     //     //     payload: savedProject
+    //     //     // });
+    //     //     fetchProject(savedProject);
+    //     // } else {
+    //     //     if(user.project_list.length !== 0) {
+    //     //         fetchProject(user.project_list[0]._id);
+    //     //     }
+    //     // }
+    //     console.log('Project:', state);
 
 
-    // }, [dispatch]);
+    // }, [state]);
 
     return {
         project: state,
         fetchProject,
         createProject,
+        updateProject,
         updateProjectCategories,
         updateProjectUsers,
-        updateProjectTags
+        updateProjectTags,
+        createTask
     };
 }
 

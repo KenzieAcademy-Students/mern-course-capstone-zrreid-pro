@@ -55,6 +55,7 @@ const initialState = {
 
 const initialTask = {
   objective: '',
+  status: '',
   // deadline: '',
   // tags: [],
   notes: '',
@@ -96,15 +97,19 @@ const reducer = (state, action) => {
 
 export default function Dashboard() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
-  const { state: { user } } = useProvideAuth();
-  const { project, fetchProject, createProject } = useProvideProject();
+  const { state: { user }, signout } = useProvideAuth();
+  const { project, fetchProject, createProject, updateProject, createTask } = useProvideProject();
+  // const [ project, setProject ] = useState(projectState);
   const [ state, dispatch ] = useReducer(reducer, initialState);
   // const [ project, setProject ] = useState(dummyProject);
   const [ tids, setTIDs ] = useState([]);
   const [ task, setTask ] = useState();
-  const [ isLoaded, setIsLoaded ] = useState(false);
+  const [ taskUpdated, setTaskUpdated ] = useState(false);
+  const [ isLoaded, setIsLoaded ] = useState(false); //indicates whether task data is loaded
   const [ showTaskModal, setShowTaskModal ] = useState(false);
   const [ totalUsers, setTotalUsers ] = useState([]);
+
+  // const [ projectDescription, setProjectDescription ] = useState();
 
   const [ newProjectData, setNewProjectData ] = useState(initialProject);
   const [ showProjectCreationModal, setShowProjectCreationModal ] = useState(false);
@@ -168,6 +173,7 @@ export default function Dashboard() {
     }
   }
 
+  //For Task Details/////////////////////////////////////////
   const handleToggleTaskModal = (action, tid = '') => {
     let newTIDs = [...tids];
     if(action) {
@@ -178,10 +184,14 @@ export default function Dashboard() {
       setShowTaskModal(true);
     } else {
       if(tids.length === 1) {
+        if(taskUpdated) {
+          console.log('Update Task')
+        }
         setTIDs([]);
         setTask({});
+        setTaskUpdated(false);
         setShowTaskModal(false);
-        setIsLoaded(false);
+        setIsLoaded(false);  
       } else {
         console.log('Opening Task Details for:', newTIDs[-1]);
         newTIDs.pop();
@@ -192,6 +202,23 @@ export default function Dashboard() {
     
   }
 
+  const handleTaskUpdate = (event) => {
+    setTaskUpdated(true);
+    setTask({
+      ...task,
+      [event.target.name]: event.target.value
+    });
+  }
+  //////////////////////////////////////////////////
+
+  //For Project Details//////////////////////////////
+  const handleProjectUpdate = (description) => {
+    updateProject(description);
+  }
+
+  ///////////////////////////////////////////////////
+
+  //For Project Creation////////////////////////////
   const handleProjectInputChange = (event) => {
     setNewProjectData({
       ...newProjectData,
@@ -210,13 +237,17 @@ export default function Dashboard() {
     setShowProjectCreationModal(!showProjectCreationModal);
   }
 
-  const handleCreateProject = () => {
-    console.log('Create Project:', newProjectData);
-    // createProject(newProjectData);
+  const handleCreateProject = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    // console.log('Create Project:', newProjectData);
+    createProject(newProjectData);
     setShowProjectCreationModal(false);
     setNewProjectData(initialProject);
   }
+  ////////////////////////////////////////////
 
+  //For Task Creation////////////
   const handleTaskInputChange = (event) => {
     setNewTaskData({
       ...newTaskData,
@@ -226,13 +257,21 @@ export default function Dashboard() {
 
   const handleToggleTaskCreationModal = () => {
     setShowTaskCreationModal(!showTaskCreationModal);
+    setNewTaskData({
+      ...newTaskData,
+      status: project?.status_categories[0]?.label
+    });
   }
 
-  const handlecreateTask = () => {
+  const handleCreateTask = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     console.log('Create Task:', newTaskData);
+    createTask(newTaskData);
     setShowTaskCreationModal(false);
     setNewTaskData(initialTask);
   }
+  ///////////////////////////////
 
   useEffect(() => {
     //For when users can be created
@@ -269,8 +308,10 @@ export default function Dashboard() {
   }, []);
 
   // useEffect(() => {
-  //   console.log('New Project Data:', newProjectData)
-  // }, [newProjectData])
+  //   if(project) {
+  //     setProjectDescription(project.description);
+  //   }
+  // }, [project]);
 
   // IMPORTANT:
   //////// MAKE SURE TO ASK WHETHER CONDITIONALLY RENDERING THE DIFFERENT VIEWS IS BETTER THAN ROUTING THEM
@@ -286,10 +327,16 @@ export default function Dashboard() {
       />
       
       <div className='main'>
-        <Header user={user} projectTitle={project.title} pageView={state.pageView} />
+        <Header user={user} projectTitle={project.title} pageView={state.pageView} signout={signout} />
         {
           !state.pageView ? (
-            <ProjectView project={project} session={state} openTaskDetails={handleToggleTaskModal} />
+            <ProjectView
+              project={project}
+              session={state}
+              openTaskDetails={handleToggleTaskModal}
+              totalUsers={totalUsers}
+              projectUpdate={handleProjectUpdate}
+            />
           ) : (
             <ProfileView />
           )
@@ -300,6 +347,7 @@ export default function Dashboard() {
               // component={0}
               task={task}
               projectTitle={project.title}
+              taskUpdate={handleTaskUpdate}
             />
             ) }
           
@@ -307,6 +355,7 @@ export default function Dashboard() {
               <ProjectCreationModal
                 data={newProjectData}
                 totalUsers={totalUsers}
+                currentUser={user.uid}
                 handleInputChange={handleProjectInputChange}
                 updateUserList={handleProjectUsersChange}
                 createProject={handleCreateProject}
@@ -318,7 +367,7 @@ export default function Dashboard() {
             <TaskCreationModal
               data={newTaskData}
               handleInputChange={handleTaskInputChange}
-              createTask={handlecreateTask}
+              createTask={handleCreateTask}
               toggleModal={handleToggleTaskCreationModal}
             />
           )}

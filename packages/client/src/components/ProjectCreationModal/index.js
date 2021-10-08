@@ -9,6 +9,7 @@ import './ProjectCreationModal.scss';
 export default function ProjectCreationModal({
     data,
     totalUsers = [],
+    currentUser,
     handleInputChange,
     updateUserList,
     createProject,
@@ -59,14 +60,20 @@ export default function ProjectCreationModal({
                         id='pc-form-textarea'
                         className='pc-form-input'
                         name='description'
-                        placeholder='Project Description'
+                        placeholder='Describe your project'
                         value={data.description}
                         onChange={handleInputChange}
                         autoComplete='off'
                     />
 
                     <Select
-                        options={totalUsers?.reduce((users, user) => [...users, { value: user._id, label: user.username}], [])}
+                        options={totalUsers?.reduce((users, user) => {
+                            if(user._id !== currentUser) {
+                                return [...users, { value: user._id, label: user.username}];
+                            } else {
+                                return users;
+                            }
+                        }, [])}
                         placeholder='Add Users to Project'
                         noOptionsMessage={() => 'No available users...'}
                         onChange={setSelection}
@@ -76,8 +83,6 @@ export default function ProjectCreationModal({
                     />
 
                     <div className='pc-form-submit-button' onClick={createProject}>Create Project</div>
-
-
                 </div>
             </form>
         </div>

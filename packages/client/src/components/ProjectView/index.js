@@ -12,7 +12,9 @@ import './ProjectView.scss';
 export default function ProjectView({
     project,
     session,
-    openTaskDetails
+    openTaskDetails,
+    totalUsers,
+    projectUpdate
 }) {
     const [ activeTab, setActiveTab ] = useState(0);
     // const [ project, setProject ] = useState(currentProject);
@@ -72,7 +74,7 @@ export default function ProjectView({
             
             {
                 activeTab === 0 ? (
-                    <ProjectDetail project={project} openTaskDetails={openTaskDetails} />
+                    <ProjectDetail project={project} openTaskDetails={openTaskDetails} totalUsers={totalUsers} projectUpdate={projectUpdate}/>
                 ) : activeTab === 1 ? (
                     <ListView project={project} openTaskDetails={openTaskDetails} />
                 ) : activeTab === 2 ? (

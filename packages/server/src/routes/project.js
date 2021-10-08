@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const chalk = require('chalk');
 const { Project, User, Task } = require('../models/index');
 const { requireAuth } = require('../middleware/index');
 
@@ -45,9 +46,9 @@ router.get('/', requireAuth, async (req, res, next) => {
 // @GET /api/project:pid - Private (retrieve a specific project)
 router.get('/:pid', requireAuth, async (req, res) => {
   const populateQuery = [
-    { path: 'users', select: ['username', '_id'] },
+    { path: 'users', select: ['username', 'avatar', '_id'] },
     { path: 'tasks', select: ['objective', 'status', 'tags', 'assigned_user', '_id'], 
-      populate: { path: 'assigned_user', select: [ 'username', '_id' ]}
+      populate: { path: 'assigned_user', select: ['username', 'avatar', '_id'] }
     }
   ];
 
@@ -94,67 +95,77 @@ router.get('/:pid', requireAuth, async (req, res) => {
 // 2. validate tags (unique = true) on the backend
 
 router.post('/', requireAuth, async (req, res) => {
+  const { title, description, owner, status_categories, tags, users, tasks } = req.body;
+  // console.log(title, description, owner, status_categories, tags, users, tasks);
+  
+  const populateQuery = [
+    { path: 'users', select: ['username', 'avatar', '_id'] },
+    { path: 'tasks', select: ['objective', 'status', 'tags', 'assigned_user', '_id'], 
+      populate: { path: 'assigned_user', select: ['username', 'avatar', '_id'] }
+    }
+  ];
+
   try {
-    // user id
-    // const uid = req.user._id;
-    const { title, description, owner, categories, tags, users, tasks } = req.body;
-
-    const user = await User.findOne({ _id: owner });
-
-    // const owner = toId(uid);
-
-    if (title.length === 0) {
-      return res.status(400).json({ error: 'Please enter a project title.' });
-    }
-
-    // let project = await Project.findOne({ title: title });
-
-    if (!user) {
-      return res
-        .status(401)
-        .json({ error: 'User owner of the project has not been found.' });
-    }
-
-    // TODO revisit and review
-    // validation: if the project already exists, reply with 400
-    // if (project) {
-    //   return res.status(400).json({
-    //     error:
-    //       'Project with this title already exists. Please choose a unique project name',
-    //   });
-    // }
-
-    // if(!users.includes(owner)) {
-    //   users.concat(owner);
-    // };
-
     const project = new Project({
-      title,
-      description,
-      categories,
-      owner,
-      tags,
-      users,
-      tasks
+      title: title,
+      description: description,
+      owner: owner,
+      status_categories: status_categories,
+      tags: tags,
+      users: users,
+      tasks: tasks
     });
-
-    if (!project.users.includes(owner)) {
-      project.users = project.users.concat(owner);
-    }
+  
     const savedProject = await project.save();
 
-    user.project_list = user.project_list.concat(savedProject._id);
-    console.log('USER', user);
+    const populated = await Project.findById(savedProject._id)
+      .populate(populateQuery).exec();
 
-    await user.save();
+    try {
+      for(let i=0; i < users.length; i++) {
+        await User.findByIdAndUpdate(
+          { _id: users[i] },
+          { $push: { project_list: savedProject._id } },
+          { new: true }
+        );
+      }
+      
+    } catch (error) {
+      console.log(
+        chalk.red(`Failed to update the project_list field of user id: ${users[i]}`)
+      );
+    }
+    
+  
+    res.status(200).json(populated);
 
-    res.status(200).json({ msg: 'Project created', savedProject });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Server Error.');
-    // next(error);
+    console.log(
+      chalk.red('Project Creation Failure:', error)
+    );
+    res.status(500).json({ message: 'Project Creation Failure'});
   }
 });
+
+router.put('/:pid/description', requireAuth, async (req, res) => {
+  const { description } = req.body;
+  const { pid } = req.params;
+
+  try {
+    await Project.findByIdAndUpdate(
+      { _id: pid },
+      { description: description },
+      { new: true }
+    );
+
+    return res.status(200).send('Description updated');
+  } catch (error) {
+    console.log(
+      chalk.red('Description Update Error:', error)
+    );
+  }
+});
+
 // @PUT /api/project/:pid/category - Private (update the categories list of the specific project)
 router.put('/:pid/category', requireAuth, async (req, res, next) => {
   try {

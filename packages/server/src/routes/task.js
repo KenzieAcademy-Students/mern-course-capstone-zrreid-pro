@@ -31,4 +31,56 @@ router.get('/:tid', requireAuth, async (req, res) => {
     }
 });
 
+router.post('/:pid', requireAuth, async (req, res) => {
+    const { objective, status, notes } = req.body;
+    const { pid } = req.params;
+
+    try {
+        const task = new Task({
+            objective: objective,
+            status: status,
+            tags: [],
+            notes: notes,
+            comments: [],
+            subtasks: [],
+            project: pid
+        });
+
+        const savedTask = await task.save();
+
+        try {
+            await Project.findByIdAndUpdate(
+                { _id: pid },
+                { $push: { tasks: savedTask._id } },
+                { new: true }
+            );
+        } catch (error) {
+            console.log(
+                chalk.red('Failed to update the tasks field of the current project')
+            );
+        }
+        //look into changing the rest of the instances of _id to their more specific label
+        // return res.status(200).json({
+        //     _id: savedTask._id,
+        //     objective: savedTask.objective,
+        //     status: savedTask.status,
+        //     tags: savedTask.tags,
+        //     assigned_user: {}
+        // });
+
+        return res.status(200).json({
+            _id: savedTask._id,
+            objective: savedTask.objective,
+            status: savedTask.status,
+            tags: savedTask.tags
+        });
+
+    } catch (error) {
+        console.log(
+            chalk.red('Task Creation Error:', error)
+        );
+        res.status(500).json({ message: 'Task Creation Failure'});
+    }
+});
+
 module.exports = router;
