@@ -67,6 +67,18 @@
     height: 30%;
 }
 
+.inner-notes {
+    width: 100%;
+    height: 100%;
+}
+
+.notes-editor {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    // border: none;
+}
+
 .task-details .modal-subsection {
     display: flex;
     flex-direction: column;

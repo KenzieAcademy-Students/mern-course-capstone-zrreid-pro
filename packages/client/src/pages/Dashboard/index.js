@@ -98,7 +98,7 @@ const reducer = (state, action) => {
 export default function Dashboard() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const { state: { user }, signout } = useProvideAuth();
-  const { project, fetchProject, createProject, updateProject, createTask } = useProvideProject();
+  const { project, fetchProject, createProject, updateProject, createTask, updateTask } = useProvideProject();
   // const [ project, setProject ] = useState(projectState);
   const [ state, dispatch ] = useReducer(reducer, initialState);
   // const [ project, setProject ] = useState(dummyProject);
@@ -186,6 +186,7 @@ export default function Dashboard() {
       if(tids.length === 1) {
         if(taskUpdated) {
           console.log('Update Task')
+          updateTask(task);
         }
         setTIDs([]);
         setTask({});

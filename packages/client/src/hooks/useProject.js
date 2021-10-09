@@ -181,9 +181,40 @@ export function useProvideProject() {
         }
     }
 
-    const updateTask = async () => {
+    const updateTask = async (taskData) => {
         //put axios call to update task
-        //call fetch project to get new version of project
+        // console.log(taskData)
+        try {
+            await axios.put(`task/${taskData._id}/update`, {
+                objective: taskData.objective,
+                status: taskData.status,
+                notes: taskData.notes
+            });
+
+            console.log('Tasks:', state.tasks);
+
+            let newTasks = state.tasks.map((task) => {
+                if(task._id === taskData._id) {
+                    return {
+                        ...task,
+                        objective: taskData.objective,
+                        status: taskData.status,
+                        notes: taskData.notes
+                    };
+                } else {
+                    return task;
+                }
+            });
+
+            console.log('New Tasks:', newTasks);
+
+            dispatch({
+                type: 'UPDATE',
+                payload: ['tasks', newTasks]
+            });
+        } catch (error) {
+            console.log('Task Update Error:', error);
+        }
     }
 
     // useEffect(() => {
@@ -214,7 +245,8 @@ export function useProvideProject() {
         updateProjectCategories,
         updateProjectUsers,
         updateProjectTags,
-        createTask
+        createTask,
+        updateTask
     };
 }
 

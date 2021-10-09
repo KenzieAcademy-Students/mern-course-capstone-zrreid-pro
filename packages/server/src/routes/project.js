@@ -163,6 +163,7 @@ router.put('/:pid/description', requireAuth, async (req, res) => {
     console.log(
       chalk.red('Description Update Error:', error)
     );
+    res.status(500).json({ message: 'Project Description Failure'});
   }
 });
 

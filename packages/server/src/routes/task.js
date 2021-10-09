@@ -83,4 +83,28 @@ router.post('/:pid', requireAuth, async (req, res) => {
     }
 });
 
+router.put('/:tid/update', requireAuth, async (req, res) => {
+    const { objective, status, notes } = req.body;
+    const { tid } = req.params;
+
+    try {
+        await Task.findByIdAndUpdate(
+            { _id: tid },
+            {
+                objective: objective,
+                status: status,
+                notes: notes 
+            },
+            { new: true }
+        );
+
+        return res.status(200).send('Task updated');
+    } catch (error) {
+        console.log(
+            chalk.red(`Task Update Error: ${error}`)
+        );
+        res.status(500).json({ message: 'Task Update Failure'});
+    }
+});
+
 module.exports = router;

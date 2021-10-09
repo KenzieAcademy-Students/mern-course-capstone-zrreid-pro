@@ -35,9 +35,25 @@ export default function TaskDetailsModal({
         }
     }
 
+    const eventHandler = (event) => {
+        // console.log(`Fire! ${event.target}`)
+        if(objectiveRef.current === event.target) {
+            setEditingObjective(true);
+        } else {
+            setEditingObjective(false);
+        }
+
+        if(notesRef.current === event.target) {
+            setEditingNotes(true);
+        } else {
+            setEditingNotes(false);
+        }
+        
+    }
+
     return (
         <div className='modal-overlay' ref={modalRef} onClick={closeModal}>
-            <div className='modal-wrapper task-details'>
+            <div className='modal-wrapper task-details' onClick={eventHandler}>
                 {/* <TaskDetail tid={tid} projectTitle={projectTitle} toggleModal={toggleModal} /> */}
                 <div className='modal-header'>
                     <h2 className='modal-header-title'>{projectTitle}</h2>
@@ -46,14 +62,48 @@ export default function TaskDetailsModal({
 
                 <div className='modal-body'>
                     <div className='modal-body-header'>
-                        <h1 className='modal-body-title'>{task?.objective}</h1>
+                        <div className='modal-body-title'>
+                            {
+                                editingObjective ? (
+                                    <input
+                                        className='objective-editor'
+                                        name='objective'
+                                        value={task?.objective}
+                                        onChange={taskUpdate}
+                                        autoComplete='off'
+                                        ref={objectiveRef}
+                                        
+                                    />
+                                ) : (
+                                    <h1 className='inner-objective' ref={objectiveRef}>{task?.objective}</h1>
+                                )
+                            }
+                        </div>
+                        
+                        
                         <div>Deadline</div>
                         <div>{task?.status}</div>
                     </div>
 
                     <div className='modal-body-content'>
                         <div className='task-content'>
-                            <div className='task-notes'>{task?.notes}</div>
+                            <div className='task-notes'>
+                                {
+                                    editingNotes ? (
+                                        <textarea
+                                            className='notes-editor'
+                                            name='notes'
+                                            value={task?.notes}
+                                            onChange={taskUpdate}
+                                            autoComplete='off'
+                                            ref={notesRef}
+                                        />
+                                    ) : (
+                                        <div className='inner-notes' ref={notesRef}>{task?.notes}</div>
+                                    )
+                                }
+                            </div>
+                            {/* <div className='task-notes'>{task?.notes}</div> */}
                             <div className='modal-subsection'>
                                 <h2 className='modal-subtitle'>Subtasks</h2>
                                 <div className='modal-task-list'>
