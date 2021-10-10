@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 // import { Modal, useDisclosure } from '@chakra-ui/react';
 // import axios from '../../../utils/axiosConfig';
@@ -21,10 +21,10 @@ export default function ProjectDetail({
     totalUsers,
     projectDescriptionUpdate,
     projectUsersUpdate,
+    assignTask,
     getStatusColor
     // handleEvent
 }) {
-    const descriptionRef = useRef();
     const [ tid, setTID ] = useState();
     const [ editingDescription, setEditingDescription ] = useState(false);
     const [ descriptionUpdated, setDescriptionUpdated ] = useState(false);
@@ -78,8 +78,9 @@ export default function ProjectDetail({
     const handleEvent = (event, tid) => {
         // console.log('fire')
         // onOpen(event);
-        if(!event.target.className.includes('avatar')) {
+        if(!event.target.className.includes('ignore') && !event.target.className.includes('tippy-content')) {
             // console.log(tid)
+            // console.log(event.target.className);
             openTaskDetails(1, tid);
             // setTID(tid);
             // handleToggleModal();
@@ -115,7 +116,6 @@ export default function ProjectDetail({
                                 name='description'
                                 value={projectDescription}
                                 onChange={(event) => setProjectDescription(event.target.value)}
-                                ref={descriptionRef}
                                 autoFocus
                                 onBlur={toggleDescriptionEdit}
                             />
@@ -171,8 +171,10 @@ export default function ProjectDetail({
                                         key={task._id}
                                         task={task}
                                         projectTitle={project?.title}
+                                        projectUsers={project?.users}
                                         mode={0}
                                         handleEvent={handleEvent}
+                                        assignTask={assignTask}
                                         statusColor={getStatusColor(task.status)}
                                     />];
                             } else {
@@ -193,6 +195,7 @@ export default function ProjectDetail({
                                         projectTitle={project?.title}
                                         mode={0}
                                         handleEvent={handleEvent}
+                                        assignTask={assignTask}
                                         statusColor={getStatusColor(task.status)}
                                     />];
                             } else {

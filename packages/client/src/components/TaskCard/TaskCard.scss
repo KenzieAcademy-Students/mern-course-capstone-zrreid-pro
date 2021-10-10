@@ -38,31 +38,7 @@
     // height: fit-content;
 }
 
-.avatars {
-    // margin-right: 10px;
-    // padding: 0 5px;
-    // width: 30%;
-    // max-width: 30%;
-    // height: fit-content;
-}
-
-.chakra-avatar {
-    cursor: default;
-}
-
-.status {
-    // flex-grow: 1;
-    // width: 30%;
-    // max-width: 30%;
-    // height: fit-content;
-}
-.chakra-button.addButton.css-dn5esd {
-    border-radius: 50%;
-    // // margin-right: 10px;
-    width: 32px !important;
-    // height: auto;
-}
-.addButton {
+.assignButton {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,7 +49,13 @@
     background-color: lightgray;
 }
 
-.chakra-button.addButton.css-dn5esd > i {
-    width: 32px;
-    // height: 32px;
+.tooltip-menu {
+    // width: 500px;
+    // padding: 0px;
+}
+.tooltip-menu-item:hover {
+    background-color: blue;
+}
+.tippy-content {
+    padding: 0px;
 }

@@ -240,6 +240,10 @@ export function useProvideProject() {
         }
     }
 
+    const assignTask = async (tid, uid, operation) => {
+        console.log(`Task ${tid} is assigned to User ${uid}`)
+    }
+
     // useEffect(() => {
     //     // console.log('USE_EFFECT');
     //     // const savedProject = JSON.parse(localStorage.getItem('MernAppProject')) || false;
@@ -269,7 +273,8 @@ export function useProvideProject() {
         updateProjectCategories,
         updateProjectTags,
         createTask,
-        updateTask
+        updateTask,
+        assignTask
     };
 }
 

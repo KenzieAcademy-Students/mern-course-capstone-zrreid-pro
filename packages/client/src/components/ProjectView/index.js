@@ -16,6 +16,7 @@ export default function ProjectView({
     totalUsers,
     projectDescriptionUpdate,
     projectUsersUpdate,
+    assignTask,
     getStatusColor
 }) {
     const [ activeTab, setActiveTab ] = useState(0);
@@ -82,18 +83,21 @@ export default function ProjectView({
                         totalUsers={totalUsers}
                         projectDescriptionUpdate={projectDescriptionUpdate}
                         projectUsersUpdate={projectUsersUpdate}
+                        assignTask={assignTask}
                         getStatusColor={getStatusColor}
                     />
                 ) : activeTab === 1 ? (
                     <ListView
                         project={project}
                         openTaskDetails={openTaskDetails}
+                        assignTask={assignTask}
                         getStatusColor={getStatusColor}
                     />
                 ) : activeTab === 2 ? (
                     <ProgressionView
                         project={project}
                         openTaskDetails={openTaskDetails}
+                        assignTask={assignTask}
                         getStatusColor={getStatusColor}
                     />
                 ) : (

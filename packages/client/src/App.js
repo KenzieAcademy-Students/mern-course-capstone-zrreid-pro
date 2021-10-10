@@ -3,6 +3,9 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { LoginPage, Dashboard } from 'pages';
 import { useProvideAuth } from 'hooks/useAuth';
 
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
+
 export default function App() {
     const { state: { user } } = useProvideAuth();
 

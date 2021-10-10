@@ -9,7 +9,8 @@ export default function TaskDetailsModal({
     component = 0,
     task = {},
     projectTitle,
-    taskUpdate
+    taskUpdate,
+    assignTask
 }) {
     const modalRef = useRef();
     const objectiveRef = useRef();
@@ -49,6 +50,11 @@ export default function TaskDetailsModal({
             setEditingNotes(false);
         }
         
+    }
+
+    //attach to assignment spot, 0 is to assign and 1 is to unassign
+    const handleAssign = (uid, operation) => {
+        assignTask(task._id, uid, operation);
     }
 
     return (

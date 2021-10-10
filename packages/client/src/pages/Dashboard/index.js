@@ -98,7 +98,7 @@ const reducer = (state, action) => {
 export default function Dashboard() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const { state: { user }, signout } = useProvideAuth();
-  const { project, fetchProject, createProject, updateProjectDescription, updateProjectUsers, createTask, updateTask } = useProvideProject();
+  const { project, fetchProject, createProject, updateProjectDescription, updateProjectUsers, createTask, updateTask, assignTask } = useProvideProject();
   // const [ project, setProject ] = useState(projectState);
   const [ state, dispatch ] = useReducer(reducer, initialState);
   // const [ project, setProject ] = useState(dummyProject);
@@ -218,6 +218,10 @@ export default function Dashboard() {
       ...task,
       [event.target.name]: event.target.value
     });
+  }
+
+  const handleAssignTask = (tid, uid, operation) => {
+    assignTask(tid, uid, operation);
   }
   //////////////////////////////////////////////////
 
@@ -354,6 +358,7 @@ export default function Dashboard() {
               totalUsers={totalUsers}
               projectDescriptionUpdate={handleProjectDescriptionUpdate}
               projectUsersUpdate={handleProjectUsersUpdate}
+              assignTask={handleAssignTask}
               getStatusColor={handleGetStatusColor}
             />
           ) : (
@@ -367,6 +372,7 @@ export default function Dashboard() {
               task={task}
               projectTitle={project.title}
               taskUpdate={handleTaskUpdate}
+              assignTask={handleAssignTask}
             />
             ) }
           
