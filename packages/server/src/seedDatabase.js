@@ -41,7 +41,8 @@ async function seedDatabase() {
                     passwordHash: passwordHash,
                     email: userData[i].email,
                     avatar: userData[i].avatar,
-                    project_list: []
+                    project_list: [],
+                    task_list: []
                 });
 
                 await user.save()
@@ -66,11 +67,16 @@ async function seedDatabase() {
                     subtasks: [],
                     project: toId(1)
                 });
+                
+                const savedTask = await task.save();
 
-                await task.save()
-                    .then((savedTask) => {
-                        tids.push(savedTask._id)
-                    });
+                tids.push(savedTask._id);
+
+                await User.findByIdAndUpdate(
+                    { _id: uids[uid] },
+                    { $push: { task_list: savedTask._id } },
+                    { new: true }
+                );
             }
             console.log(
                 chalk.green('Preset tasks successfully created')

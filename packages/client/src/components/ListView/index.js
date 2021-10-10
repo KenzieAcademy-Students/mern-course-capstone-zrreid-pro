@@ -7,7 +7,8 @@ import './ListView.scss';
 
 export default function ListView({
     project: { title, tasks, users },
-    openTaskDetails
+    openTaskDetails,
+    getStatusColor
 }) {
     // const { isOpen, onOpen, onClose } = useDisclosure();
     // const [ tid, setTID ] = useState();
@@ -45,6 +46,7 @@ export default function ListView({
                         projectTitle={title}
                         mode={0}
                         handleEvent={handleEvent}
+                        statusColor={getStatusColor(task.status)}
                     />
                 ))}
             </div>

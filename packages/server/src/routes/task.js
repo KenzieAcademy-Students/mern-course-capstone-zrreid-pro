@@ -11,13 +11,13 @@ router.get('/:tid', requireAuth, async (req, res) => {
     const populateQuery = [
         {
             path: 'comments',
-            populate: { path: 'author', select: ['username'] }
+            populate: { path: 'author', select: [ 'username' ] }
         },
         {
-            path: 'assigned_user', select: ['username', 'avatar']
+            path: 'assigned_user', select: [ 'username', 'avatar' ]
         },
         {
-            path: 'subtasks', select: ['objective', 'status', 'assigned_user', '_id']
+            path: 'subtasks', select: [ '_id', 'objective', 'status', 'assigned_user' ]
         }
     ];
 

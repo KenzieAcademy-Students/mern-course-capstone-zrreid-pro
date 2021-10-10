@@ -98,7 +98,7 @@ const reducer = (state, action) => {
 export default function Dashboard() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const { state: { user }, signout } = useProvideAuth();
-  const { project, fetchProject, createProject, updateProject, createTask, updateTask } = useProvideProject();
+  const { project, fetchProject, createProject, updateProjectDescription, updateProjectUsers, createTask, updateTask } = useProvideProject();
   // const [ project, setProject ] = useState(projectState);
   const [ state, dispatch ] = useReducer(reducer, initialState);
   // const [ project, setProject ] = useState(dummyProject);
@@ -173,6 +173,15 @@ export default function Dashboard() {
     }
   }
 
+  const handleGetStatusColor = (status) => {
+    for(let i=0; i<project.status_categories.length; i++) {
+      if(project.status_categories[i].label === status) {
+        return project.status_categories[i].color;
+      }
+    }
+    
+  }
+
   //For Task Details/////////////////////////////////////////
   const handleToggleTaskModal = (action, tid = '') => {
     let newTIDs = [...tids];
@@ -213,8 +222,15 @@ export default function Dashboard() {
   //////////////////////////////////////////////////
 
   //For Project Details//////////////////////////////
-  const handleProjectUpdate = (description) => {
-    updateProject(description);
+  const handleProjectDescriptionUpdate = (description) => {
+    updateProjectDescription(description);
+  }
+
+  const handleProjectUsersUpdate = (users) => {
+    let newUsers = users.map((user) => totalUsers.find((item) => item._id === user.value));
+    // let newList = [...project.users, ...formattedUsers];
+    // console.log([...project.users, ...formattedUsers]);
+    updateProjectUsers(newUsers);
   }
 
   ///////////////////////////////////////////////////
@@ -336,7 +352,9 @@ export default function Dashboard() {
               session={state}
               openTaskDetails={handleToggleTaskModal}
               totalUsers={totalUsers}
-              projectUpdate={handleProjectUpdate}
+              projectDescriptionUpdate={handleProjectDescriptionUpdate}
+              projectUsersUpdate={handleProjectUsersUpdate}
+              getStatusColor={handleGetStatusColor}
             />
           ) : (
             <ProfileView />

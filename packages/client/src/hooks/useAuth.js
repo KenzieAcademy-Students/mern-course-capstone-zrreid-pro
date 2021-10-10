@@ -16,7 +16,8 @@ const reducer = (state, action) => {
           user: action.payload,
         }
       case 'LOGOUT':
-        localStorage.removeItem('MernAppUser');
+        // localStorage.removeItem('MernAppUser'); Switch this back later
+        localStorage.clear();
         sessionStorage.clear();
         return {
           ...state,

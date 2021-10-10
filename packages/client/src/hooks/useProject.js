@@ -77,6 +77,7 @@ export function useProvideProject() {
                 owner: user.uid,
                 status_categories: [
                     { label: 'Not Started', color: '#FF0000' },
+                    { label: 'In Progress', color: '#FCFF00' },
                     { label: 'Completed', color: '#18DA00' }
                 ],
                 tags: [],
@@ -99,7 +100,7 @@ export function useProvideProject() {
 
     }
 
-    const updateProject = async (description) => {
+    const updateProjectDescription = async (description) => {
         try {
             await axios.put(`project/${state._id}/description`, {
                 description: description
@@ -114,9 +115,46 @@ export function useProvideProject() {
         }
     }
 
+    const updateProjectUsers = async (users) => {
+        try {
+            let uids = users.map((user) => user._id);
+            await axios.put(`project/${state._id}/users`, {
+                users: uids
+            });
+
+            dispatch({
+                type: 'UPDATE',
+                payload: ['users', [...state.users, ...users]]
+            });
+        } catch (error) {
+            console.log('Update Users Error');
+        }
+    }
+
+    const removeProjectUser = async (uid) => {
+        //need to update project users, user project_list, user task_list, and task assigned_user
+        try {
+            await axios.put(`project/${state._id}/users/remove`, {
+                uid: uid
+            });
+            // const newUsers = state.users.filter((user) => user._id !== uid);
+            // const newTasks = state.tasks.map((task) => {
+
+            // })
+            fetchProject(state._id);
+
+            // dispatch({
+            //     type: 'BIG_UPDATE',
+            //     payload: [state.users.filter((user) => user._id !== uid), state.tasks.map()]
+            // });
+        } catch (error) {
+            console.log('Remove User Error');
+        }
+    }
+
     const updateProjectCategories = async (status_categories) => {
         try {
-            const response = await axios.put(`${state._id}/category`, {
+            const response = await axios.put(`project/${state._id}/category`, {
                 status_categories
             });
 
@@ -129,24 +167,9 @@ export function useProvideProject() {
         }
     }
 
-    const updateProjectUsers = async (users) => {
-        try {
-            const response = await axios.put(`${state._id}/user`, {
-                users
-            });
-
-            dispatch({
-                type: 'UPDATE',
-                payload: ['users', users]
-            });
-        } catch (error) {
-            console.log('Update Users Error');
-        }
-    }
-
     const updateProjectTags = async (tags) => {
         try {
-            const response = await axios.put(`${state._id}/tags`, {
+            const response = await axios.put(`project/${state._id}/tags`, {
                 tags
             });
 
@@ -241,9 +264,9 @@ export function useProvideProject() {
         project: state,
         fetchProject,
         createProject,
-        updateProject,
-        updateProjectCategories,
+        updateProjectDescription,
         updateProjectUsers,
+        updateProjectCategories,
         updateProjectTags,
         createTask,
         updateTask

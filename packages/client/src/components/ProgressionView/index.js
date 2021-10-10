@@ -14,7 +14,8 @@ const sortTasks = (tasks) => {
 
 export default function ProgressionView({
     project: { title, status_categories, tasks, users },
-    openTaskDetails
+    openTaskDetails,
+    getStatusColor
     // project
 }) {
     // const { isOpen, onOpen, onClose } = useDisclosure();
@@ -149,6 +150,7 @@ export default function ProgressionView({
                                         projectTitle={title}
                                         mode={0}
                                         handleEvent={handleEvent}
+                                        statusColor={getStatusColor(task.status)}
                                     />
                                 ))
                             }

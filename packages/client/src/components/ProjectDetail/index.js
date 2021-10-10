@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 // import { Modal, useDisclosure } from '@chakra-ui/react';
 // import axios from '../../../utils/axiosConfig';
@@ -19,12 +19,19 @@ export default function ProjectDetail({
     project,
     openTaskDetails,
     totalUsers,
-    projectUpdate
+    projectDescriptionUpdate,
+    projectUsersUpdate,
+    getStatusColor
     // handleEvent
 }) {
+    const descriptionRef = useRef();
     const [ tid, setTID ] = useState();
     const [ editingDescription, setEditingDescription ] = useState(false);
+    const [ descriptionUpdated, setDescriptionUpdated ] = useState(false);
     const [ projectDescription, setProjectDescription ] = useState();
+
+    const [ updatingUsers, setUpdatingUsers ] = useState(false);
+    const [ userSelection, setUserSelection ] = useState([]);
 
     // const temporaryFix = (uid) => {
     //     for(let i = 0; i < users.length; i++) {
@@ -50,16 +57,23 @@ export default function ProjectDetail({
     const toggleDescriptionEdit = () => {
         if(editingDescription) {
             setEditingDescription(false);
-            console.log('submit new description')
-            //Send the update up the chain
-            projectUpdate(projectDescription);
+            if(descriptionUpdated) {
+                projectDescriptionUpdate(projectDescription);
+                setDescriptionUpdated(false);
+            }
         } else {
             setEditingDescription(true);
         }
     }
 
-    
+    const submitNewUserList = () => {
+        if(userSelection.length > 0) {
+            projectUsersUpdate(userSelection);
+            setUserSelection([]);
+        }
 
+        setUpdatingUsers(false);    
+    }
 
     const handleEvent = (event, tid) => {
         // console.log('fire')
@@ -82,6 +96,12 @@ export default function ProjectDetail({
         }
     }, [project]);
 
+    useEffect(() => {
+        if(editingDescription) {
+            setDescriptionUpdated(true);
+        }
+    }, [projectDescription]);
+
     // Add a list of users who are working on the project next to the description on its right side
 
     return (
@@ -90,16 +110,15 @@ export default function ProjectDetail({
                 <div className='project-description'>
                     {
                         editingDescription ? (
-                            <>
-                                <textarea
-                                    className='description-editor'
-                                    name='description'
-                                    value={projectDescription}
-                                    onChange={(event) => setProjectDescription(event.target.value)}
-                                />
-
-                                <button onClick={toggleDescriptionEdit}>Submit Changes</button>
-                            </>
+                            <textarea
+                                className='description-editor'
+                                name='description'
+                                value={projectDescription}
+                                onChange={(event) => setProjectDescription(event.target.value)}
+                                ref={descriptionRef}
+                                autoFocus
+                                onBlur={toggleDescriptionEdit}
+                            />
                         ) : (
                             <div className='inner-description' onClick={toggleDescriptionEdit}>{project?.description}</div>
                         )
@@ -114,14 +133,28 @@ export default function ProjectDetail({
                             project && project.users?.map((user, index) => <UserCard key={index} user={user} />)
                         }
                     </div>
-                    {/* <Select
-                        options={totalUsers?.reduce((users, user) => [...users, { value: user._id, label: user.username }], [])}
-                        placeholder='Add Users to Project'
-                        noOptionsMessage={() => 'No other users to add...'}
-                        isSearchable
-                        isMulti
-                        closeMenuOnSelect={false}
-                    /> */}
+                    {
+                        updatingUsers &&
+                        <Select
+                            options={totalUsers?.reduce((users, user) => {
+                                if(!project?.users?.some((item) => item._id === user._id)) {
+                                    return [...users, { value: user._id, label: user.username }];
+                                } else {
+                                    return users;
+                                }
+                            }, [])}
+                            onChange={setUserSelection}
+                            placeholder='Add Users to Project'
+                            noOptionsMessage={() => 'No other users to add...'}
+                            isSearchable
+                            isMulti
+                            closeMenuOnSelect={false}
+                            onBlur={submitNewUserList}
+                        />
+                    }
+
+                    { !updatingUsers && <button onClick={() => setUpdatingUsers(true)}>+ Add Users to Project</button> }
+                    
                 </div>
                 
             </div>
@@ -140,6 +173,7 @@ export default function ProjectDetail({
                                         projectTitle={project?.title}
                                         mode={0}
                                         handleEvent={handleEvent}
+                                        statusColor={getStatusColor(task.status)}
                                     />];
                             } else {
                                 return list;
@@ -159,6 +193,7 @@ export default function ProjectDetail({
                                         projectTitle={project?.title}
                                         mode={0}
                                         handleEvent={handleEvent}
+                                        statusColor={getStatusColor(task.status)}
                                     />];
                             } else {
                                 return list;

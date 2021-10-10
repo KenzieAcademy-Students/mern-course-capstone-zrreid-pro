@@ -14,7 +14,9 @@ export default function ProjectView({
     session,
     openTaskDetails,
     totalUsers,
-    projectUpdate
+    projectDescriptionUpdate,
+    projectUsersUpdate,
+    getStatusColor
 }) {
     const [ activeTab, setActiveTab ] = useState(0);
     // const [ project, setProject ] = useState(currentProject);
@@ -74,11 +76,26 @@ export default function ProjectView({
             
             {
                 activeTab === 0 ? (
-                    <ProjectDetail project={project} openTaskDetails={openTaskDetails} totalUsers={totalUsers} projectUpdate={projectUpdate}/>
+                    <ProjectDetail
+                        project={project}
+                        openTaskDetails={openTaskDetails}
+                        totalUsers={totalUsers}
+                        projectDescriptionUpdate={projectDescriptionUpdate}
+                        projectUsersUpdate={projectUsersUpdate}
+                        getStatusColor={getStatusColor}
+                    />
                 ) : activeTab === 1 ? (
-                    <ListView project={project} openTaskDetails={openTaskDetails} />
+                    <ListView
+                        project={project}
+                        openTaskDetails={openTaskDetails}
+                        getStatusColor={getStatusColor}
+                    />
                 ) : activeTab === 2 ? (
-                    <ProgressionView project={project} openTaskDetails={openTaskDetails} />
+                    <ProgressionView
+                        project={project}
+                        openTaskDetails={openTaskDetails}
+                        getStatusColor={getStatusColor}
+                    />
                 ) : (
                     <TimelineView />
                 )

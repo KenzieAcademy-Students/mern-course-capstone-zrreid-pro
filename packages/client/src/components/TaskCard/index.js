@@ -8,7 +8,8 @@ export default function TaskCard({
     // task,
     projectTitle = '',
     mode,
-    handleEvent
+    handleEvent,
+    statusColor
 }) {
 
     // useEffect(() => {
@@ -16,7 +17,7 @@ export default function TaskCard({
     // }, []);
 
     return (
-        <div className='taskCard' onClick={(event) => handleEvent(event, _id)}>
+        <div className='taskCard' onClick={(event) => handleEvent(event, _id)} style={{'borderColor': statusColor}}>
             <div className='card-content'>
                 <div className='projectName'>{projectTitle}</div>
                 <div className='objective'>{objective}</div>
