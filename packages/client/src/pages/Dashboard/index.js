@@ -98,7 +98,7 @@ const reducer = (state, action) => {
 export default function Dashboard() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const { state: { user }, signout } = useProvideAuth();
-  const { project, fetchProject, createProject, updateProjectDescription, updateProjectUsers, createTask, updateTask, assignTask } = useProvideProject();
+  const { project, fetchProject, createProject, updateProjectDescription, updateProjectUsers, createTask, updateTask, toggleAssignTask } = useProvideProject();
   // const [ project, setProject ] = useState(projectState);
   const [ state, dispatch ] = useReducer(reducer, initialState);
   // const [ project, setProject ] = useState(dummyProject);
@@ -163,9 +163,9 @@ export default function Dashboard() {
 
   const getTask = async (tid) => {
     try {
-      console.log(tid)
+      // console.log(tid)
       const response = await axios.get(`task/${tid}`);
-      console.log(response.data);
+      // console.log(response.data);
       setTask(response.data);
       setIsLoaded(true);
     } catch (error) {
@@ -186,7 +186,7 @@ export default function Dashboard() {
   const handleToggleTaskModal = (action, tid = '') => {
     let newTIDs = [...tids];
     if(action) {
-      console.log('Opening Task Details for:', tid);
+      // console.log('Opening Task Details for:', tid);
       newTIDs.push(tid);
       setTIDs(newTIDs);
       getTask(tid);
@@ -194,7 +194,7 @@ export default function Dashboard() {
     } else {
       if(tids.length === 1) {
         if(taskUpdated) {
-          console.log('Update Task')
+          // console.log('Update Task')
           updateTask(task);
         }
         setTIDs([]);
@@ -203,7 +203,7 @@ export default function Dashboard() {
         setShowTaskModal(false);
         setIsLoaded(false);  
       } else {
-        console.log('Opening Task Details for:', newTIDs[-1]);
+        // console.log('Opening Task Details for:', newTIDs[-1]);
         newTIDs.pop();
         setTIDs(newTIDs);
         getTask(newTIDs[-1]);
@@ -220,8 +220,17 @@ export default function Dashboard() {
     });
   }
 
-  const handleAssignTask = (tid, uid, operation) => {
-    assignTask(tid, uid, operation);
+  const handleStatusUpdate = (status) => {
+    // console.log('next status:', status)
+    setTaskUpdated(true);
+    setTask({
+      ...task,
+      'status': status
+    });
+  }
+
+  const handleToggleAssignTask = (tid, uid, operation) => {
+    toggleAssignTask(tid, uid, operation);
   }
   //////////////////////////////////////////////////
 
@@ -358,7 +367,7 @@ export default function Dashboard() {
               totalUsers={totalUsers}
               projectDescriptionUpdate={handleProjectDescriptionUpdate}
               projectUsersUpdate={handleProjectUsersUpdate}
-              assignTask={handleAssignTask}
+              assignTask={handleToggleAssignTask}
               getStatusColor={handleGetStatusColor}
             />
           ) : (
@@ -371,8 +380,11 @@ export default function Dashboard() {
               // component={0}
               task={task}
               projectTitle={project.title}
+              projectCategories={project.status_categories.map((status) => status.label)}
               taskUpdate={handleTaskUpdate}
-              assignTask={handleAssignTask}
+              statusUpdate={handleStatusUpdate}
+              toggleAssignTask={handleToggleAssignTask}
+              getStatusColor={handleGetStatusColor}
             />
             ) }
           

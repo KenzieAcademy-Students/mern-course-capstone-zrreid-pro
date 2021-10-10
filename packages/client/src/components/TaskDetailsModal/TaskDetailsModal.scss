@@ -44,7 +44,38 @@
 
 .task-details .modal-body-header {
     display: flex;
+    align-items: center;
     height: 10%;
+}
+
+.taskmodal-status {
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+    box-shadow: 0 0 1px black;
+}
+
+#status-backward, #status-forward {
+    padding: 5px;
+}
+
+#status-backward {
+    border-radius: 3px 0px 0px 3px;
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+#status-forward {
+    border-radius: 0px 3px 3px 0px;
+    border-left: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+#status-backward:hover, #status-forward:hover {
+    box-shadow: 0 0 1px black;
+}
+
+.status-display {
+    text-align: center;
+    padding: 0px 5px;
 }
 
 .task-details .modal-body-content {
@@ -100,3 +131,4 @@
 .task-details .modal-comment-list {
     flex-grow: 1;
 }
+

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Select from 'react-select';
 // import TaskDetail from '../TaskDetail';
 import TaskCard from '../TaskCard';
+import UserCard from '../UserCard';
 // import axios from '../../../utils/axiosConfig';
 import './TaskDetailsModal.scss';
 
@@ -9,8 +11,11 @@ export default function TaskDetailsModal({
     component = 0,
     task = {},
     projectTitle,
+    projectCategories,
     taskUpdate,
-    assignTask
+    statusUpdate,
+    toggleAssignTask,
+    getStatusColor
 }) {
     const modalRef = useRef();
     const objectiveRef = useRef();
@@ -21,6 +26,8 @@ export default function TaskDetailsModal({
     const [ editingStatus, setEditingStatus ] = useState(false);
     const [ editingNotes, setEditingNotes ] = useState(false);
     const [ editingAssignedUser, setEditingAssignedUser ] = useState(false);
+
+    const [ selectedStatus, setSelectedStatus ] = useState();
 
     // useEffect(() => {
     //     try {
@@ -33,6 +40,27 @@ export default function TaskDetailsModal({
     const closeModal = (event) => {
         if(modalRef.current === event.target) {
             toggleModal(0);
+        }
+    }
+
+    const updateStatus = (operation) => {
+        let nextStatus;
+        if(operation) {
+            nextStatus = projectCategories.indexOf(task?.status) + 1;
+            // console.log('task next status1:', nextStatus)
+            if(nextStatus === projectCategories.length) {
+                return;
+            } else {
+                statusUpdate(projectCategories[nextStatus]);
+            }
+        } else {
+            nextStatus = projectCategories.indexOf(task?.status) - 1;
+            // console.log('task next status0:', nextStatus)
+            if(nextStatus < 0) {
+                return;
+            } else {
+                statusUpdate(projectCategories[nextStatus]);
+            }
         }
     }
 
@@ -54,7 +82,7 @@ export default function TaskDetailsModal({
 
     //attach to assignment spot, 0 is to assign and 1 is to unassign
     const handleAssign = (uid, operation) => {
-        assignTask(task._id, uid, operation);
+        toggleAssignTask(task._id, uid, operation);
     }
 
     return (
@@ -87,8 +115,13 @@ export default function TaskDetailsModal({
                         </div>
                         
                         
-                        <div>Deadline</div>
-                        <div>{task?.status}</div>
+                        {/* <div>Deadline</div> */}
+                        
+                        <div className='taskmodal-status' style={{'backgroundColor': getStatusColor(task?.status)}}>
+                            <i id='status-backward' className='bx bxs-left-arrow' onClick={() => updateStatus(0)}></i>
+                            <div className='status-display'>{task?.status}</div>
+                            <i id='status-forward' className='bx bxs-right-arrow' onClick={() => updateStatus(1)}></i>
+                        </div>
                     </div>
 
                     <div className='modal-body-content'>
@@ -126,7 +159,8 @@ export default function TaskDetailsModal({
                         <div className='user-content'>
                             <div className='modal-subsection'>
                                 <h2 className='modal-subtitle'>Assigned User</h2>
-                                <div>{task?.assigned_user?.username}</div>
+                                {/* <div>{task?.assigned_user?.username}</div> */}
+                                <UserCard user={task?.assigned_user} />
                             </div>
                             <div className='modal-subsection'>
                                 <h2 className='modal-subtitle'>Comments</h2>

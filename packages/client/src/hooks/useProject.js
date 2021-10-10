@@ -216,7 +216,7 @@ export function useProvideProject() {
 
             console.log('Tasks:', state.tasks);
 
-            let newTasks = state.tasks.map((task) => {
+            const newTasks = state.tasks.map((task) => {
                 if(task._id === taskData._id) {
                     return {
                         ...task,
@@ -240,8 +240,76 @@ export function useProvideProject() {
         }
     }
 
-    const assignTask = async (tid, uid, operation) => {
-        console.log(`Task ${tid} is assigned to User ${uid}`)
+    const toggleAssignTask = async (tid, uid, operation) => {
+        // console.log(`Task ${tid} is assigned to User ${uid}`)
+        if(!operation) {
+            //assign task
+            console.log('task assignment')
+            try {
+                await axios.put(`task/${tid}/assign`, {
+                    uid: uid
+                });
+
+                const assigned = state.users.find((current) => current._id === uid);
+
+                const newTasks = state.tasks.map((task) => {
+                    if(task._id === tid) {
+                        return {
+                            ...task,
+                            assigned_user: assigned
+                        };
+                    } else {
+                        return task;
+                    }
+                });
+
+                dispatch({
+                    type: 'UPDATE',
+                    payload: ['tasks', newTasks]
+                });
+
+                //handles when the logged in user is assigned something
+                if(user._id === uid) {
+                    updateUser();
+                }
+            } catch (error) {
+                console.log('Assignment Error:', error);
+            }
+        } else {
+            //unassign task
+            console.log('task unassignment')
+            try {
+                await axios.put(`task/${tid}/unassign`, {
+                    uid: uid
+                });
+
+                const newTasks = state.tasks.map((task) => {
+                    if(task._id === tid) {
+                        return {
+                            _id: task._id,
+                            objective: task.objective,
+                            status: task.status,
+                            tags: task.tags
+                        };
+                    } else {
+                        return task;
+                    }
+                });
+
+                dispatch({
+                    type: 'UPDATE',
+                    payload: ['tasks', newTasks]
+                });
+
+                //handles when the logged in user is unassigned something
+                if(user._id === uid) {
+                    updateUser();
+                }
+
+            } catch (error) {
+                console.log('Unassignment Error:', error);
+            }
+        }
     }
 
     // useEffect(() => {
@@ -274,7 +342,7 @@ export function useProvideProject() {
         updateProjectTags,
         createTask,
         updateTask,
-        assignTask
+        toggleAssignTask
     };
 }
 

@@ -3,16 +3,17 @@ import Select from 'react-select';
 // import { Modal, useDisclosure } from '@chakra-ui/react';
 // import axios from '../../../utils/axiosConfig';
 import TaskCard from '../TaskCard';
+import UserCard from '../UserCard';
 // import TaskDetail from '../TaskDetail';
 // import Modal from '../TaskDetailsModal';
 // import { TaskCard } from '../../Display';
 import './ProjectDetail.scss';
 
-function UserCard({ user }) {
-    return (
-        <div className='userCard' style={{'borderColor': user?.avatar?.color}}>{user?.username}</div>
-    );
-}
+// function UserCard({ user }) {
+//     return (
+//         <div className='userCard' style={{'borderColor': user?.avatar?.color}}>{user?.username}</div>
+//     );
+// }
 
 export default function ProjectDetail({
     // project: { title, description, tasks, users },
@@ -86,8 +87,6 @@ export default function ProjectDetail({
             // handleToggleModal();
             // onOpen(event);
             // console.log(tid);
-        } else {
-            console.log(event.target.className);
         }
     }
 

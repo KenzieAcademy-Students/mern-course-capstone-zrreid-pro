@@ -98,12 +98,68 @@ router.put('/:tid/update', requireAuth, async (req, res) => {
             { new: true }
         );
 
-        return res.status(200).send('Task updated');
+        return res.status(200).send('Task Updated');
     } catch (error) {
         console.log(
             chalk.red(`Task Update Error: ${error}`)
         );
         res.status(500).json({ message: 'Task Update Failure'});
+    }
+});
+
+router.put('/:tid/assign', requireAuth, async (req, res) => {
+    const { uid } = req.body;
+    const { tid } = req.params;
+
+    try {
+        await Task.findByIdAndUpdate(
+            { _id: tid },
+            {
+                assigned_user: uid 
+            },
+            { new: true }
+        );
+
+        await User.findByIdAndUpdate(
+            { _id: uid },
+            { $push: { task_list: tid } },
+            { new: true }
+        );
+
+        return res.status(200).send('Assigned User Updated');
+    } catch (error) {
+        console.log(
+            chalk.red(`Assigned User Update Error: ${error}`)
+        );
+        res.status(500).json({ message: 'Assigned User Update Failure'});
+    }
+});
+
+router.put('/:tid/unassign', requireAuth, async (req, res) => {
+    const { uid } = req.body;
+    const { tid } = req.params;
+
+    try {
+        await Task.findByIdAndUpdate(
+            { _id: tid },
+            {
+                $unset: { assigned_user: '' } 
+            },
+            { new: true }
+        );
+
+        await User.findByIdAndUpdate(
+            { _id: uid },
+            { $pull: { task_list: tid } },
+            { new: true }
+        );
+
+        return res.status(200).send('Unassigned User');
+    } catch (error) {
+        console.log(
+            chalk.red(`Unassignment Error: ${error}`)
+        );
+        res.status(500).json({ message: 'Unassignment Failure'});
     }
 });
 
