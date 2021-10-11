@@ -9,6 +9,7 @@ import './ProjectCreationModal.scss';
 export default function ProjectCreationModal({
     data,
     totalUsers = [],
+    currentUser,
     handleInputChange,
     updateUserList,
     createProject,
@@ -40,7 +41,7 @@ export default function ProjectCreationModal({
         <div className='modal-overlay' ref={modalRef} onClick={closeModal}>
             <form className='modal-wrapper pc-form'>
                 <h2 className='pc-form-title'>Create a New Project</h2>
-                <button className='pc-form-close' onClick={toggleModal}>X</button>
+                <button className='form-close' onClick={toggleModal}><i className='bx bx-x'></i></button>
 
                 <div className='pc-form-body'>
                     <input
@@ -59,14 +60,20 @@ export default function ProjectCreationModal({
                         id='pc-form-textarea'
                         className='pc-form-input'
                         name='description'
-                        placeholder='Project Description'
+                        placeholder='Describe your project'
                         value={data.description}
                         onChange={handleInputChange}
                         autoComplete='off'
                     />
 
                     <Select
-                        options={totalUsers?.reduce((users, user) => [...users, { value: user._id, label: user.username}], [])}
+                        options={totalUsers?.reduce((users, user) => {
+                            if(user._id !== currentUser) {
+                                return [...users, { value: user._id, label: user.username}];
+                            } else {
+                                return users;
+                            }
+                        }, [])}
                         placeholder='Add Users to Project'
                         noOptionsMessage={() => 'No available users...'}
                         onChange={setSelection}
@@ -75,9 +82,7 @@ export default function ProjectCreationModal({
                         closeMenuOnSelect={false}
                     />
 
-                    <div className='pc-form-submit-button' onClick={createProject}>Create Project</div>
-
-
+                    <button className='submit-button' onClick={createProject}>Create Project</button>
                 </div>
             </form>
         </div>

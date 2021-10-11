@@ -28,6 +28,12 @@ const userSchema = new mongoose.Schema({
             type: ObjectId,
             ref: 'Project'
         }
+    ],
+    task_list: [
+        {
+            type: ObjectId,
+            ref: 'Task'
+        }
     ]
 });
 

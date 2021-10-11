@@ -35,18 +35,37 @@ router.get('/minimum', async (req, res) => {
 });
 
 // GET /api/user:id Public - retrieve a single user
-router.get('/:id', async (req, res, next) => {
+router.get('/:uid', requireAuth, async (req, res) => {
   try {
-    const { id } = req.params;
+    const { uid } = req.params;
 
-    let user = await User.findOne({ _id: id });
+    const populateQuery = [
+      {
+        path: 'project_list',
+        select: [ '_id', 'title' ]
+      },
+      {
+        path: 'task_list',
+        select: [ '_id', 'objective', 'status', 'project' ],
+        populate: { path: 'project', select: [ 'title' ] }
+      }
+    ];
+
+    const user = await User.findById(uid)
+      .populate(populateQuery).exec();
 
     if (!user) {
       return res.status(404).json({ error: 'User not found.' });
     }
 
-    //TODO take out password hash and email for user protection
-    res.status(200).json(user);
+    res.status(200).send({
+      username: user.username,
+      email: user.email,
+      uid: user._id,
+      avatar: user.avatar,
+      project_list: user.project_list,
+      task_list: user.task_list
+    });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');

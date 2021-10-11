@@ -10,6 +10,7 @@ import bcrypt from 'bcryptjs';
 const toId = mongoose.Types.ObjectId;
 
 const colors = ['#FF0000', '#FF7000', '#18DA00', '#008DDA', '#000000', '#99CBDA', '#FCFF00'];
+// const colors = [ Red,    Orange,     Green,   Sky Blue,    Black,   Pale Blue,   Yellow]
 
 async function seedDatabase() {
     try {
@@ -40,7 +41,8 @@ async function seedDatabase() {
                     passwordHash: passwordHash,
                     email: userData[i].email,
                     avatar: userData[i].avatar,
-                    project_list: []
+                    project_list: [],
+                    task_list: []
                 });
 
                 await user.save()
@@ -62,14 +64,19 @@ async function seedDatabase() {
                     notes: taskData[j].notes,
                     comments: [],
                     assigned_user: uids[uid],
-                    subtasks: [],
+                    subtasks: taskData[j].subtasks,
                     project: toId(1)
                 });
+                
+                const savedTask = await task.save();
 
-                await task.save()
-                    .then((savedTask) => {
-                        tids.push(savedTask._id)
-                    });
+                tids.push(savedTask._id);
+
+                await User.findByIdAndUpdate(
+                    { _id: uids[uid] },
+                    { $push: { task_list: savedTask._id } },
+                    { new: true }
+                );
             }
             console.log(
                 chalk.green('Preset tasks successfully created')

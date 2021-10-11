@@ -5,17 +5,106 @@
     
 // }
 
-.project-description {
-    border: 1px solid black;
-    height: 30%;
-    min-height: 30%;
+.topSection {
+    display: flex;
+    height: 40%;
+    min-height: 40%;
     margin-bottom: 10px;
 }
+
+.project-description {
+    border: 1px solid black;
+    height: 100%;
+    // min-height: 30%;
+    max-width: 70%;
+    margin-right: 5px;
+    background-color: #00364bd2;
+    color: #EA6501;
+    
+    flex-grow: 1;
+    
+}
+
+.inner-description {
+    width: 100%;
+    height: 100%;
+    // background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    box-shadow: 0 0 3px black;
+    background-color: #00364bd2;
+    color: #EA6501;
+    padding: 0.5rem;
+}
+
+.description-editor {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+    // background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    box-shadow: 0 0 3px black;
+    background-color: #00364bd2;
+    color: #EA6501;
+    padding: 0.5rem;
+}
+
+.user-section {
+    // background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    box-shadow: 0 0 3px black;
+    background-color: #00364bd2;
+    color: #EA6501;
+    height: 100%;
+    width: 30%;
+    padding: 5px 5px;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+}
+
+.user-section .list-title {
+    margin-bottom: 5px;
+}
+.usersList {
+    // flex-grow: 1;
+    width: 100%;
+    overflow-y: auto;
+    height: 50%;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.usersList .avatar {
+    margin: 3px;
+}
+
+.user-section .user-add-button {
+    cursor: pointer;
+    text-align: center;
+    background-color: #00364B;
+    color: #EA6501;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.user-section .user-add-button:hover {
+    background-color: #001d29;
+}
+
+// .css-b62m3t-container {
+//     display: flex;
+//     align-items: center;
+// }
 
 .taskAssignment {
     display: flex;
     width: 100%;
-    height: 70%;
+    height: 60%;
 }
 
 #projectDetail .taskList {
@@ -25,6 +114,7 @@
     justify-content: center;
     padding: 0 10px;
     overflow-y: auto;
+    max-height: 312px;
 }
 
 .unassigned, .assigned {
@@ -33,8 +123,24 @@
     // justify-content: center;
     flex-grow: 1;
     width: 50%;
+    // background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    box-shadow: 0 0 3px black;
+    background-color: #00364bd2;
+    padding: 5px 5px;
+}
+.unassigned {
+    margin-right: 2.5px;
+}
+.assigned {
+    margin-left: 2.5px;
 }
 
 #projectDetail .list-title {
     text-align: center;
+    
+}
+
+#projectDetail h2.list-title {
+    margin-bottom: 15px;
 }

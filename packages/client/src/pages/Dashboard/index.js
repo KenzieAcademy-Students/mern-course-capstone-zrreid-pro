@@ -55,6 +55,7 @@ const initialState = {
 
 const initialTask = {
   objective: '',
+  status: '',
   // deadline: '',
   // tags: [],
   notes: '',
@@ -96,15 +97,20 @@ const reducer = (state, action) => {
 
 export default function Dashboard() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
-  const { state: { user } } = useProvideAuth();
-  const { project, fetchProject, createProject } = useProvideProject();
+  const { state: { user }, signout } = useProvideAuth();
+  const { project, fetchProject, createProject, updateProjectDescription, updateProjectUsers, createTask, updateTask, toggleAssignTask } = useProvideProject();
+  // const [ project, setProject ] = useState(projectState);
   const [ state, dispatch ] = useReducer(reducer, initialState);
   // const [ project, setProject ] = useState(dummyProject);
   const [ tids, setTIDs ] = useState([]);
   const [ task, setTask ] = useState();
-  const [ isLoaded, setIsLoaded ] = useState(false);
+  const [ taskUpdated, setTaskUpdated ] = useState(false);
+  // const [ taskPayload, setTaskPayload ] = useState({});
+  const [ isLoaded, setIsLoaded ] = useState(false); //indicates whether task data is loaded
   const [ showTaskModal, setShowTaskModal ] = useState(false);
   const [ totalUsers, setTotalUsers ] = useState([]);
+
+  // const [ projectDescription, setProjectDescription ] = useState();
 
   const [ newProjectData, setNewProjectData ] = useState(initialProject);
   const [ showProjectCreationModal, setShowProjectCreationModal ] = useState(false);
@@ -158,9 +164,9 @@ export default function Dashboard() {
 
   const getTask = async (tid) => {
     try {
-      console.log(tid)
+      // console.log(tid)
       const response = await axios.get(`task/${tid}`);
-      console.log(response.data);
+      // console.log(response.data);
       setTask(response.data);
       setIsLoaded(true);
     } catch (error) {
@@ -168,22 +174,38 @@ export default function Dashboard() {
     }
   }
 
+  const handleGetStatusColor = (status) => {
+    for(let i=0; i<project?.status_categories?.length; i++) {
+      if(project?.status_categories[i]?.label === status) {
+        return project?.status_categories[i]?.color;
+      }
+    }
+    
+  }
+
+  //For Task Details/////////////////////////////////////////
   const handleToggleTaskModal = (action, tid = '') => {
     let newTIDs = [...tids];
     if(action) {
-      console.log('Opening Task Details for:', tid);
+      // console.log('Opening Task Details for:', tid);
       newTIDs.push(tid);
       setTIDs(newTIDs);
       getTask(tid);
       setShowTaskModal(true);
     } else {
       if(tids.length === 1) {
+        if(taskUpdated) {
+          // console.log('Update Task')
+          updateTask(task);
+          // toggleAssignTask(taskPayload?.tid, taskPayload?.uid, taskPayload?.operation);
+        }
         setTIDs([]);
         setTask({});
+        setTaskUpdated(false);
         setShowTaskModal(false);
-        setIsLoaded(false);
+        setIsLoaded(false);  
       } else {
-        console.log('Opening Task Details for:', newTIDs[-1]);
+        // console.log('Opening Task Details for:', newTIDs[-1]);
         newTIDs.pop();
         setTIDs(newTIDs);
         getTask(newTIDs[-1]);
@@ -192,6 +214,74 @@ export default function Dashboard() {
     
   }
 
+  const handleTaskUpdate = (event) => {
+    setTaskUpdated(true);
+    setTask({
+      ...task,
+      [event.target.name]: event.target.value
+    });
+  }
+
+  const handleStatusUpdate = (status) => {
+    // console.log('next status:', status)
+    setTaskUpdated(true);
+    setTask({
+      ...task,
+      'status': status
+    });
+  }
+
+  const handleToggleAssignTask = (tid, uid, operation) => {
+    toggleAssignTask(tid, uid, operation);
+  }
+
+  const handleToggleAssignPayload = (tid, uid, operation) => {
+    // setTaskUpdated(true);
+    toggleAssignTask(tid, uid, operation);
+    // setTaskPayload({
+    //   tid: tid,
+    //   uid: uid,
+    //   operation: operation
+    // });
+    if(operation) {
+      let newTask = {...task};
+      delete newTask.assigned_user;
+      setTask(newTask);
+    } else {
+      let newUser = project?.users.find((user) => user._id === uid);
+      // console.log(newUser)
+      setTask({
+        ...task,
+        assigned_user: newUser
+      });
+    }
+  }
+
+  const handleToggleSubtask = (index) => {
+    setTaskUpdated(true);
+    const subtasks = task.subtasks.map((subtask, num) => index === num ? { ...subtask, completed: !subtask.completed } : subtask);
+    setTask({
+      ...task,
+      'subtasks': subtasks
+    });
+  }
+  //////////////////////////////////////////////////
+
+  //For Project Details//////////////////////////////
+  const handleProjectDescriptionUpdate = (description) => {
+    updateProjectDescription(description);
+  }
+
+  const handleProjectUsersUpdate = (users) => {
+    let newUsers = users.map((user) => totalUsers.find((item) => item._id === user.value));
+    // let newList = [...project.users, ...formattedUsers];
+    // console.log([...project.users, ...formattedUsers]);
+    updateProjectUsers(newUsers);
+  }
+
+  ///////////////////////////////////////////////////
+
+  //For Project Creation////////////////////////////
   const handleProjectInputChange = (event) => {
     setNewProjectData({
       ...newProjectData,
@@ -207,16 +297,24 @@ export default function Dashboard() {
   }
 
   const handleToggleProjectCreationModal = () => {
+    if(showProjectCreationModal) {
+      setNewProjectData(initialProject);
+    }
     setShowProjectCreationModal(!showProjectCreationModal);
+
   }
 
-  const handleCreateProject = () => {
-    console.log('Create Project:', newProjectData);
-    // createProject(newProjectData);
+  const handleCreateProject = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    // console.log('Create Project:', newProjectData);
+    createProject(newProjectData);
     setShowProjectCreationModal(false);
     setNewProjectData(initialProject);
   }
+  ////////////////////////////////////////////
 
+  //For Task Creation////////////
   const handleTaskInputChange = (event) => {
     setNewTaskData({
       ...newTaskData,
@@ -225,14 +323,26 @@ export default function Dashboard() {
   }
 
   const handleToggleTaskCreationModal = () => {
+    if(showTaskCreationModal) {
+      setNewTaskData(initialTask);
+    } else {
+      setNewTaskData({
+        ...newTaskData,
+        status: project?.status_categories[0]?.label
+      });
+    }
     setShowTaskCreationModal(!showTaskCreationModal);
   }
 
-  const handlecreateTask = () => {
+  const handleCreateTask = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     console.log('Create Task:', newTaskData);
+    createTask(newTaskData);
     setShowTaskCreationModal(false);
     setNewTaskData(initialTask);
   }
+  ///////////////////////////////
 
   useEffect(() => {
     //For when users can be created
@@ -269,8 +379,10 @@ export default function Dashboard() {
   }, []);
 
   // useEffect(() => {
-  //   console.log('New Project Data:', newProjectData)
-  // }, [newProjectData])
+  //   if(project) {
+  //     setProjectDescription(project.description);
+  //   }
+  // }, [project]);
 
   // IMPORTANT:
   //////// MAKE SURE TO ASK WHETHER CONDITIONALLY RENDERING THE DIFFERENT VIEWS IS BETTER THAN ROUTING THEM
@@ -286,12 +398,25 @@ export default function Dashboard() {
       />
       
       <div className='main'>
-        <Header user={user} projectTitle={project.title} pageView={state.pageView} />
+        <Header user={user} projectTitle={project.title} pageView={state.pageView} signout={signout} />
         {
           !state.pageView ? (
-            <ProjectView project={project} session={state} openTaskDetails={handleToggleTaskModal} />
+            <ProjectView
+              project={project}
+              session={state}
+              openTaskDetails={handleToggleTaskModal}
+              totalUsers={totalUsers}
+              projectDescriptionUpdate={handleProjectDescriptionUpdate}
+              projectUsersUpdate={handleProjectUsersUpdate}
+              assignTask={handleToggleAssignTask}
+              getStatusColor={handleGetStatusColor}
+            />
           ) : (
-            <ProfileView />
+            <ProfileView
+              user={user}
+              getStatusColor={handleGetStatusColor}
+              openTaskDetails={handleToggleTaskModal}
+            />
           )
         }
         { (showTaskModal && isLoaded) && (
@@ -300,6 +425,13 @@ export default function Dashboard() {
               // component={0}
               task={task}
               projectTitle={project.title}
+              projectCategories={project.status_categories.map((status) => status.label)}
+              projectUsers={totalUsers}
+              taskUpdate={handleTaskUpdate}
+              statusUpdate={handleStatusUpdate}
+              toggleAssignTask={handleToggleAssignPayload}
+              toggleSubtask={handleToggleSubtask}
+              getStatusColor={handleGetStatusColor}
             />
             ) }
           
@@ -307,6 +439,7 @@ export default function Dashboard() {
               <ProjectCreationModal
                 data={newProjectData}
                 totalUsers={totalUsers}
+                currentUser={user.uid}
                 handleInputChange={handleProjectInputChange}
                 updateUserList={handleProjectUsersChange}
                 createProject={handleCreateProject}
@@ -318,7 +451,7 @@ export default function Dashboard() {
             <TaskCreationModal
               data={newTaskData}
               handleInputChange={handleTaskInputChange}
-              createTask={handlecreateTask}
+              createTask={handleCreateTask}
               toggleModal={handleToggleTaskCreationModal}
             />
           )}

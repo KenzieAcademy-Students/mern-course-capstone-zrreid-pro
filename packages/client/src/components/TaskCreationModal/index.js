@@ -20,7 +20,32 @@ export default function TaskCreationModal({
         <div className='modal-overlay' ref={modalRef} onClick={closeModal}>
             <form className='modal-wrapper task-form'>
                 <h2 className='task-form-title'>Create a New Task</h2>
-                <button className='task-form-close' onClick={toggleModal}>X</button>
+                <button className='form-close' onClick={toggleModal}><i className='bx bx-x'></i></button>
+
+                <div className='task-form-body'>
+                    <input
+                        className='task-form-input'
+                        type='text'
+                        name='objective'
+                        placeholder='Task Objective'
+                        value={data.objective}
+                        onChange={handleInputChange}
+                        autoComplete='off'
+                        required
+                    />
+
+                    <textarea
+                        id='task-form-textarea'
+                        className='task-form-input'
+                        name='notes'
+                        placeholder='Describe your task objective'
+                        value={data.notes}
+                        onChange={handleInputChange}
+                        autoComplete='off'
+                    />
+
+                    <button className='submit-button' onClick={createTask}>Create Task</button>
+                </div>
             </form>
         </div>
     );

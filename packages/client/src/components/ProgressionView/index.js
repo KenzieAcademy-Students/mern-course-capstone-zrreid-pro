@@ -14,7 +14,9 @@ const sortTasks = (tasks) => {
 
 export default function ProgressionView({
     project: { title, status_categories, tasks, users },
-    openTaskDetails
+    openTaskDetails,
+    assignTask,
+    getStatusColor
     // project
 }) {
     // const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,15 +41,13 @@ export default function ProgressionView({
 
     const handleEvent = (event, tid) => {
         // console.log('fire')
-        console.log(event.target);
+        // console.log(event.target);
         // onOpen(event);
-        if(!event.target.className.includes('avatar')) {
+        if(!event.target.className.includes('ignore') && !event.target.className.includes('tippy-content')) {
             // setTID(tid);
             // onOpen(event);
             openTaskDetails(1, tid);
             // console.log(tid);
-        } else {
-            console.log(event.target.className);
         }
     }
 
@@ -82,58 +82,6 @@ export default function ProgressionView({
 
     }, [status_categories, tasks]);
 
-    // return (
-    //     <div id='progressionView' className='view'>
-    //         <div id='baseline' className='statusList'>
-    //             {
-    //                 sortedTasks['Not Started']?.map((task) => (
-    //                     <TaskCard
-    //                         key={task._id}
-    //                         tasks={task}
-    //                         username={temporaryFix(task.users[0])}
-    //                         mode={0}
-    //                         handleEvent={handleEvent}
-    //                     />
-    //                 ))
-    //             }
-    //         </div>
-    //         {/* {
-    //             categories?.map((status, index) => (
-    //                 <div className='statusList' key={index}>
-    //                     {
-    //                         sortedTasks[status].map((task) => (
-    //                             <TaskCard
-    //                                 key={task._id}
-    //                                 tasks={task}
-    //                                 username={temporaryFix(task.users[0])}
-    //                                 mode={0}
-    //                                 handleEvent={handleEvent}
-    //                             />
-    //                         ))
-    //                     }
-    //                 </div>
-    //             ))
-    //         } */}
-    //         <div id='completed' className='statusList'>
-    //             {/* {
-    //                 sortedTasks['Completed']?.map((task) => (
-    //                     <TaskCard
-    //                         key={task._id}
-    //                         tasks={task}
-    //                         username={temporaryFix(task.users[0])}
-    //                         mode={0}
-    //                         handleEvent={handleEvent}
-    //                     />
-    //                 ))
-    //             } */}
-    //         </div>
-
-    //         <Modal isOpen={isOpen} onClose={onClose} isCentered>
-    //             <TaskDetail tid={tid}/>
-    //         </Modal>
-    //     </div>
-    // );
-
     return (
         <div id='progressionView' className='view'>
             {
@@ -147,8 +95,11 @@ export default function ProgressionView({
                                         key={task._id}
                                         task={task}
                                         projectTitle={title}
+                                        projectUsers={users}
                                         mode={0}
                                         handleEvent={handleEvent}
+                                        assignTask={assignTask}
+                                        statusColor={getStatusColor(task.status)}
                                     />
                                 ))
                             }

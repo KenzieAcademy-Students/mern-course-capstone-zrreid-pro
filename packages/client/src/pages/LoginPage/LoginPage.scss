@@ -4,6 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    // color: white;
 }
 
 .formCard {
@@ -11,6 +12,7 @@
     height: 75%;
     perspective: 1000px;
     position: relative;
+    
 }
 
 .inner {
@@ -19,6 +21,7 @@
     height: 100%;
     transition: all 1s;
     transform-style: preserve-3d;
+    
 }
 
 .inner.flipped {
@@ -41,6 +44,8 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    background-color: #00364bd2;
+    color: #EA6501;
 }
 
 .back {
@@ -51,20 +56,30 @@
     text-align: center;
     border-radius: 35px;
     width: 75%;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     padding: 0.5rem;
+    background-color: #00364B;
+    color: #EA6501;
     
 }
 
 .submit-button {
     text-align: center;
     border-radius: 35px;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     padding: 0.5rem;
     cursor: pointer;
+    background-color: #00364B;
+    color: #EA6501;
+}
+
+.submit-button:hover {
+    background-color: #001d29;
 }
 
 .flipPrompt {
+    // display: flex;
+    // justify-content: center;
     margin-top: 1.5rem;
 }
 

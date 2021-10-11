@@ -3,24 +3,17 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { LoginPage, Dashboard } from 'pages';
 import { useProvideAuth } from 'hooks/useAuth';
 
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
+
 export default function App() {
     const { state: { user } } = useProvideAuth();
-    
-    // return (
-    //     <>
-    //         <Switch>
-    //             <Route exact path='/' component={LoginPage} />
-    //         </Switch>
-    //     </>
-    // );
 
     return (
         <>
             {
                 user ? (
                     <Switch>
-                        <Route exact path='/dashboard/project' render={() => <Dashboard />} />
-                        <Route exact path='/dashboard/profile' render={() => <Dashboard />} />
                         <Route exact path='/dashboard' render={() => <Dashboard />} />
                         <Route exact path='/' component={LoginPage}>
                             <Redirect to='/dashboard' />

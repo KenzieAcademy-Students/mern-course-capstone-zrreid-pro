@@ -1,0 +1,25 @@
+.colorPicker {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 75%;
+    height: 10%;
+    min-height: 100px;
+    margin-top: 1rem;
+
+}
+
+.colorOption {
+    width: calc(100%/5);
+    margin: 1px;
+    border-radius: 3px;
+    box-shadow: 0 0 1px black;
+}
+
+.colorOption.active {
+    box-shadow: 0 0 5px 1px white;
+}
+
+.colorOption:hover:not(.colorOption.active) {
+    box-shadow: 0 0 3px black;
+}

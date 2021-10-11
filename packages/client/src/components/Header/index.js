@@ -5,14 +5,15 @@ import './Header.scss';
 export default function Header({
     user,
     projectTitle,
-    pageView
+    pageView,
+    signout
 }) {
     return (
         <div className='header'>
-            <div className='dashboard-identifier'>
+            <h2 className='dashboard-identifier'>
                 {pageView ? user.username : projectTitle}
-            </div>
-            <Avatar user={user} />
+            </h2>
+            <Avatar user={user} signout={signout}/>
         </div>
     );
 }

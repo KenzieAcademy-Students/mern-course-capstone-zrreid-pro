@@ -51,8 +51,12 @@ const taskSchema = new mongoose.Schema({
     },
     subtasks: [
         {
-            type: ObjectId,
-            ref: 'Task'
+            objective: {
+                type: String
+            },
+            completed: {
+                type: Boolean
+            }
         }
     ],
     project: {

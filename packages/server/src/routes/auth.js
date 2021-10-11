@@ -29,11 +29,12 @@ router.post('/signup', async (req, res) => {
 
       bcrypt.hash(password, 12).then((hashedPassword) => {
         const user = new User({
-          username,
+          username: username,
           passwordHash: hashedPassword,
           email: email,
           avatar: avatar,
-          project_list: []
+          project_list: [],
+          task_list: []
         });
 
         user.save()
@@ -48,54 +49,6 @@ router.post('/signup', async (req, res) => {
     .catch((error) => {
       console.log(`Searching Error: ${error}`);
     })
-
-  // try {
-  //   const { username, password, email, avatar } = req.body;
-
-  //   //password username and email validations
-  //   if (!password || !username || !email) {
-  //     return res.status(422).json({ error: 'Please add all fields.' });
-  //   }
-
-  //   if (password.split('').length < 8) {
-  //     return res
-  //       .status(400)
-  //       .json({ error: 'The password must be between 8 and 20 characters.!' });
-  //   }
-
-  //   let user = await User.findOne({ email });
-
-  //   if (user) {
-  //     return res
-  //       .status(400)
-  //       .json({ error: 'This email has already been registered.' });
-  //   }
-
-  //   //valudation - unique username
-  //   let usernameAlreadyExists = await User.findOne({ username });
-
-  //   if (usernameAlreadyExists) {
-  //     return res
-  //       .status(400)
-  //       .json({ error: 'This username has already been taken.' });
-  //   }
-
-  //   const passwordHash = await bcrypt.hash(password, 12);
-
-  //   user = new User({
-  //     username,
-  //     passwordHash,
-  //     email,
-  //     avatar,
-  //   });
-
-  //   user.save();
-
-  //   res.status(200).json({ msg: 'User has been registered', user });
-  // } catch (error) {
-  //   console.error(error);
-  //   res.status(500).send('Server Error');
-  // }
 });
 
 // @POST api/auth/signin - public - Signin
@@ -113,7 +66,12 @@ router.post('/signin', async (req, res) => {
   const populateQuery = [
     {
       path: 'project_list',
-      select: ['title', '_id']
+      select: [ '_id', 'title' ]
+    },
+    {
+      path: 'task_list',
+      select: [ '_id', 'objective', 'status', 'project' ],
+      populate: { path: 'project', select: [ 'title' ] }
     }
   ];
 
@@ -143,49 +101,9 @@ router.post('/signin', async (req, res) => {
       email: user.email,
       uid: user._id,
       avatar: user.avatar,
-      project_list: user.project_list
-    })
-
-
-
-  // try {
-    
-
-    
-
-  //   let user = await User.findOne({ email });
-
-  //   if (!user) {
-  //     return res.status(404).json({ error: 'Invalid email or password.' });
-  //   }
-
-  //   // verify that user exists and the pw matches the user records
-  //   const passwordCorrect =
-  //     user === null ? false : await bcrypt.compare(password, user.passwordHash);
-
-  //   // validating username and password
-  //   if (!user && passwordCorrect) {
-  //     return res.status(401).json({ error: 'Invalid email or password.' });
-  //   }
-  //   console.log('USER', user);
-  //   const userForToken = {
-  //     username: user.username,
-  //     id: user._id,
-  //   };
-
-  //   const token = jwt.sign(userForToken, keys.jwt.secret);
-
-  //   res.status(200).json({
-  //     token,
-  //     username: user.username,
-  //     email: user.email,
-  //     uid: user._id,
-  //     avatar: user.avatar,
-  //   });
-  // } catch (error) {
-  //   console.error(error);
-  //   res.status(500).send('Server Error');
-  // }
+      project_list: user.project_list,
+      task_list: user.task_list
+    });
 });
 
 module.exports = router;
