@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 // import TaskDetail from '../TaskDetail';
 import TaskCard from '../TaskCard';
+import SubtaskCard from '../SubtaskCard';
 import UserCard from '../UserCard';
 // import axios from '../../../utils/axiosConfig';
 import './TaskDetailsModal.scss';
@@ -12,9 +13,11 @@ export default function TaskDetailsModal({
     task = {},
     projectTitle,
     projectCategories,
+    projectUsers,
     taskUpdate,
     statusUpdate,
     toggleAssignTask,
+    toggleSubtask,
     getStatusColor
 }) {
     const modalRef = useRef();
@@ -26,6 +29,7 @@ export default function TaskDetailsModal({
     const [ editingStatus, setEditingStatus ] = useState(false);
     const [ editingNotes, setEditingNotes ] = useState(false);
     const [ editingAssignedUser, setEditingAssignedUser ] = useState(false);
+    const [ selectedUser, setSelectedUser ] = useState('');
 
     const [ selectedStatus, setSelectedStatus ] = useState();
 
@@ -64,6 +68,10 @@ export default function TaskDetailsModal({
         }
     }
 
+    // const toggleSubtask = (index) => {
+    //     subtaskToggle(index);
+    // }
+
     const eventHandler = (event) => {
         // console.log(`Fire! ${event.target}`)
         if(objectiveRef.current === event.target) {
@@ -80,8 +88,12 @@ export default function TaskDetailsModal({
         
     }
 
+    const assignUser = (event) => {
+        toggleAssignTask(task._id, event.value, 0);
+    }
+
     //attach to assignment spot, 0 is to assign and 1 is to unassign
-    const handleAssign = (uid, operation) => {
+    const handleToggleAssign = (uid, operation) => {
         toggleAssignTask(task._id, uid, operation);
     }
 
@@ -91,7 +103,7 @@ export default function TaskDetailsModal({
                 {/* <TaskDetail tid={tid} projectTitle={projectTitle} toggleModal={toggleModal} /> */}
                 <div className='modal-header'>
                     <h2 className='modal-header-title'>{projectTitle}</h2>
-                    <button onClick={() => toggleModal(0)}>X</button>
+                    <button onClick={() => toggleModal(0)}><i className='bx bx-x'></i></button>
                 </div>
 
                 <div className='modal-body'>
@@ -148,7 +160,12 @@ export default function TaskDetailsModal({
                                 <div className='modal-task-list'>
                                     {
                                         task?.subtasks?.map((subtask, index) => (
-                                            <TaskCard key={index} task={subtask} handleEvent={toggleModal} />
+                                            <SubtaskCard
+                                                key={index}
+                                                index={index}
+                                                subtask={subtask}
+                                                toggleSubtask={toggleSubtask}
+                                            />
                                         ))
                                     }
                                     <div className='task-list-add-button'>+ Add New Subtask</div>
@@ -160,7 +177,21 @@ export default function TaskDetailsModal({
                             <div className='modal-subsection'>
                                 <h2 className='modal-subtitle'>Assigned User</h2>
                                 {/* <div>{task?.assigned_user?.username}</div> */}
-                                <UserCard user={task?.assigned_user} />
+                                {
+                                    task?.assigned_user ? (
+                                        <UserCard user={task?.assigned_user} mode={1} unassign={handleToggleAssign} />
+                                    ) : (
+                                        <Select
+                                            options={projectUsers?.map((user) => ({ value: user?._id, label: user?.username}))}
+                                            onChange={assignUser}
+                                            placeholder='Assign User to the Task'
+                                            noOptionsMessage={() => 'No users to aassign...'}
+                                            isSearchable
+                                            closeMenuOnSelect={true}
+                                        />
+                                    )
+                                }
+                                
                             </div>
                             <div className='modal-subsection'>
                                 <h2 className='modal-subtitle'>Comments</h2>

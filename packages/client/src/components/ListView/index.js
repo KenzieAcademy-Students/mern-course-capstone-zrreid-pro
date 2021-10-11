@@ -6,8 +6,9 @@ import TaskCard from '../TaskCard';
 import './ListView.scss';
 
 export default function ListView({
-    project: { title, tasks, users },
+    project,
     openTaskDetails,
+    assignTask,
     getStatusColor
 }) {
     // const { isOpen, onOpen, onClose } = useDisclosure();
@@ -23,15 +24,13 @@ export default function ListView({
 
     const handleEvent = (event, tid) => {
         // console.log('fire')
-        console.log(event.target);
+        // console.log(event.target);
         // onOpen(event);
-        if(!event.target.className.includes('avatar')) {
+        if(!event.target.className.includes('ignore') && !event.target.className.includes('tippy-content')) {
             // setTID(tid);
             // onOpen(event);
             openTaskDetails(1, tid);
             // console.log(tid);
-        } else {
-            console.log(event.target.className);
         }
     }
 
@@ -39,13 +38,15 @@ export default function ListView({
         <div id='listView' className='view'>
             <h2 className='list-title'>Tasks</h2>
             <div className='taskList'>
-                {tasks?.map((task, index) => (
+                {project?.tasks?.map((task, index) => (
                     <TaskCard
                         key={task._id}
                         task={task}
-                        projectTitle={title}
+                        projectTitle={project?.title}
+                        projectUsers={project?.users}
                         mode={0}
                         handleEvent={handleEvent}
+                        assignTask={assignTask}
                         statusColor={getStatusColor(task.status)}
                     />
                 ))}

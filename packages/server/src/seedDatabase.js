@@ -64,7 +64,7 @@ async function seedDatabase() {
                     notes: taskData[j].notes,
                     comments: [],
                     assigned_user: uids[uid],
-                    subtasks: [],
+                    subtasks: taskData[j].subtasks,
                     project: toId(1)
                 });
                 

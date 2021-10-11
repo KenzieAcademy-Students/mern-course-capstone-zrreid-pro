@@ -105,6 +105,7 @@ export default function Dashboard() {
   const [ tids, setTIDs ] = useState([]);
   const [ task, setTask ] = useState();
   const [ taskUpdated, setTaskUpdated ] = useState(false);
+  // const [ taskPayload, setTaskPayload ] = useState({});
   const [ isLoaded, setIsLoaded ] = useState(false); //indicates whether task data is loaded
   const [ showTaskModal, setShowTaskModal ] = useState(false);
   const [ totalUsers, setTotalUsers ] = useState([]);
@@ -196,6 +197,7 @@ export default function Dashboard() {
         if(taskUpdated) {
           // console.log('Update Task')
           updateTask(task);
+          // toggleAssignTask(taskPayload?.tid, taskPayload?.uid, taskPayload?.operation);
         }
         setTIDs([]);
         setTask({});
@@ -231,6 +233,37 @@ export default function Dashboard() {
 
   const handleToggleAssignTask = (tid, uid, operation) => {
     toggleAssignTask(tid, uid, operation);
+  }
+
+  const handleToggleAssignPayload = (tid, uid, operation) => {
+    // setTaskUpdated(true);
+    toggleAssignTask(tid, uid, operation);
+    // setTaskPayload({
+    //   tid: tid,
+    //   uid: uid,
+    //   operation: operation
+    // });
+    if(operation) {
+      let newTask = {...task};
+      delete newTask.assigned_user;
+      setTask(newTask);
+    } else {
+      let newUser = project?.users.find((user) => user._id === uid);
+      // console.log(newUser)
+      setTask({
+        ...task,
+        assigned_user: newUser
+      });
+    }
+  }
+
+  const handleToggleSubtask = (index) => {
+    setTaskUpdated(true);
+    const subtasks = task.subtasks.map((subtask, num) => index === num ? { ...subtask, completed: !subtask.completed } : subtask);
+    setTask({
+      ...task,
+      'subtasks': subtasks
+    });
   }
   //////////////////////////////////////////////////
 
@@ -371,7 +404,9 @@ export default function Dashboard() {
               getStatusColor={handleGetStatusColor}
             />
           ) : (
-            <ProfileView />
+            <ProfileView
+              openTaskDetails={handleToggleTaskModal}
+            />
           )
         }
         { (showTaskModal && isLoaded) && (
@@ -381,9 +416,11 @@ export default function Dashboard() {
               task={task}
               projectTitle={project.title}
               projectCategories={project.status_categories.map((status) => status.label)}
+              projectUsers={totalUsers}
               taskUpdate={handleTaskUpdate}
               statusUpdate={handleStatusUpdate}
-              toggleAssignTask={handleToggleAssignTask}
+              toggleAssignTask={handleToggleAssignPayload}
+              toggleSubtask={handleToggleSubtask}
               getStatusColor={handleGetStatusColor}
             />
             ) }

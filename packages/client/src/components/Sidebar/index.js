@@ -18,7 +18,7 @@ export default function Sidebar({
                     <div className='nav-item' onClick={() => navigate(1)}>User Profile</div>
                 </div>
                 <div className='projectList'>
-                    {projectList.map((project, index) => (
+                    {projectList?.map((project, index) => (
                         <div key={index} onClick={() => loadProject(project._id, index)} className='projectButton'>{project.title}</div>
                     ))}
 

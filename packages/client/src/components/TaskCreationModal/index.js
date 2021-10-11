@@ -20,7 +20,7 @@ export default function TaskCreationModal({
         <div className='modal-overlay' ref={modalRef} onClick={closeModal}>
             <form className='modal-wrapper task-form'>
                 <h2 className='task-form-title'>Create a New Task</h2>
-                <button className='task-form-close' onClick={toggleModal}>X</button>
+                <button className='task-form-close' onClick={toggleModal}><i className='bx bx-x'></i></button>
 
                 <div className='task-form-body'>
                     <input

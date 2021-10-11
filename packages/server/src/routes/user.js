@@ -46,7 +46,8 @@ router.get('/:id', async (req, res) => {
       },
       {
         path: 'task_list',
-        select: [ '_id', 'objective', 'status', 'tags' ]
+        select: [ '_id', 'objective', 'status', 'project' ],
+          populate: { path: 'project', select: [ 'title' ] }
       }
     ];
 

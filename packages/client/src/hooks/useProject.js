@@ -269,7 +269,8 @@ export function useProvideProject() {
                 });
 
                 //handles when the logged in user is assigned something
-                if(user._id === uid) {
+                // console.log(user)
+                if(user.uid === uid) {
                     updateUser();
                 }
             } catch (error) {
@@ -300,9 +301,9 @@ export function useProvideProject() {
                     type: 'UPDATE',
                     payload: ['tasks', newTasks]
                 });
-
+                // console.log(user)
                 //handles when the logged in user is unassigned something
-                if(user._id === uid) {
+                if(user.uid === uid) {
                     updateUser();
                 }
 

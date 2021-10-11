@@ -14,10 +14,7 @@ router.get('/:tid', requireAuth, async (req, res) => {
             populate: { path: 'author', select: [ 'username' ] }
         },
         {
-            path: 'assigned_user', select: [ 'username', 'avatar' ]
-        },
-        {
-            path: 'subtasks', select: [ '_id', 'objective', 'status', 'assigned_user' ]
+            path: 'assigned_user', select: [ '_id', 'username', 'avatar' ]
         }
     ];
 

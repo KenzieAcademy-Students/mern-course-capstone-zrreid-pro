@@ -129,7 +129,7 @@ export default function ProjectDetail({
                     <h3 className='list-title'>Project Users</h3>
                     <div className='usersList'>
                         {
-                            project && project.users?.map((user, index) => <UserCard key={index} user={user} />)
+                            project && project.users?.map((user, index) => <UserCard key={index} user={user} mode={0} />)
                         }
                     </div>
                     {

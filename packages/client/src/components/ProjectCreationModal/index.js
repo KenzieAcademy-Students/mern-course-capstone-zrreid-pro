@@ -41,7 +41,7 @@ export default function ProjectCreationModal({
         <div className='modal-overlay' ref={modalRef} onClick={closeModal}>
             <form className='modal-wrapper pc-form'>
                 <h2 className='pc-form-title'>Create a New Project</h2>
-                <button className='pc-form-close' onClick={toggleModal}>X</button>
+                <button className='pc-form-close' onClick={toggleModal}><i className='bx bx-x'></i></button>
 
                 <div className='pc-form-body'>
                     <input

@@ -121,6 +121,7 @@ export function useProvideAuth() {
   }
 
   const updateUser = async () => {
+    console.log('update user')
     const userResponse = await axios.get(`user/${state.user.uid}`);
     dispatch({
       type: 'UPDATE',
