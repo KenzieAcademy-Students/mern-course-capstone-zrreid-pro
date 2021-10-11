@@ -126,12 +126,33 @@ export function useProvideAuth() {
     try {
       const userResponse = await axios.get(`user/${state.user.uid}`);
       console.log(userResponse.data)
+
+      // localStorage.setItem('MernAppUser', JSON.stringify({
+      //   avatar: userResponse.data.avatar,
+      //   email: userResponse.data.email,
+      //   project_list: userResponse.data.project_list,
+      //   task_list: userResponse.data.task_list,
+      //   uid: userResponse.data.uid,
+      //   username: userResponse.data.username,
+      //   token: state.user.token
+      // }));
+
       dispatch({
         type: 'UPDATE',
         payload: userResponse.data
       });
       // localStorage.setItem('MernAppUser', JSON.stringify(userResponse.data._id));
-      localStorage.setItem('MernAppUser', JSON.stringify({...state, user: userResponse.data}));
+      // localStorage.setItem('MernAppUser', JSON.stringify({
+      //   avatar: userResponse.data.avatar,
+      //   email: userResponse.data.email,
+      //   project_list: userResponse.data.project_list,
+      //   task_list: userResponse.data.task_list,
+      //   uid: userResponse.data.uid,
+      //   username: userResponse.data.username,
+      //   token: state.user.token
+
+      // }));
+      localStorage.setItem('MernAppUser', JSON.stringify({...userResponse.data, token: state.user.token}));
     } catch (error) {
       console.log('User Update Error:', error);
     }
@@ -140,6 +161,7 @@ export function useProvideAuth() {
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem('MernAppUser')) || false;
     // const userResponse = await axios.get(`user/${state.user.uid}`);
+    console.log(savedUser)
     if(savedUser) {
       dispatch({
         type: 'LOGIN',

@@ -4,8 +4,12 @@
     justify-content: center;
     width: 75%;
     height: 10%;
-    min-height: 100px;
+    min-height: 110px;
     margin-top: 1rem;
+    background-color: #00364B;
+    border-radius: 16px;
+    box-shadow: 0 0 3px black;
+    padding: 5px;
 
 }
 
@@ -21,5 +25,5 @@
 }
 
 .colorOption:hover:not(.colorOption.active) {
-    box-shadow: 0 0 3px black;
+    box-shadow: 0 0 3px 1px white;
 }
