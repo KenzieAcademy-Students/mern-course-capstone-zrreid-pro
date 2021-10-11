@@ -26,6 +26,8 @@ const reducer = (state, action) => {
                 ...state,
                 [action.payload[0]]: action.payload[1]
             }
+        case 'CLEAR':
+            return initialState;
         default:
             return state;
     }
@@ -313,6 +315,12 @@ export function useProvideProject() {
         }
     }
 
+    const clearProject = () => {
+        dispatch({
+            type: 'CLEAR'
+        });
+    }
+
     // useEffect(() => {
     //     // console.log('USE_EFFECT');
     //     // const savedProject = JSON.parse(localStorage.getItem('MernAppProject')) || false;
@@ -343,7 +351,8 @@ export function useProvideProject() {
         updateProjectTags,
         createTask,
         updateTask,
-        toggleAssignTask
+        toggleAssignTask,
+        clearProject
     };
 }
 
