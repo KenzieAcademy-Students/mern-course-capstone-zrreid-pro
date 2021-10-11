@@ -15,9 +15,9 @@ export default function UserCard({ user, mode, unassign }) {
                         {/* <Tippy content='Assign Someone Else'>
                             <i className='bx bx-user-plus'></i>
                         </Tippy> */}
-                        {user?.username}
+                        <div className='userCard-content'>{user?.username}</div>
                         <Tippy content='Unassign User'>
-                            <i className='bx bx-x' onClick={() => unassign(user?._id, 1)}></i>
+                            <button className='unassign-button' onClick={() => unassign(user?._id, 1)}><i className='bx bx-x'></i></button>
                         </Tippy>
                     </div>
                 )

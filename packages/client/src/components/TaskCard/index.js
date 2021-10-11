@@ -14,7 +14,7 @@ function ToolTipMenu({ projectUsers, assign }) {
 }
 
 export default function TaskCard({
-    task: { _id, objective, assigned_user, status },
+    task,
     // task,
     projectTitle = '',
     projectUsers,
@@ -30,27 +30,37 @@ export default function TaskCard({
     // const [ assigningUser, setAssigningUser ] = useState(false);
 
     const handleAssign = (uid) => {
-        assignTask(_id, uid, 0);
+        assignTask(task?._id, uid, 0);
     }
 
     return (
-        <div className='taskCard' onClick={(event) => handleEvent(event, _id)} style={{'borderColor': statusColor}}>
-            <div className='card-content'>
-                <div className='projectName'>{projectTitle}</div>
-                <div className='objective'>{objective}</div>
-            </div>
-            { assigned_user && <Avatar user={assigned_user} /> }
-            
-            { !assigned_user &&
-                <Tippy interactive={true} content={<ToolTipMenu projectUsers={projectUsers} assign={handleAssign} />}>
-                    <div className='assignButton ignore'><i className='bx bxs-user-plus ignore'></i></div>
-                </Tippy>
-            }
-            {/* {
-                assigned_user ? (<Avatar user={assigned_user} />) :
-                    (<div className='addButton'><i className='bx bxs-user-plus'></i></div>)
-            } */}
-        </div>
+        <>
+        {
+            !mode ? (
+                <div className='taskCard' onClick={(event) => handleEvent(event, task?._id)} style={{'borderColor': statusColor}}>
+                    <div className='card-content'>
+                        <div className='projectName'>{projectTitle}</div>
+                        <div className='objective'>{task?.objective}</div>
+                    </div>
+                    { task?.assigned_user && <Avatar user={task?.assigned_user} /> }
+                    
+                    { !task?.assigned_user &&
+                        <Tippy interactive={true} content={<ToolTipMenu projectUsers={projectUsers} assign={handleAssign} />}>
+                            <div className='assignButton ignore'><i className='bx bxs-user-plus ignore'></i></div>
+                        </Tippy>
+                    }
+                </div>
+            ) : (
+                <div className='taskCard' style={{'borderColor': statusColor}}>
+                    <div className='card-content'>
+                        <div className='projectName'>{task?.project.title}</div>
+                        <div className='objective'>{task?.objective}</div>
+                    </div>
+                </div>
+            )
+        }
+        
+        </>
     );
 
     // return (

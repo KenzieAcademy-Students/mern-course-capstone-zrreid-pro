@@ -41,7 +41,7 @@ export default function ProjectCreationModal({
         <div className='modal-overlay' ref={modalRef} onClick={closeModal}>
             <form className='modal-wrapper pc-form'>
                 <h2 className='pc-form-title'>Create a New Project</h2>
-                <button className='pc-form-close' onClick={toggleModal}><i className='bx bx-x'></i></button>
+                <button className='form-close' onClick={toggleModal}><i className='bx bx-x'></i></button>
 
                 <div className='pc-form-body'>
                     <input
@@ -82,7 +82,7 @@ export default function ProjectCreationModal({
                         closeMenuOnSelect={false}
                     />
 
-                    <div className='pc-form-submit-button' onClick={createProject}>Create Project</div>
+                    <button className='submit-button' onClick={createProject}>Create Project</button>
                 </div>
             </form>
         </div>

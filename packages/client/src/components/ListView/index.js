@@ -36,20 +36,22 @@ export default function ListView({
 
     return (
         <div id='listView' className='view'>
-            <h2 className='list-title'>Tasks</h2>
-            <div className='taskList'>
-                {project?.tasks?.map((task, index) => (
-                    <TaskCard
-                        key={task._id}
-                        task={task}
-                        projectTitle={project?.title}
-                        projectUsers={project?.users}
-                        mode={0}
-                        handleEvent={handleEvent}
-                        assignTask={assignTask}
-                        statusColor={getStatusColor(task.status)}
-                    />
-                ))}
+            <div className='listView-container'>
+                <h2 className='list-title'>Tasks</h2>
+                <div className='taskList'>
+                    {project?.tasks?.map((task, index) => (
+                        <TaskCard
+                            key={task._id}
+                            task={task}
+                            projectTitle={project?.title}
+                            projectUsers={project?.users}
+                            mode={0}
+                            handleEvent={handleEvent}
+                            assignTask={assignTask}
+                            statusColor={getStatusColor(task.status)}
+                        />
+                    ))}
+                </div>
             </div>
 
             {/* <Modal isOpen={isOpen} onClose={onClose} isCentered>

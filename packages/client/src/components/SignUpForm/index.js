@@ -1,14 +1,19 @@
 import React from 'react';
+import ColorPicker from '../ColorPicker';
+import { CompactPicker } from 'react-color';
 // import { Heading, FormControl,
 //     // FormLabel,
 //     Input, Button, Box } from '@chakra-ui/react';
 import './SignUpForm.scss';
 
+// class ColorPicker extends 
+
 export default function SignUpForm({
     data,
     handleInputChange,
     handleSignUp,
-    handleFlip
+    handleFlip,
+    colorSelect
 }) {
     return (
         <div id='SignUpForm' className='form front'>
@@ -47,6 +52,8 @@ export default function SignUpForm({
                 autoComplete='off'
                 required
             />
+
+            <ColorPicker value={data?.avatar?.color} colorSelect={colorSelect} />
 
             <button className='submit-button' onClick={handleSignUp}>Submit</button>
 

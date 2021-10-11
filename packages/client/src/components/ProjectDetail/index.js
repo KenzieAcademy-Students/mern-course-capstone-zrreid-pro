@@ -4,6 +4,7 @@ import Select from 'react-select';
 // import axios from '../../../utils/axiosConfig';
 import TaskCard from '../TaskCard';
 import UserCard from '../UserCard';
+import Avatar from '../Avatar';
 // import TaskDetail from '../TaskDetail';
 // import Modal from '../TaskDetailsModal';
 // import { TaskCard } from '../../Display';
@@ -128,8 +129,11 @@ export default function ProjectDetail({
                 <div className='user-section'>
                     <h3 className='list-title'>Project Users</h3>
                     <div className='usersList'>
-                        {
+                        {/* {
                             project && project.users?.map((user, index) => <UserCard key={index} user={user} mode={0} />)
+                        } */}
+                        {
+                            project && project.users?.map((user, index) => <Avatar key={index} user={user} />)
                         }
                     </div>
                     {
@@ -152,7 +156,7 @@ export default function ProjectDetail({
                         />
                     }
 
-                    { !updatingUsers && <button onClick={() => setUpdatingUsers(true)}>+ Add Users to Project</button> }
+                    { !updatingUsers && <button className='user-add-button' onClick={() => setUpdatingUsers(true)}>+ Add Users to Project</button> }
                     
                 </div>
                 

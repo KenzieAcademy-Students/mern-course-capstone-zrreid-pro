@@ -67,6 +67,11 @@ router.post('/signin', async (req, res) => {
     {
       path: 'project_list',
       select: [ '_id', 'title' ]
+    },
+    {
+      path: 'task_list',
+      select: [ '_id', 'objective', 'status', 'project' ],
+      populate: { path: 'project', select: [ 'title' ] }
     }
   ];
 

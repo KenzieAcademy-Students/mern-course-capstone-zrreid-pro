@@ -1,9 +1,28 @@
 .userCard {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border: 1px solid black;
     border-radius: 3px;
     padding: 5px;
     text-align: center;
     box-shadow: 0 0 1px black;
+    color: black;
+}
+
+.unassign-button {
+    cursor: pointer;
+    // position: absolute;
+    // right: 10px;
+    text-align: center;
+    // padding: 0.5rem;
+    cursor: pointer;
+    background-color: #00364B;
+    color: #EA6501;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.unassign-button:hover {
+    background-color: #001d29;
 }

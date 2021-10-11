@@ -1,5 +1,5 @@
 .taskCard {
-    border: 1px solid black;
+    border: 5px solid black;
     border-radius: 16px;
     min-width: 100%;
     // width: fit-content;
@@ -13,6 +13,8 @@
     // // margin: auto;
     // margin-top: 5px;
     // // font-size: auto;
+    background-color: #00364B;
+    margin-bottom: 10px;
 }
 
 .card-content {

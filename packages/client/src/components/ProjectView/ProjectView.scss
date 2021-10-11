@@ -6,6 +6,9 @@
 
 .viewTabGroup {
     display: flex;
+    background-color: #00364B;
+    border-radius: 3px;
+    padding: 5px;
     
 }
 
@@ -13,21 +16,32 @@
     flex-grow: 1;
     text-align: center;
     cursor: pointer;
-    border-bottom: 1px solid black;
+    // border-bottom: 1px solid black;
+    color: #EA6501;
+    border-radius: 3px;
+    padding: 5px;
+    // text-align: center;
+    box-shadow: 0 0 1px 1px black;
+    
 }
 
-.viewTab:not(:last-child) {
-    border-right: 1px solid black;
+.viewTab:hover {
+    // border-right: 1px solid black;
+    color: #00364B;
+    background-color: #EA6501;
+    box-shadow: 0 0 3px 1px black;
 }
 
 .viewTab.active {
-    background-color: black;
-    color: white;
+    background-color: #EA6501;
+    color: #00364B;
+    box-shadow: 0 0 3px 1px black;
 }
 
 .view {
     display: flex;
     flex-direction: column;
-    padding: 30px;
+    padding: 15px;
     flex-grow: 1;
+    color: #EA6501;
 }

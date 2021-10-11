@@ -10,9 +10,9 @@ export default function Header({
 }) {
     return (
         <div className='header'>
-            <div className='dashboard-identifier'>
+            <h2 className='dashboard-identifier'>
                 {pageView ? user.username : projectTitle}
-            </div>
+            </h2>
             <Avatar user={user} signout={signout}/>
         </div>
     );

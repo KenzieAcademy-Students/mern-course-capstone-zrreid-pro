@@ -69,6 +69,7 @@ export function useProvideAuth() {
 
         // console.log('Response', response);
 
+        // localStorage.setItem('MernAppUser', JSON.stringify(response.data.uid));
         localStorage.setItem('MernAppUser', JSON.stringify(response.data));
 
         dispatch({
@@ -122,17 +123,23 @@ export function useProvideAuth() {
 
   const updateUser = async () => {
     console.log('update user')
-    const userResponse = await axios.get(`user/${state.user.uid}`);
-    dispatch({
-      type: 'UPDATE',
-      payload: userResponse.data
-    });
-    localStorage.setItem('MernAppUser', JSON.stringify({...state, user: userResponse.data}));
+    try {
+      const userResponse = await axios.get(`user/${state.user.uid}`);
+      console.log(userResponse.data)
+      dispatch({
+        type: 'UPDATE',
+        payload: userResponse.data
+      });
+      // localStorage.setItem('MernAppUser', JSON.stringify(userResponse.data._id));
+      localStorage.setItem('MernAppUser', JSON.stringify({...state, user: userResponse.data}));
+    } catch (error) {
+      console.log('User Update Error:', error);
+    }
   }
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem('MernAppUser')) || false;
-
+    // const userResponse = await axios.get(`user/${state.user.uid}`);
     if(savedUser) {
       dispatch({
         type: 'LOGIN',

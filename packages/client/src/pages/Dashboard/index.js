@@ -175,9 +175,9 @@ export default function Dashboard() {
   }
 
   const handleGetStatusColor = (status) => {
-    for(let i=0; i<project.status_categories.length; i++) {
-      if(project.status_categories[i].label === status) {
-        return project.status_categories[i].color;
+    for(let i=0; i<project?.status_categories?.length; i++) {
+      if(project?.status_categories[i]?.label === status) {
+        return project?.status_categories[i]?.color;
       }
     }
     
@@ -297,7 +297,11 @@ export default function Dashboard() {
   }
 
   const handleToggleProjectCreationModal = () => {
+    if(showProjectCreationModal) {
+      setNewProjectData(initialProject);
+    }
     setShowProjectCreationModal(!showProjectCreationModal);
+
   }
 
   const handleCreateProject = (event) => {
@@ -319,11 +323,15 @@ export default function Dashboard() {
   }
 
   const handleToggleTaskCreationModal = () => {
+    if(showTaskCreationModal) {
+      setNewTaskData(initialTask);
+    } else {
+      setNewTaskData({
+        ...newTaskData,
+        status: project?.status_categories[0]?.label
+      });
+    }
     setShowTaskCreationModal(!showTaskCreationModal);
-    setNewTaskData({
-      ...newTaskData,
-      status: project?.status_categories[0]?.label
-    });
   }
 
   const handleCreateTask = (event) => {
@@ -405,6 +413,8 @@ export default function Dashboard() {
             />
           ) : (
             <ProfileView
+              user={user}
+              getStatusColor={handleGetStatusColor}
               openTaskDetails={handleToggleTaskModal}
             />
           )

@@ -69,10 +69,10 @@ export default function ProjectView({
                     className={`viewTab ${activeTab === 2 ? `active` : ``}`}
                     onClick={() => changeView(2)}
                 >Progression View</div>
-                <div
+                {/* <div
                     className={`viewTab ${activeTab === 3 ? `active` : ``}`}
                     onClick={() => changeView(3)}
-                >Timeline View</div>
+                >Timeline View</div> */}
             </div>
             
             {

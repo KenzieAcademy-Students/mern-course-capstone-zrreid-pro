@@ -47,7 +47,7 @@ router.get('/', requireAuth, async (req, res, next) => {
 router.get('/:pid', requireAuth, async (req, res) => {
   const populateQuery = [
     { path: 'users', select: [ '_id', 'username', 'avatar' ] },
-    { path: 'tasks', select: ['_id', 'objective', 'status', 'tags', 'assigned_user' ], 
+    { path: 'tasks', select: [ '_id', 'objective', 'status', 'tags', 'assigned_user' ], 
         populate: { path: 'assigned_user', select: [ '_id', 'username', 'avatar' ] }
     }
   ];

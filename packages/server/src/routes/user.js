@@ -35,9 +35,9 @@ router.get('/minimum', async (req, res) => {
 });
 
 // GET /api/user:id Public - retrieve a single user
-router.get('/:id', async (req, res) => {
+router.get('/:uid', requireAuth, async (req, res) => {
   try {
-    const { id } = req.params;
+    const { uid } = req.params;
 
     const populateQuery = [
       {
@@ -47,11 +47,11 @@ router.get('/:id', async (req, res) => {
       {
         path: 'task_list',
         select: [ '_id', 'objective', 'status', 'project' ],
-          populate: { path: 'project', select: [ 'title' ] }
+        populate: { path: 'project', select: [ 'title' ] }
       }
     ];
 
-    const user = await User.findById(id)
+    const user = await User.findById(uid)
       .populate(populateQuery).exec();
 
     if (!user) {
@@ -63,7 +63,8 @@ router.get('/:id', async (req, res) => {
       email: user.email,
       uid: user._id,
       avatar: user.avatar,
-      project_list: user.project_list
+      project_list: user.project_list,
+      task_list: user.task_list
     });
   } catch (error) {
     console.error(error.message);

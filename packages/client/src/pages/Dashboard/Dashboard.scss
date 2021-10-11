@@ -9,20 +9,26 @@
 .sidebar {
     position: fixed;
     z-index: 2;
-    border: 1px solid black;
-    width: 20%;
+    border: 1px solid #EA6501;
+    // width: 20%;
+    width: 150px;
     max-width: 150px;
     height: 100%;
+    // background-color: rgba(255, 255, 255, 0.5);
+    background-color: #00364bd2;
+    color: #EA6501;
+    
 }
 
 .main {
     // flex-grow: 1;
     margin-left: 150px;
+    // margin-left: 20%;
     height: 100vh;
 }
 
 .header {
-    border: 1px solid black;
+    border: 1px solid #EA6501;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,6 +36,9 @@
     min-height: 8%;
     max-height: 8%;
     width: 100%;
+    // background-color: rgba(255, 255, 255, 0.5);
+    background-color: #00364bd2;
+    color: #EA6501;
 }
 
 .main-content {

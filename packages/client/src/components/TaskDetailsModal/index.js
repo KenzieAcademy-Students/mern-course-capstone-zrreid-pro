@@ -103,7 +103,7 @@ export default function TaskDetailsModal({
                 {/* <TaskDetail tid={tid} projectTitle={projectTitle} toggleModal={toggleModal} /> */}
                 <div className='modal-header'>
                     <h2 className='modal-header-title'>{projectTitle}</h2>
-                    <button onClick={() => toggleModal(0)}><i className='bx bx-x'></i></button>
+                    <button className='form-close' onClick={() => toggleModal(0)}><i className='bx bx-x'></i></button>
                 </div>
 
                 <div className='modal-body'>
@@ -155,7 +155,7 @@ export default function TaskDetailsModal({
                                 }
                             </div>
                             {/* <div className='task-notes'>{task?.notes}</div> */}
-                            <div className='modal-subsection'>
+                            {/* <div className='modal-subsection'>
                                 <h2 className='modal-subtitle'>Subtasks</h2>
                                 <div className='modal-task-list'>
                                     {
@@ -170,7 +170,7 @@ export default function TaskDetailsModal({
                                     }
                                     <div className='task-list-add-button'>+ Add New Subtask</div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className='user-content'>
@@ -193,10 +193,10 @@ export default function TaskDetailsModal({
                                 }
                                 
                             </div>
-                            <div className='modal-subsection'>
+                            {/* <div className='modal-subsection'>
                                 <h2 className='modal-subtitle'>Comments</h2>
                                 <div className='modal-comment-list'></div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 

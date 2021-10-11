@@ -2,5 +2,24 @@
     flex-direction: row;
     flex-wrap: nowrap;
     overflow-x: auto;
-    justify-content: space-between;
+    // justify-content: space-around;
+}
+
+#progressionView .list-title {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.wrapper {
+    // background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    box-shadow: 0 0 3px black;
+    flex-grow: 1;
+    background-color: #00364bd2;
+    padding: 15px 5px;
+}
+
+.wrapper:nth-child(2) {
+    margin-left: 10px;
+    margin-right: 10px;
 }

@@ -19,9 +19,11 @@ export default function Avatar({ user, signout = null }) {
                     </Tippy>
                 ) :
                 (
-                    <div className='avatar' style={{'background': user?.avatar?.color}} onClick={signout && signout}>
-                        <div className='avatar-content'>{user?.username[0]}</div>
-                    </div>
+                    <Tippy content='logout'>
+                        <div className='avatar' style={{'background': user?.avatar?.color}} onClick={signout && signout}>
+                            <div className='avatar-content'>{user?.username[0]}</div>
+                        </div>
+                    </Tippy>
                 )
             }    
         </>

@@ -11,7 +11,7 @@ const initialState = {
   username: '',
   password: '',
   email: '',
-  avatar: [], //right now there is no functionality for this, but it's part of the model
+  avatar: { pattern: 0, color: '' }, //right now there is no functionality for this, but it's part of the model
   isSubmitting: false,
   errorMessage: null
 }
@@ -27,6 +27,13 @@ export default function LoginPage() {
     setData({
       ...data, //keeps the previous values of the form
       [event.target.name]: event.target.value //changes the selected form field
+    });
+  }
+
+  const handleColorSelect = (newColor) => {
+    setData({
+      ...data,
+      avatar: { pattern: 0, color: newColor }
     });
   }
 
@@ -89,6 +96,7 @@ export default function LoginPage() {
 
   const formFlip = (event) => {
     setIsFlipped(!isFlipped);
+    setData(initialState);
   }
 
     return (
@@ -98,6 +106,7 @@ export default function LoginPage() {
             <SignUpForm
               handleSignUp={handleSignUp}
               handleInputChange={handleInputChange}
+              colorSelect={handleColorSelect}
               handleFlip={formFlip}
               data={data}
             />
