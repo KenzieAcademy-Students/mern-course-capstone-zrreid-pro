@@ -98,7 +98,7 @@ const reducer = (state, action) => {
 export default function Dashboard() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const { state: { user }, signout } = useProvideAuth();
-  const { project, fetchProject, createProject, updateProjectDescription, updateProjectUsers, createTask, updateTask, toggleAssignTask } = useProvideProject();
+  const { project, fetchProject, createProject, updateProjectDescription, updateProjectUsers, createTask, updateTask, toggleAssignTask, clearProject } = useProvideProject();
   // const [ project, setProject ] = useState(projectState);
   const [ state, dispatch ] = useReducer(reducer, initialState);
   // const [ project, setProject ] = useState(dummyProject);
@@ -129,6 +129,11 @@ export default function Dashboard() {
       payload: page
     });
     sessionStorage.setItem('MERNAppDashboard', JSON.stringify({...state, pageView: 1}));
+  }
+
+  const handleSignout = () => {
+    clearProject();
+    signout();
   }
 
   const handleLoadProject = (pid, index) => {
@@ -398,7 +403,7 @@ export default function Dashboard() {
       />
       
       <div className='main'>
-        <Header user={user} projectTitle={project.title} pageView={state.pageView} signout={signout} />
+        <Header user={user} projectTitle={project.title} pageView={state.pageView} signout={handleSignout} />
         {
           !state.pageView ? (
             <ProjectView
