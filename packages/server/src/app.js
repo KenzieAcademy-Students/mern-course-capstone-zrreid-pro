@@ -25,7 +25,7 @@ mongoose.connect(keys.database.url, {
 mongoose.connection.on('connected', () => {
   console.log('connected to mongoDB');
   // seedDatabase();
-  seedDatabaseDemo();
+  // seedDatabaseDemo();
 });
 
 mongoose.connection.on('error', (err) => {
