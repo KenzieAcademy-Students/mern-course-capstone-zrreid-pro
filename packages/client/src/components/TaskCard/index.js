@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Tippy from '@tippyjs/react';
 import Avatar from '../Avatar';
 import './TaskCard.scss';
@@ -15,7 +15,6 @@ function ToolTipMenu({ projectUsers, assign }) {
 
 export default function TaskCard({
     task,
-    // task,
     projectTitle = '',
     projectUsers,
     mode,
@@ -23,11 +22,6 @@ export default function TaskCard({
     assignTask,
     statusColor
 }) {
-
-    // useEffect(() => {
-    //     console.log('Inner Task:', projectUsers);
-    // }, []);
-    // const [ assigningUser, setAssigningUser ] = useState(false);
 
     const handleAssign = (uid) => {
         assignTask(task?._id, uid, 0);
@@ -62,36 +56,4 @@ export default function TaskCard({
         
         </>
     );
-
-    // return (
-    //     <div className='taskCard' onClick={(event) => handleEvent(event, _id)}>
-    //         <div className='card-content'>
-    //             <div className='projectName'>{projectTitle}</div>
-    //             <div className='objective'>{objective}</div>
-    //         </div>
-    //         {
-    //             assigned_user ? (
-    //                 <Tooltip label={assigned_user.username} placement='auto'>
-    //                     <Avatar size='sm' name={assigned_user.username} />
-    //                 </Tooltip>) :
-    //                 (<div className='addButton'><i className='bx bxs-user-plus'></i></div>)
-    //         }
-    //     </div>
-    // );
-
-    // return (
-    //     <div className='taskCard' onClick={(event) => handleEvent(event, _id)}>
-    //         <div className='card-content'>
-    //             <div className='projectName'>{projectTitle}</div>
-    //             <div className='objective'>{objective}</div>
-    //         </div>
-    //         {
-    //             assigned_user ? (
-    //                 <Tooltip label={username} placement='auto'>
-    //                     <Avatar size='sm' name={username} />
-    //                 </Tooltip>) :
-    //                 (<IconButton className='addButton' icon={<i className='bx bxs-user-plus'></i>} />)
-    //         }
-    //     </div>
-    // );
 }

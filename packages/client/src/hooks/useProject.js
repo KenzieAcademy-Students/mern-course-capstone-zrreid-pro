@@ -2,17 +2,6 @@ import React, { useReducer, useEffect, useContext, createContext } from 'react';
 import { useProvideAuth } from './useAuth';
 import axios from '../utils/axiosConfig';
 
-const dummyProject = {
-    title: 'TaskMaster',
-    description: 'lorem ipsum and all that',
-    owner: 'I',
-    // deadline: new Date('9/27/21'),
-    tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
-    users: ['I', 'myself', 'me', 'someone'],
-    categories: ['cat1', 'cat2'],
-    tasks: []
-  };
-
 const initialState = {};
 
 const reducer = (state, action) => {

@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useProvideProject } from '../../hooks/useProject';
-// import TaskCard from '../TaskCard';
-// import TaskDetail from '../TaskDetail';
 import ProjectDetail from '../ProjectDetail';
 import ListView from '../ListView';
 import ProgressionView from '../ProgressionView';
 import TimelineView from '../TimelineView';
-// import { ProjectDetail, ListView, ProgressionView, TimelineView } from '../Views';
 import './ProjectView.scss';
 
 export default function ProjectView({
@@ -20,20 +16,6 @@ export default function ProjectView({
     getStatusColor
 }) {
     const [ activeTab, setActiveTab ] = useState(0);
-    // const [ project, setProject ] = useState(currentProject);
-    // const { project } = useProvideProject();
-
-    // const handleEvent = (event, tid) => {
-    //     // console.log('fire');
-    //     // console.log(event.target.div);
-    //     if(event.target.className.includes('group') || !event.target.className.includes('avatar')) {
-    //         openTaskDetails(tid);
-    //         // console.log(tid);
-            
-    //     } else {
-    //         console.log(event.target.className);
-    //     }
-    // }
 
     const changeView = (view) => {
         setActiveTab(view);
@@ -41,18 +23,11 @@ export default function ProjectView({
     }
 
     useEffect(() => {
-        // console.log('Current Project:', project);
         const savedTab = JSON.parse(sessionStorage.getItem('MERNAppDashboard')) || false;
         if(savedTab) {
             setActiveTab(savedTab.projectView);
         }
-        // console.log('PV:', project)
     }, []);
-
-    // useEffect(() => {
-    //     console.log('Current Project2:', project);
-        
-    // }, [project]);
 
     return (
         <div id='projectView' className='main-content'>
