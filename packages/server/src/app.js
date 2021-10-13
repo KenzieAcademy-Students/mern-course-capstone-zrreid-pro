@@ -53,6 +53,13 @@ app.use(express.static(path.join(__dirname, '../../client/build')));
 // api router
 app.use(keys.app.apiEndpoint, router);
 
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+  });
+}
+
+
 // catch 404 and forward to error handler
 // app.use((req, res, next) => {
 //   next(createError(404, 'NotFound'));
