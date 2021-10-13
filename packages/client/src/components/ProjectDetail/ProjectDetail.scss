@@ -1,10 +1,3 @@
-// #projectDetail {
-//     display: flex;
-//     flex-direction: column;
-//     padding: 30px;
-    
-// }
-
 .topSection {
     display: flex;
     height: 40%;
@@ -15,7 +8,6 @@
 .project-description {
     border: 1px solid black;
     height: 100%;
-    // min-height: 30%;
     max-width: 70%;
     margin-right: 5px;
     background-color: #00364bd2;
@@ -28,7 +20,6 @@
 .inner-description {
     width: 100%;
     height: 100%;
-    // background-color: rgba(255, 255, 255, 0.5);
     border-radius: 3px;
     box-shadow: 0 0 3px black;
     background-color: #00364bd2;
@@ -41,7 +32,6 @@
     height: 100%;
     border: none;
     resize: none;
-    // background-color: rgba(255, 255, 255, 0.5);
     border-radius: 3px;
     box-shadow: 0 0 3px black;
     background-color: #00364bd2;
@@ -50,7 +40,6 @@
 }
 
 .user-section {
-    // background-color: rgba(255, 255, 255, 0.5);
     border-radius: 3px;
     box-shadow: 0 0 3px black;
     background-color: #00364bd2;
@@ -60,14 +49,12 @@
     padding: 5px 5px;
     display: flex;
     flex-direction: column;
-    // justify-content: center;
 }
 
 .user-section .list-title {
     margin-bottom: 5px;
 }
 .usersList {
-    // flex-grow: 1;
     width: 100%;
     overflow-y: auto;
     height: 50%;
@@ -96,11 +83,6 @@
     background-color: #001d29;
 }
 
-// .css-b62m3t-container {
-//     display: flex;
-//     align-items: center;
-// }
-
 .taskAssignment {
     display: flex;
     width: 100%;
@@ -120,10 +102,8 @@
 .unassigned, .assigned {
     display: flex;
     flex-direction: column;
-    // justify-content: center;
     flex-grow: 1;
     width: 50%;
-    // background-color: rgba(255, 255, 255, 0.5);
     border-radius: 3px;
     box-shadow: 0 0 3px black;
     background-color: #00364bd2;

@@ -2,17 +2,10 @@
     border: 5px solid black;
     border-radius: 16px;
     min-width: 100%;
-    // width: fit-content;
-    // // width: fit-content;
     padding: 10px;
     display: flex;
     align-items: center;
     cursor: pointer;
-    // // justify-content: space-between;
-    // // margin-right: 0px !important;
-    // // margin: auto;
-    // margin-top: 5px;
-    // // font-size: auto;
     background-color: #00364B;
     margin-bottom: 10px;
     box-shadow: 0 0 3px black;
@@ -33,14 +26,6 @@
     flex-grow: 1;
 }
 
-.title {
-    // margin-right: 10px;
-    // flex-grow: 1;
-    // width: 40%;
-    // max-width: 40%;
-    // height: fit-content;
-}
-
 .assignButton {
     display: flex;
     justify-content: center;
@@ -52,13 +37,10 @@
     background-color: lightgray;
 }
 
-.tooltip-menu {
-    // width: 500px;
-    // padding: 0px;
-}
 .tooltip-menu-item:hover {
     background-color: blue;
 }
+
 .tippy-content {
     padding: 0px;
 }

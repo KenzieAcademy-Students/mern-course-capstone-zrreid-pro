@@ -14,16 +14,12 @@
 .modal-wrapper.pc-form {
     position: relative;
     min-width: 60%;
-    // width: 95%;
     min-height: 60%;
-    // height: 90%;
-    // background: white;
     box-shadow: 0 5px 16px rgba(0, 0, 0, 1);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    // align-content: center;
     padding: 10px;
     background-color: #00364bd2;
     color: #EA6501;
@@ -33,7 +29,6 @@
     position: absolute;
     right: 10px;
     text-align: center;
-    // padding: 0.5rem;
     cursor: pointer;
     background-color: #00364B;
     color: #EA6501;
@@ -44,19 +39,6 @@
 .form-close:hover {
     background-color: #001d29;
 }
-// .submit-button {
-    
-//     border-radius: 35px;
-//     margin-top: 1rem;
-    
-//     cursor: pointer;
-//     background-color: #00364B;
-//     color: #EA6501;
-// }
-
-// .submit-button:hover {
-//     background-color: #001d29;
-// }
 
 .pc-form-title {
     text-align: center;
@@ -95,8 +77,6 @@
 }
 
 .css-1okebmr-indicatorSeparator {
-    // color: #EA6501 !important;
-    // border-color: #EA6501 !important;
     background-color: #EA6501 !important;
 }
 
@@ -117,15 +97,3 @@
     background-color: #00364B !important;
     color: #EA6501 !important;
 }
-
-// #pc-form-dropdown {
-//     width: 100%;
-// }
-
-// .pc-form-submit-button {
-//     width: max-content;
-//     background: white;
-//     border: 1px solid black;
-//     align-self: center;
-// }
-

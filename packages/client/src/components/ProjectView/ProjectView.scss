@@ -1,7 +1,6 @@
 #projectView {
     display: flex;
     flex-direction: column;
-    // background-color: grey;
 }
 
 .viewTabGroup {
@@ -16,17 +15,14 @@
     flex-grow: 1;
     text-align: center;
     cursor: pointer;
-    // border-bottom: 1px solid black;
     color: #EA6501;
     border-radius: 3px;
     padding: 5px;
-    // text-align: center;
     box-shadow: 0 0 1px 1px black;
     
 }
 
 .viewTab:hover {
-    // border-right: 1px solid black;
     color: #00364B;
     background-color: #EA6501;
     box-shadow: 0 0 3px 1px black;

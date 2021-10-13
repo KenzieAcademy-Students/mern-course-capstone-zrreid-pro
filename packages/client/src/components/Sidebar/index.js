@@ -1,6 +1,5 @@
 import React from 'react';
 import './Sidebar.scss';
-import logo from '../../assets/logo-tiny.png';
 
 export default function Sidebar({
     projectList,
@@ -13,7 +12,6 @@ export default function Sidebar({
         <div className='sidebar'>
             <div className='sidebar-header'>
                 <div className='monogram'></div>
-                {/* <img className='monogram' src={logo}/> */}
             </div>
             <div className='sidebar-content'>
                 <div className='pageNav'>

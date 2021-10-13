@@ -1,10 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Select from 'react-select';
-// import TaskDetail from '../TaskDetail';
-import TaskCard from '../TaskCard';
-import SubtaskCard from '../SubtaskCard';
 import UserCard from '../UserCard';
-// import axios from '../../../utils/axiosConfig';
 import './TaskDetailsModal.scss';
 
 export default function TaskDetailsModal({
@@ -26,20 +22,7 @@ export default function TaskDetailsModal({
     
 
     const [ editingObjective, setEditingObjective ] = useState(false);
-    const [ editingStatus, setEditingStatus ] = useState(false);
     const [ editingNotes, setEditingNotes ] = useState(false);
-    const [ editingAssignedUser, setEditingAssignedUser ] = useState(false);
-    const [ selectedUser, setSelectedUser ] = useState('');
-
-    const [ selectedStatus, setSelectedStatus ] = useState();
-
-    // useEffect(() => {
-    //     try {
-    //         const response = await
-    //     } catch (error) {
-    //         console.log('Task Fetch Error:', error);
-    //     }
-    // }, [tid])
 
     const closeModal = (event) => {
         if(modalRef.current === event.target) {
@@ -51,7 +34,6 @@ export default function TaskDetailsModal({
         let nextStatus;
         if(operation) {
             nextStatus = projectCategories.indexOf(task?.status) + 1;
-            // console.log('task next status1:', nextStatus)
             if(nextStatus === projectCategories.length) {
                 return;
             } else {
@@ -59,7 +41,6 @@ export default function TaskDetailsModal({
             }
         } else {
             nextStatus = projectCategories.indexOf(task?.status) - 1;
-            // console.log('task next status0:', nextStatus)
             if(nextStatus < 0) {
                 return;
             } else {
@@ -68,12 +49,7 @@ export default function TaskDetailsModal({
         }
     }
 
-    // const toggleSubtask = (index) => {
-    //     subtaskToggle(index);
-    // }
-
     const eventHandler = (event) => {
-        // console.log(`Fire! ${event.target}`)
         if(objectiveRef.current === event.target) {
             setEditingObjective(true);
         } else {
@@ -100,7 +76,6 @@ export default function TaskDetailsModal({
     return (
         <div className='modal-overlay' ref={modalRef} onClick={closeModal}>
             <div className='modal-wrapper task-details' onClick={eventHandler}>
-                {/* <TaskDetail tid={tid} projectTitle={projectTitle} toggleModal={toggleModal} /> */}
                 <div className='modal-header'>
                     <h2 className='modal-header-title'>{projectTitle}</h2>
                     <button className='form-close' onClick={() => toggleModal(0)}><i className='bx bx-x'></i></button>
@@ -154,29 +129,11 @@ export default function TaskDetailsModal({
                                     )
                                 }
                             </div>
-                            {/* <div className='task-notes'>{task?.notes}</div> */}
-                            {/* <div className='modal-subsection'>
-                                <h2 className='modal-subtitle'>Subtasks</h2>
-                                <div className='modal-task-list'>
-                                    {
-                                        task?.subtasks?.map((subtask, index) => (
-                                            <SubtaskCard
-                                                key={index}
-                                                index={index}
-                                                subtask={subtask}
-                                                toggleSubtask={toggleSubtask}
-                                            />
-                                        ))
-                                    }
-                                    <div className='task-list-add-button'>+ Add New Subtask</div>
-                                </div>
-                            </div> */}
                         </div>
 
                         <div className='user-content'>
                             <div className='modal-subsection'>
                                 <h2 className='modal-subtitle'>Assigned User</h2>
-                                {/* <div>{task?.assigned_user?.username}</div> */}
                                 {
                                     task?.assigned_user ? (
                                         <UserCard user={task?.assigned_user} mode={1} unassign={handleToggleAssign} />
@@ -193,10 +150,6 @@ export default function TaskDetailsModal({
                                 }
                                 
                             </div>
-                            {/* <div className='modal-subsection'>
-                                <h2 className='modal-subtitle'>Comments</h2>
-                                <div className='modal-comment-list'></div>
-                            </div> */}
                         </div>
                     </div>
                 

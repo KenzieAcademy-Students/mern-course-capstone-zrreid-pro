@@ -5,8 +5,6 @@ import useRouter from '../../hooks/useRouter';
 import setAuthToken from '../../utils/axiosConfig';
 import './LoginPage.scss';
 
-// import ProjectCreationForm from 'components/ProjectCreationForm';
-
 const initialState = {
   username: '',
   password: '',
@@ -119,7 +117,6 @@ export default function LoginPage() {
             />
           </div>
         </div>
-        {/* <ProjectCreationForm  /> */}
       </div>
     );
   }

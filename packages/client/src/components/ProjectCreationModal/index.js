@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 // import makeAnimated from 'react-select/animated';
-// import TaskDetail from '../TaskDetail';
-// import DropdownMenu from '../DropdownMenu';
-// import axios from '../../../utils/axiosConfig';
 import './ProjectCreationModal.scss';
 
 export default function ProjectCreationModal({
@@ -18,14 +15,6 @@ export default function ProjectCreationModal({
     const modalRef = useRef();
     const [ selection, setSelection ] = useState([]);
 
-    // useEffect(() => {
-    //     try {
-    //         const response = await
-    //     } catch (error) {
-    //         console.log('Task Fetch Error:', error);
-    //     }
-    // }, [tid])
-
     const closeModal = (event) => {
         if(modalRef.current === event.target) {
             toggleModal();
@@ -33,7 +22,6 @@ export default function ProjectCreationModal({
     }
 
     useEffect(() => {
-        // console.log(selection)
         updateUserList(selection.map((selected) => selected.value));
     }, [selection])
 
