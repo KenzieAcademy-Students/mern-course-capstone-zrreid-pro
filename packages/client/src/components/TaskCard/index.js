@@ -45,7 +45,7 @@ export default function TaskCard({
                     }
                 </div>
             ) : (
-                <div className='taskCard' style={{'borderColor': statusColor}}>
+                <div className='taskCard' onClick={(event) => handleEvent(event, task?._id)} style={{'borderColor': statusColor}}>
                     <div className='card-content'>
                         <div className='projectName'>{task?.project.title}</div>
                         <div className='objective'>{task?.objective}</div>
