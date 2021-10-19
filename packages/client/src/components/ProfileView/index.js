@@ -4,8 +4,15 @@ import './ProfileView.scss';
 
 export default function ProfileView({
     user,
-    getStatusColor
+    getStatusColor,
+    openTaskDetails
 }) {
+    const handleEvent = (event, tid) => {
+        if(!event.target.className.includes('ignore') && !event.target.className.includes('tippy-content')) {
+            openTaskDetails(1, tid);
+        }
+    }
+
     return (
         <div id='profileView' className='main-content'>
             <div className='profile-wrapper'>
@@ -16,6 +23,7 @@ export default function ProfileView({
                             key={task._id}
                             task={task}
                             mode={1}
+                            handleEvent={handleEvent}
                             statusColor={getStatusColor(task.status)}
                         />
                     ))

@@ -196,8 +196,6 @@ export function useProvideProject() {
     }
 
     const updateTask = async (taskData) => {
-        //put axios call to update task
-        // console.log(taskData)
         try {
             await axios.put(`task/${taskData._id}/update`, {
                 objective: taskData.objective,
@@ -205,37 +203,37 @@ export function useProvideProject() {
                 notes: taskData.notes
             });
 
-            console.log('Tasks:', state.tasks);
+            if(taskData.project === state._id) {
+                const newTasks = state.tasks.map((task) => {
+                    if(task._id === taskData._id) {
+                        return {
+                            ...task,
+                            objective: taskData.objective,
+                            status: taskData.status,
+                            notes: taskData.notes
+                        };
+                    } else {
+                        return task;
+                    }
+                });
+    
+                dispatch({
+                    type: 'UPDATE',
+                    payload: ['tasks', newTasks]
+                });
+            }
 
-            const newTasks = state.tasks.map((task) => {
-                if(task._id === taskData._id) {
-                    return {
-                        ...task,
-                        objective: taskData.objective,
-                        status: taskData.status,
-                        notes: taskData.notes
-                    };
-                } else {
-                    return task;
-                }
-            });
+            updateUser();
 
-            console.log('New Tasks:', newTasks);
-
-            dispatch({
-                type: 'UPDATE',
-                payload: ['tasks', newTasks]
-            });
+            
         } catch (error) {
             console.log('Task Update Error:', error);
         }
     }
 
     const toggleAssignTask = async (tid, uid, operation) => {
-        // console.log(`Task ${tid} is assigned to User ${uid}`)
         if(!operation) {
             //assign task
-            console.log('task assignment')
             try {
                 await axios.put(`task/${tid}/assign`, {
                     uid: uid
@@ -260,7 +258,6 @@ export function useProvideProject() {
                 });
 
                 //handles when the logged in user is assigned something
-                // console.log(user)
                 if(user.uid === uid) {
                     updateUser();
                 }
@@ -269,7 +266,6 @@ export function useProvideProject() {
             }
         } else {
             //unassign task
-            console.log('task unassignment')
             try {
                 await axios.put(`task/${tid}/unassign`, {
                     uid: uid
@@ -292,7 +288,6 @@ export function useProvideProject() {
                     type: 'UPDATE',
                     payload: ['tasks', newTasks]
                 });
-                // console.log(user)
                 //handles when the logged in user is unassigned something
                 if(user.uid === uid) {
                     updateUser();
