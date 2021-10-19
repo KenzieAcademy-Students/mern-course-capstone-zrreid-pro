@@ -330,7 +330,7 @@ export default function Dashboard() {
               task={task}
               projectTitle={project.title}
               projectCategories={project.status_categories.map((status) => status.label)}
-              projectUsers={totalUsers}
+              projectUsers={project.users}
               taskUpdate={handleTaskUpdate}
               statusUpdate={handleStatusUpdate}
               toggleAssignTask={handleToggleAssignPayload}
